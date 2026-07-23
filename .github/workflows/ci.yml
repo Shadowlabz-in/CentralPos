@@ -1,0 +1,147 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: 20
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & TypeCheck
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: kapda
+          POSTGRES_PASSWORD: kapda123
+          POSTGRES_DB: kapda_pos
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shared package
+        run: pnpm --filter @kapda/shared build
+
+      - name: Generate Prisma client
+        run: pnpm --filter server prisma generate
+        env:
+          DATABASE_URL: postgresql://kapda:kapda123@localhost:5432/kapda_pos
+
+      - name: Lint
+        run: pnpm lint
+        continue-on-error: true
+
+      - name: TypeScript check (server)
+        run: pnpm --filter server tsc --noEmit
+
+      - name: TypeScript check (client)
+        run: pnpm --filter client tsc --noEmit
+
+  test:
+    name: Tests
+    needs: lint-and-typecheck
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: kapda
+          POSTGRES_PASSWORD: kapda123
+          POSTGRES_DB: kapda_pos_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shared package
+        run: pnpm --filter @kapda/shared build
+
+      - name: Generate Prisma client
+        run: pnpm --filter server prisma generate
+        env:
+          DATABASE_URL: postgresql://kapda:kapda123@localhost:5432/kapda_pos_test
+
+      - name: Push database schema
+        run: pnpm --filter server prisma db push
+        env:
+          DATABASE_URL: postgresql://kapda:kapda123@localhost:5432/kapda_pos_test
+
+      - name: Run server tests
+        run: pnpm --filter server test
+        env:
+          DATABASE_URL: postgresql://kapda:kapda123@localhost:5432/kapda_pos_test
+          SERVER_NODE_ENV: test
+
+  docker:
+    name: Docker Build
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (server)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: server
+          push: false
+          tags: kapda-pos-server:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Docker image (client)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: client
+          push: false
+          tags: kapda-pos-client:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

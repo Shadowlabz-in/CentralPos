@@ -1,0 +1,41 @@
+{
+  "name": "kapda-pos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "POS + Inventory Management System for a clothing store",
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm run dev -w client",
+    "dev:server": "npm run dev -w server",
+    "build": "npm run build -w shared && npm run build -w server && npm run build -w client",
+    "lint": "npm run lint -w client && npm run lint -w server",
+    "format": "prettier --write \"**/*.{ts,tsx,json,css,md}\"",
+    "db:migrate": "npm run db:migrate -w server",
+    "db:push": "npm run db:push -w server",
+    "db:studio": "npm run db:studio -w server",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "prettier": "^3.2.5",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
