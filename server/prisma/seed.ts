@@ -52,29 +52,31 @@ const LEHENGA_SIZES = ['S', 'M', 'L', 'XL', 'XXL', 'Custom'];
 async function main() {
   console.log('🌱 Seeding database with clothing store data...\n');
 
-  // Clean existing data
-  await prisma.inventoryItem.deleteMany();
-  await prisma.stockMovement.deleteMany();
-  await prisma.salesReturnItem.deleteMany();
-  await prisma.salesReturn.deleteMany();
-  await prisma.creditNoteRedemption.deleteMany();
-  await prisma.creditNote.deleteMany();
-  await prisma.salePayment.deleteMany();
-  await prisma.saleItem.deleteMany();
-  await prisma.sale.deleteMany();
-  await prisma.expense.deleteMany();
-  await prisma.purchaseItem.deleteMany();
-  await prisma.purchase.deleteMany();
-  await prisma.productVariant.deleteMany();
-  await prisma.productImage.deleteMany();
-  await prisma.product.deleteMany();
-  await prisma.country.deleteMany();
-  await prisma.occasion.deleteMany();
-  await prisma.fabric.deleteMany();
-  await prisma.hsnCode.deleteMany();
-  await prisma.brand.deleteMany();
-  await prisma.category.deleteMany();
-  console.log('✓ Existing data cleaned');
+  // Clean existing data only when SEED_CLEAN=true (safe for first-time setup)
+  if (process.env.SEED_CLEAN === 'true') {
+    await prisma.inventoryItem.deleteMany();
+    await prisma.stockMovement.deleteMany();
+    await prisma.salesReturnItem.deleteMany();
+    await prisma.salesReturn.deleteMany();
+    await prisma.creditNoteRedemption.deleteMany();
+    await prisma.creditNote.deleteMany();
+    await prisma.salePayment.deleteMany();
+    await prisma.saleItem.deleteMany();
+    await prisma.sale.deleteMany();
+    await prisma.expense.deleteMany();
+    await prisma.purchaseItem.deleteMany();
+    await prisma.purchase.deleteMany();
+    await prisma.productVariant.deleteMany();
+    await prisma.productImage.deleteMany();
+    await prisma.product.deleteMany();
+    await prisma.country.deleteMany();
+    await prisma.occasion.deleteMany();
+    await prisma.fabric.deleteMany();
+    await prisma.hsnCode.deleteMany();
+    await prisma.brand.deleteMany();
+    await prisma.category.deleteMany();
+    console.log('✓ Existing data cleaned');
+  }
 
   // ── Roles ──
   const roles = ['ADMIN', 'MANAGER', 'CASHIER', 'INVENTORY_MANAGER'];
