@@ -7,7 +7,7 @@ interface AuthTextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const AuthTextField = forwardRef<HTMLInputElement, AuthTextFieldProps>(
-  ({ icon: Icon, error, className = '', type, ...props }, ref) => {
+  ({ icon: Icon, error, type, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === 'password';
     const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;

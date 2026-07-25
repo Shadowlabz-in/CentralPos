@@ -27,9 +27,10 @@ export default function LoginPage() {
     try {
       await login(email, password);
       window.location.href = '/catalogue';
-    } catch (err: any) {
-      const code = err?.code || '';
-      const msg = code ? getFirebaseErrorMessage(code) : (err.message || 'Login failed');
+    } catch (err: unknown) {
+      const e = err as { code?: string; message?: string };
+      const code = e?.code || '';
+      const msg = code ? getFirebaseErrorMessage(code) : (e.message || 'Login failed');
       setError(msg);
     } finally {
       setLoading(false);
@@ -42,9 +43,10 @@ export default function LoginPage() {
     try {
       await loginWithGoogle();
       window.location.href = '/catalogue';
-    } catch (err: any) {
-      const code = err?.code || '';
-      const msg = code ? getFirebaseErrorMessage(code) : (err.message || 'Google sign in failed');
+    } catch (err: unknown) {
+      const e = err as { code?: string; message?: string };
+      const code = e?.code || '';
+      const msg = code ? getFirebaseErrorMessage(code) : (e.message || 'Google sign in failed');
       setError(msg);
     } finally {
       setGoogleLoading(false);

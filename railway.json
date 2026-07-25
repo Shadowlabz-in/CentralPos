@@ -1,12 +1,5 @@
 {
-  "build": {
-    "command": "npm run build -w shared && npm run build -w server",
-    "watch": ["server/**", "shared/**"]
-  },
   "deploy": {
-    "command": "npx tsx server/src/index.ts",
-    "healthcheck": "/api/health",
-    "restartPolicy": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
+    "healthcheck": "/api/health"
   }
 }

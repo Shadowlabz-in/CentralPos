@@ -9,7 +9,6 @@ import {
   signOut as firebaseSignOut,
   getFirebaseIdToken,
   onFirebaseAuthStateChanged,
-  getFirebaseErrorMessage,
 } from '@/services/auth.service';
 
 interface User {
@@ -54,7 +53,9 @@ function loadAuth(): AuthState {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) return JSON.parse(stored);
-  } catch {}
+  } catch {
+    // invalid stored data
+  }
   return { accessToken: null, refreshToken: null, user: null };
 }
 
@@ -177,7 +178,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           method: 'POST',
           headers: { Authorization: `Bearer ${auth.accessToken}` },
         });
-      } catch {}
+      } catch {
+        // ignore logout api error
+      }
     }
     await firebaseSignOut().catch(() => {});
     clearAuth();
@@ -242,7 +245,9 @@ export function getAccessToken(): string | null {
       const { accessToken } = JSON.parse(stored);
       return accessToken || null;
     }
-  } catch {}
+  } catch {
+    // ignore
+  }
   return null;
 }
 
