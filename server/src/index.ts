@@ -17,7 +17,13 @@ app.use('/uploads', express.static(path.resolve(config.upload.dir)));
 
 // Serve built client
 const clientDistPath = path.resolve(__dirname, '../../client/dist');
-app.use(express.static(clientDistPath));
+app.use(express.static(clientDistPath, {
+  setHeaders(res, filePath) {
+    if (filePath.endsWith('.html')) {
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+  },
+}));
 
 // Security headers
 app.use(helmet({ contentSecurityPolicy: false }));

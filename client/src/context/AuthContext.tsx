@@ -131,13 +131,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
-    try {
-      const user = await signInWithEmail(email, password);
-      setFirebaseUser(user);
-      const idToken = await getFirebaseIdToken(user);
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const exchangeWithFirebaseUser = async (fbUser: FirebaseUser) => {
+      const idToken = await getFirebaseIdToken(fbUser);
       const newAuth = await exchangeFirebaseToken(idToken);
       setAuthAndPersist(newAuth);
       return newAuth;
+    };
+
+    if (firebaseUser && firebaseUser.email?.toLowerCase() === normalizedEmail) {
+      try {
+        return await exchangeWithFirebaseUser(firebaseUser);
+      } catch {
+        // ID token refresh failed — fall through to sign-in
+      }
+    }
+
+    try {
+      const user = await signInWithEmail(email, password);
+      setFirebaseUser(user);
+      return await exchangeWithFirebaseUser(user);
     } catch {
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
@@ -154,7 +168,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setAuthAndPersist(newAuth);
       return newAuth;
     }
-  }, [setAuthAndPersist]);
+  }, [setAuthAndPersist, firebaseUser]);
 
   const signup = useCallback(async (email: string, password: string) => {
     const user = await signUpWithEmail(email, password);
