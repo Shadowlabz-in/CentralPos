@@ -12,6 +12,9 @@ import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
 
+// Trust Railway reverse proxy (required by express-rate-limit)
+app.set('trust proxy', true);
+
 // Serve uploaded files
 app.use('/uploads', express.static(path.resolve(config.upload.dir)));
 
