@@ -15,8 +15,12 @@ const app = express();
 // Serve uploaded files
 app.use('/uploads', express.static(path.resolve(config.upload.dir)));
 
+// Serve built client
+const clientDistPath = path.resolve(__dirname, '../../client/dist');
+app.use(express.static(clientDistPath));
+
 // Security headers
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 
 // CORS
 app.use(
@@ -39,6 +43,11 @@ app.get('/api-docs.json', (_req, res) => res.json(swaggerSpec));
 
 // API routes
 app.use('/api', routes);
+
+// Catch-all: serve client index.html for client-side routing
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(clientDistPath, 'index.html'));
+});
 
 // Global error handler (must be last)
 app.use(errorHandler);

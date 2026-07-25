@@ -13,6 +13,8 @@ RUN npm ci
 COPY . .
 
 RUN npx prisma generate --schema=server/prisma/schema.prisma
+ENV VITE_API_URL=https://erp.shadowlabz.in/api
+RUN npm run build -w client
 
-EXPOSE 3000
+EXPOSE 8080
 CMD npx prisma db push --schema=server/prisma/schema.prisma --accept-data-loss && npx tsx server/src/index.ts
