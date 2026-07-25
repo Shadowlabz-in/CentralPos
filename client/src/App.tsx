@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { Layout } from '@/components/layout/Layout';
+import LandingPage from '@/components/pages/LandingPage';
 import LoginPage from '@/components/pages/LoginPage';
 import SignupPage from '@/components/pages/SignupPage';
 import ForgotPasswordPage from '@/components/pages/ForgotPasswordPage';
@@ -10,8 +11,9 @@ import CataloguePage from '@/components/pages/CataloguePage';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: (failureCount, error: any) => {
-        if (error?.status === 401 || error?.message?.includes('401')) return false;
+      retry: (failureCount: number, error: unknown) => {
+        const err = error as { status?: number; message?: string };
+        if (err?.status === 401 || err?.message?.includes('401')) return false;
         return failureCount < 1;
       },
       refetchOnWindowFocus: false,
@@ -24,8 +26,11 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 rounded-full border-2 border-indigo-400 border-t-transparent animate-spin" />
+          <p className="text-sm text-gray-400 animate-pulse">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -33,12 +38,20 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function PublicRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isLoading } = useAuth();
+  if (isLoading) return null;
+  if (isAuthenticated) return <Navigate to="/catalogue" replace />;
+  return <>{children}</>;
+}
+
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+      <Route path="/signup" element={<PublicRoute><SignupPage /></PublicRoute>} />
+      <Route path="/forgot-password" element={<PublicRoute><ForgotPasswordPage /></PublicRoute>} />
       <Route
         path="/catalogue"
         element={
@@ -69,8 +82,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route path="/" element={<Navigate to="/catalogue" replace />} />
-      <Route path="*" element={<Navigate to="/catalogue" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
