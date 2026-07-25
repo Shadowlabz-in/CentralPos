@@ -12,5 +12,7 @@ RUN npm ci
 
 COPY . .
 
+RUN npx prisma generate --schema=server/prisma/schema.prisma
+
 EXPOSE 3000
 CMD ["npx", "tsx", "server/src/index.ts"]
