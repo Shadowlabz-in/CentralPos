@@ -15,4 +15,4 @@ COPY . .
 RUN npx prisma generate --schema=server/prisma/schema.prisma
 
 EXPOSE 3000
-CMD ["npx", "tsx", "server/src/index.ts"]
+CMD npx prisma db push --schema=server/prisma/schema.prisma --accept-data-loss && npx tsx server/src/index.ts
