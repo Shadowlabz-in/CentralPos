@@ -1,75 +1,125 @@
 import { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Store } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Mail, Lock } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { getFirebaseErrorMessage } from '@/services/auth.service';
+import AuthLayout from '@/components/auth/AuthLayout';
+import AuthCard from '@/components/auth/AuthCard';
+import AuthHeader from '@/components/auth/AuthHeader';
+import AuthTextField from '@/components/auth/AuthTextField';
+import AuthButton from '@/components/auth/AuthButton';
+import GoogleButton from '@/components/auth/GoogleButton';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('admin@kapda.com');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const { login, loginWithGoogle } = useAuth();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!email.trim()) { setError('Email is required'); return; }
+    if (!password) { setError('Password is required'); return; }
     setError('');
     setLoading(true);
     try {
       await login(email, password);
-      navigate('/', { replace: true });
+      window.location.href = '/catalogue';
     } catch (err: any) {
-      setError(err.message || 'Login failed');
+      const code = err?.code || '';
+      const msg = code ? getFirebaseErrorMessage(code) : (err.message || 'Login failed');
+      setError(msg);
     } finally {
       setLoading(false);
     }
   }
 
+  async function handleGoogleLogin() {
+    setError('');
+    setGoogleLoading(true);
+    try {
+      await loginWithGoogle();
+      window.location.href = '/catalogue';
+    } catch (err: any) {
+      const code = err?.code || '';
+      const msg = code ? getFirebaseErrorMessage(code) : (err.message || 'Google sign in failed');
+      setError(msg);
+    } finally {
+      setGoogleLoading(false);
+    }
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="text-center">
-          <Store className="mx-auto h-12 w-12 text-primary" />
-          <h1 className="mt-4 text-2xl font-bold">Kapda POS</h1>
-          <p className="text-sm text-gray-500">Sign in to your account</p>
-        </div>
+    <AuthLayout>
+      <div className="animate-[fadeIn_0.4s_ease-out]">
+        <AuthCard>
+          <AuthHeader title="Welcome Back" subtitle="Sign in to continue managing your store." />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</div>}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="rounded-xl bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-600">
+                {error}
+              </div>
+            )}
 
-          <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
-            <input
+            <AuthTextField
+              icon={Mail}
               type="email"
+              placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="admin@kapda.com"
-              required
+              autoComplete="email"
+              autoFocus
             />
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
-            <input
+            <AuthTextField
+              icon={Lock}
               type="password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="••••••••"
-              required
+              autoComplete="current-password"
             />
+
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary/20"
+                />
+                <span className="text-sm text-gray-500">Remember me</span>
+              </label>
+              <Link to="/forgot-password" className="text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+                Forgot password?
+              </Link>
+            </div>
+
+            <AuthButton type="submit" loading={loading}>
+              Sign in
+            </AuthButton>
+          </form>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-100" />
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-white px-3 text-xs text-gray-400">or continue with</span>
+            </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-50"
-          >
-            {loading ? 'Signing in...' : 'Sign in'}
-          </button>
-        </form>
+          <GoogleButton onClick={handleGoogleLogin} loading={googleLoading} />
+
+          <p className="mt-6 text-center text-sm text-gray-500">
+            Don't have an account?{' '}
+            <Link to="/signup" className="font-semibold text-primary hover:text-primary/80 transition-colors">
+              Sign up
+            </Link>
+          </p>
+        </AuthCard>
       </div>
-    </div>
+    </AuthLayout>
   );
 }

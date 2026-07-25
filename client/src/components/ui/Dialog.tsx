@@ -7,9 +7,10 @@ interface DialogProps {
   title: string;
   children: ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  zIndex?: number;
 }
 
-export function Dialog({ open, onClose, title, children, size = 'md' }: DialogProps) {
+export function Dialog({ open, onClose, title, children, size = 'md', zIndex }: DialogProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export function Dialog({ open, onClose, title, children, size = 'md' }: DialogPr
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      style={zIndex ? { zIndex } : undefined}
       onClick={onClose}
     >
       <div

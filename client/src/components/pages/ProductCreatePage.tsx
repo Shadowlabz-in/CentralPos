@@ -17,6 +17,7 @@ interface VariantEntry {
   color: string;
   fabric: string;
   sku: string;
+  supplierId: string;
   purchasePrice: string;
   sellingPrice: string;
   mrp: string;
@@ -49,6 +50,7 @@ const emptyVariant = (): VariantEntry => ({
   color: '',
   fabric: '',
   sku: generateSKU(),
+  supplierId: '',
   purchasePrice: '',
   sellingPrice: '',
   mrp: '',
@@ -229,12 +231,13 @@ export default function ProductCreatePage() {
         gstPercentage: parseInt(gstPercentage, 10),
         description: description.trim() || undefined,
         isActive: true,
-        variants: variants.map((v) => ({
-          size: v.size || undefined,
-          color: v.color || undefined,
-          fabric: v.fabric || undefined,
-          sku: v.sku || undefined,
-          purchasePrice: v.purchasePrice ? parseFloat(v.purchasePrice) : undefined,
+          variants: variants.map((v) => ({
+            size: v.size || undefined,
+            color: v.color || undefined,
+            fabric: v.fabric || undefined,
+            sku: v.sku || undefined,
+            supplierId: v.supplierId || undefined,
+            purchasePrice: v.purchasePrice ? parseFloat(v.purchasePrice) : undefined,
           sellingPrice: v.sellingPrice ? parseFloat(v.sellingPrice) : undefined,
           mrp: v.mrp ? parseFloat(v.mrp) : undefined,
           gstPercentage: v.gstPercentage ? parseInt(v.gstPercentage, 10) : undefined,
@@ -741,6 +744,17 @@ export default function ProductCreatePage() {
               />
             </div>
           </div>
+          <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+            <span className="w-1 h-1 rounded-full bg-indigo-400" />
+            Supplier
+          </div>
+          <Select
+            label="Supplier (overrides product)"
+            value={variantForm.supplierId}
+            onChange={(e) => setVariantFormField('supplierId', e.target.value)}
+            options={supplierOptions}
+            placeholder="Default (product supplier)"
+          />
 
           <div className="border-t pt-3">
             <span className="text-sm font-medium text-gray-700 mb-2 block">Stock</span>

@@ -3,7 +3,7 @@ import { authController } from './auth.controller';
 import { authenticate } from '../../middleware/authenticate';
 import { validate } from '../../middleware/validate';
 import { authLimiter } from '../../utils/rateLimiter';
-import { loginSchema, changePasswordSchema, refreshTokenSchema } from './auth.validation';
+import { loginSchema, changePasswordSchema, refreshTokenSchema, firebaseLoginSchema } from './auth.validation';
 
 const router = Router();
 
@@ -15,6 +15,15 @@ const router = Router();
  *     summary: Login with email & password
  */
 router.post('/auth/login', authLimiter, validate(loginSchema), authController.login);
+
+/**
+ * @openapi
+ * /auth/firebase:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Login with Firebase ID token
+ */
+router.post('/auth/firebase', authLimiter, validate(firebaseLoginSchema), authController.firebaseLogin);
 
 /**
  * @openapi

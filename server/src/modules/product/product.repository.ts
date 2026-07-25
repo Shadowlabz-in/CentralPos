@@ -12,6 +12,16 @@ export interface ProductFilters {
   sortOrder?: 'asc' | 'desc';
 }
 
+const productInclude = {
+  category: { select: { id: true, name: true, slug: true } },
+  brand: { select: { id: true, name: true, slug: true } },
+  supplier: { select: { id: true, name: true } },
+  hsnCode: { select: { id: true, code: true, description: true } },
+  fabric: { select: { id: true, name: true } },
+  occasion: { select: { id: true, name: true } },
+  countryOfOrigin: { select: { id: true, name: true, code: true } },
+} as const;
+
 export const productRepository = {
   async findAll(skip: number, take: number, filters: ProductFilters) {
     const where: Prisma.ProductWhereInput = { deletedAt: null };
@@ -47,8 +57,7 @@ export const productRepository = {
       take,
       orderBy,
       include: {
-        category: { select: { id: true, name: true, slug: true } },
-        brand: { select: { id: true, name: true, slug: true } },
+        ...productInclude,
         images: {
           where: { product: { deletedAt: null } },
           orderBy: { sortOrder: 'asc' },
@@ -60,10 +69,17 @@ export const productRepository = {
             id: true,
             size: true,
             color: true,
+            colorHex: true,
             sku: true,
             barcode: true,
+            ean: true,
             sellingPrice: true,
+            purchasePrice: true,
+            mrp: true,
+            gstPercentage: true,
             stockQuantity: true,
+            reorderLevel: true,
+            fabric: true,
             isActive: true,
           },
           orderBy: [{ color: 'asc' }, { size: 'asc' }],
@@ -102,8 +118,7 @@ export const productRepository = {
     return prisma.product.findFirst({
       where: { id, deletedAt: null },
       include: {
-        category: { select: { id: true, name: true, slug: true } },
-        brand: { select: { id: true, name: true, slug: true } },
+        ...productInclude,
         images: {
           orderBy: { sortOrder: 'asc' },
         },
@@ -126,14 +141,35 @@ export const productRepository = {
     tags?: string[];
     categoryId: string;
     brandId?: string | null;
+    supplierId?: string | null;
+    hsnCodeId?: string | null;
+    fabricId?: string | null;
+    occasionId?: string | null;
+    countryOfOriginId?: string | null;
+    careInstructions?: string | null;
+    modelNumber?: string | null;
+    gtin?: string | null;
     isActive?: boolean;
   }) {
     return prisma.product.create({
-      data,
-      include: {
-        category: { select: { id: true, name: true, slug: true } },
-        brand: { select: { id: true, name: true, slug: true } },
+      data: {
+        name: data.name,
+        slug: data.slug,
+        description: data.description,
+        tags: data.tags,
+        careInstructions: data.careInstructions,
+        modelNumber: data.modelNumber,
+        gtin: data.gtin,
+        isActive: data.isActive,
+        category: { connect: { id: data.categoryId } },
+        brand: data.brandId ? { connect: { id: data.brandId } } : undefined,
+        supplier: data.supplierId ? { connect: { id: data.supplierId } } : undefined,
+        hsnCode: data.hsnCodeId ? { connect: { id: data.hsnCodeId } } : undefined,
+        fabric: data.fabricId ? { connect: { id: data.fabricId } } : undefined,
+        occasion: data.occasionId ? { connect: { id: data.occasionId } } : undefined,
+        countryOfOrigin: data.countryOfOriginId ? { connect: { id: data.countryOfOriginId } } : undefined,
       },
+      include: productInclude,
     });
   },
 
@@ -146,16 +182,38 @@ export const productRepository = {
       tags?: string[];
       categoryId?: string;
       brandId?: string | null;
+      supplierId?: string | null;
+      hsnCodeId?: string | null;
+      fabricId?: string | null;
+      occasionId?: string | null;
+      countryOfOriginId?: string | null;
+      careInstructions?: string | null;
+      modelNumber?: string | null;
+      gtin?: string | null;
       isActive?: boolean;
     },
   ) {
+    const updateData: any = {};
+    if (data.name !== undefined) updateData.name = data.name;
+    if (data.slug !== undefined) updateData.slug = data.slug;
+    if (data.description !== undefined) updateData.description = data.description;
+    if (data.tags !== undefined) updateData.tags = data.tags;
+    if (data.careInstructions !== undefined) updateData.careInstructions = data.careInstructions;
+    if (data.modelNumber !== undefined) updateData.modelNumber = data.modelNumber;
+    if (data.gtin !== undefined) updateData.gtin = data.gtin;
+    if (data.isActive !== undefined) updateData.isActive = data.isActive;
+    if (data.categoryId !== undefined) updateData.category = { connect: { id: data.categoryId } };
+    if (data.brandId !== undefined) updateData.brand = data.brandId ? { connect: { id: data.brandId } } : { disconnect: true };
+    if (data.supplierId !== undefined) updateData.supplier = data.supplierId ? { connect: { id: data.supplierId } } : { disconnect: true };
+    if (data.hsnCodeId !== undefined) updateData.hsnCode = data.hsnCodeId ? { connect: { id: data.hsnCodeId } } : { disconnect: true };
+    if (data.fabricId !== undefined) updateData.fabric = data.fabricId ? { connect: { id: data.fabricId } } : { disconnect: true };
+    if (data.occasionId !== undefined) updateData.occasion = data.occasionId ? { connect: { id: data.occasionId } } : { disconnect: true };
+    if (data.countryOfOriginId !== undefined) updateData.countryOfOrigin = data.countryOfOriginId ? { connect: { id: data.countryOfOriginId } } : { disconnect: true };
+
     return prisma.product.update({
       where: { id },
-      data,
-      include: {
-        category: { select: { id: true, name: true, slug: true } },
-        brand: { select: { id: true, name: true, slug: true } },
-      },
+      data: updateData,
+      include: productInclude,
     });
   },
 

@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Plus, Edit2, Trash2, Save } from 'lucide-react';
 import { apiRequest } from '@/context/AuthContext';
-import type { Product, Category, Brand, ProductVariant } from '@/types';
+import type { Product, Category, Brand, Supplier, ProductVariant } from '@/types';
 import Input from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Dialog } from '@/components/ui/Dialog';
@@ -26,6 +26,7 @@ interface VariantFormData {
   color: string;
   sku: string;
   barcode: string;
+  supplierId: string;
   purchasePrice: string;
   sellingPrice: string;
   gstPercentage: string;
@@ -38,6 +39,7 @@ const emptyVariantForm: VariantFormData = {
   color: '',
   sku: '',
   barcode: '',
+  supplierId: '',
   purchasePrice: '',
   sellingPrice: '',
   gstPercentage: '18',
@@ -62,6 +64,7 @@ function variantToFormData(v: ProductVariant): VariantFormData {
     color: v.color || '',
     sku: v.sku,
     barcode: v.barcode,
+    supplierId: v.supplierId || '',
     purchasePrice: String(v.purchasePrice),
     sellingPrice: String(v.sellingPrice),
     gstPercentage: gstEnumToNumber(v.gstPercentage),
@@ -78,6 +81,7 @@ export default function ProductEditPage() {
   const [name, setName] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [brandId, setBrandId] = useState('');
+  const [supplierId, setSupplierId] = useState('');
   const [description, setDescription] = useState('');
   const [tagsInput, setTagsInput] = useState('');
   const [saveError, setSaveError] = useState('');
@@ -116,8 +120,15 @@ export default function ProductEditPage() {
     staleTime: 300000,
   });
 
+  const { data: suppliersData } = useQuery({
+    queryKey: ['suppliers'],
+    queryFn: () => apiRequest<{ data: Supplier[] }>('/suppliers'),
+    staleTime: 300000,
+  });
+
   const categories = categoriesData?.data || [];
   const brands = brandsData?.data || [];
+  const suppliers = suppliersData?.data || [];
 
   const categoryOptions = useMemo(
     () => [
@@ -135,12 +146,18 @@ export default function ProductEditPage() {
     [brands],
   );
 
+  const supplierOptions = useMemo(
+    () => [{ value: '', label: 'None' }, ...suppliers.map((s) => ({ value: s.id, label: s.name }))],
+    [suppliers],
+  );
+
   useEffect(() => {
     if (productData?.data) {
       const p = productData.data;
       setName(p.name);
       setCategoryId(p.categoryId);
       setBrandId(p.brandId || '');
+      setSupplierId(p.supplierId || '');
       setDescription(p.description || '');
       setTagsInput(p.tags.join(', '));
       setVariants(p.variants || []);
@@ -152,6 +169,7 @@ export default function ProductEditPage() {
       name: string;
       categoryId: string;
       brandId?: string;
+      supplierId?: string | null;
       description?: string;
       tags?: string[];
     }) => apiRequest(`/products/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
@@ -253,6 +271,7 @@ export default function ProductEditPage() {
       name: name.trim(),
       categoryId,
       brandId: brandId || undefined,
+      supplierId: supplierId || null,
       description: description.trim() || undefined,
       tags: tags.length > 0 ? tags : undefined,
     });
@@ -294,6 +313,7 @@ export default function ProductEditPage() {
       color: variantForm.color || undefined,
       sku: variantForm.sku,
       barcode: variantForm.barcode,
+      supplierId: variantForm.supplierId || undefined,
       purchasePrice: pp,
       sellingPrice: sp,
       gstPercentage: variantForm.gstPercentage,
@@ -357,6 +377,12 @@ export default function ProductEditPage() {
           onChange={(e) => handleBrandChange(e.target.value)}
           options={brandOptions}
           placeholder="Select brand"
+        />
+        <Select
+          label="Supplier"
+          value={supplierId}
+          onChange={(e) => setSupplierId(e.target.value)}
+          options={supplierOptions}
         />
         <div className="space-y-1">
           <label className="block text-sm font-medium text-gray-700">Description</label>
@@ -507,6 +533,13 @@ export default function ProductEditPage() {
               { value: '18', label: '18%' },
               { value: '28', label: '28%' },
             ]}
+          />
+          <Select
+            label="Supplier (overrides product)"
+            value={variantForm.supplierId}
+            onChange={(e) => setVariantForm({ ...variantForm, supplierId: e.target.value })}
+            options={supplierOptions}
+            placeholder="Default (product supplier)"
           />
           <div className="grid grid-cols-2 gap-4">
             <Input

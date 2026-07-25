@@ -23,3 +23,9 @@ export const refreshTokenSchema = z.object({
     refreshToken: z.string({ required_error: 'Refresh token is required' }),
   }),
 });
+
+export const firebaseLoginSchema = z.object({
+  body: z.object({
+    idToken: z.string({ required_error: 'Firebase ID token is required' }),
+  }),
+});

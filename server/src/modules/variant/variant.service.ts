@@ -63,10 +63,13 @@ export const variantService = {
     data: {
       size?: string;
       color?: string;
+      colorHex?: string;
       fabric?: string;
+      ean?: string;
       rackLocation?: string;
       sku?: string;
       barcode?: string;
+      supplierId?: string;
       purchasePrice: number;
       sellingPrice: number;
       mrp?: number;
@@ -153,10 +156,13 @@ export const variantService = {
     data: {
       size?: string;
       color?: string;
+      colorHex?: string;
       fabric?: string;
+      ean?: string;
       rackLocation?: string;
       sku?: string;
       barcode?: string;
+      supplierId?: string | null;
       purchasePrice?: number;
       sellingPrice?: number;
       mrp?: number;

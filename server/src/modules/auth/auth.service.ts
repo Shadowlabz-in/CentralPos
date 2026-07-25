@@ -5,6 +5,7 @@ import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../../uti
 import { AppError } from '../../middleware/errorHandler';
 import { config } from '../../config';
 import { getPermissionsForRoles } from '../../config/permissions';
+import { auth as firebaseAuth } from '../../lib/firebase-admin';
 
 function parseJwtExpiresIn(duration: string): number {
   const match = duration.match(/^(\d+)([dhms])$/);
@@ -24,7 +25,79 @@ function parseJwtExpiresIn(duration: string): number {
   }
 }
 
+const DEFAULT_FIREBASE_ROLE = 'CASHIER';
+
 export const authService = {
+  async firebaseLogin(idToken: string) {
+    let decoded;
+    try {
+      decoded = await firebaseAuth.verifyIdToken(idToken);
+    } catch {
+      throw new AppError('Invalid Firebase token', 401);
+    }
+
+    const email = decoded.email;
+    if (!email) {
+      throw new AppError('Firebase account must have an email address', 400);
+    }
+
+    let user = await userRepository.findByEmail(email);
+
+    if (!user) {
+      const role = await userRepository.findRoleByName(DEFAULT_FIREBASE_ROLE);
+      if (!role) throw new AppError('Default role not found', 500);
+
+      user = await userRepository.create({
+        email,
+        passwordHash: '',
+        firstName: decoded.name || email.split('@')[0],
+      });
+
+      await userRepository.assignRole(user.id, role.id);
+      user = await userRepository.findByEmail(email);
+    }
+
+    if (!user || !user.isActive) {
+      throw new AppError('Account is deactivated. Contact admin.', 403);
+    }
+
+    const roles = user.userRoles.map((ur) => ur.role.name);
+    const jwtPayload = {
+      userId: user.id,
+      email: user.email,
+      roles,
+      storeId: user.storeId || undefined,
+    };
+
+    const accessToken = signAccessToken(jwtPayload);
+    const refreshToken = signRefreshToken(jwtPayload);
+    const expiresAt = new Date(Date.now() + parseJwtExpiresIn(config.jwt.refreshExpiresIn));
+
+    await userRepository.createRefreshToken({
+      token: refreshToken,
+      userId: user.id,
+      expiresAt,
+    });
+
+    const permissions = getPermissionsForRoles(roles);
+
+    return {
+      accessToken,
+      refreshToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone: user.phone,
+        roles,
+        permissions,
+        isActive: user.isActive,
+        storeId: user.storeId,
+      },
+    };
+  },
+
   async login(email: string, password: string) {
     const user = await userRepository.findByEmail(email);
     if (!user) {

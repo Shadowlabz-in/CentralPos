@@ -54,6 +54,27 @@ export const authController = {
     }
   },
 
+  async firebaseLogin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { idToken } = req.body;
+      const result = await authService.firebaseLogin(idToken);
+      createAuditLog({
+        userId: result.user.id,
+        action: 'LOGIN',
+        module: 'AUTH',
+        ipAddress: req.ip,
+        storeId: result.user.storeId,
+      });
+      res.status(200).json({
+        status: 'success',
+        message: 'Login successful',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   async changePassword(req: Request, res: Response, next: NextFunction) {
     try {
       const { currentPassword, newPassword } = req.body;

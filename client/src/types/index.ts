@@ -32,6 +32,23 @@ export interface Product {
   tags: string[];
   categoryId: string;
   brandId?: string | null;
+  supplierId?: string | null;
+  supplier?: Supplier | null;
+  hsnCodeId?: string | null;
+  hsnCode?: { id: string; code: string; description?: string | null } | null;
+  fabricId?: string | null;
+  fabric?: { id: string; name: string } | null;
+  occasionId?: string | null;
+  occasion?: { id: string; name: string } | null;
+  countryOfOriginId?: string | null;
+  countryOfOrigin?: { id: string; name: string; code: string } | null;
+  careInstructions?: string | null;
+  modelNumber?: string | null;
+  gtin?: string | null;
+  weight?: number | null;
+  length?: number | null;
+  width?: number | null;
+  height?: number | null;
   isActive: boolean;
   category?: Category;
   brand?: Brand;
@@ -55,16 +72,22 @@ export interface ProductVariant {
   productId: string;
   sku: string;
   barcode: string;
+  barcodeType?: string;
   size?: string | null;
   color?: string | null;
+  colorHex?: string | null;
   fabric?: string | null;
   rackLocation?: string | null;
+  ean?: string | null;
   purchasePrice: number;
   sellingPrice: number;
+  mrp?: number | null;
   gstPercentage: string;
   stockQuantity: number;
   reorderLevel: number;
   isActive: boolean;
+  supplierId?: string | null;
+  supplier?: { id: string; name: string } | null;
   barcodeImagePath?: string | null;
   product?: {
     id: string;
@@ -203,4 +226,67 @@ export interface User {
   roles: string[];
   isActive: boolean;
   storeId?: string;
+}
+
+export interface HsnCode {
+  id: string;
+  code: string;
+  description?: string | null;
+  productCount?: number;
+  storeId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Fabric {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  productCount?: number;
+  storeId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Occasion {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  productCount?: number;
+  storeId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Country {
+  id: string;
+  name: string;
+  code: string;
+  slug: string;
+  productCount?: number;
+  storeId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Size {
+  id: string;
+  name: string;
+  slug: string;
+  sortOrder: number;
+  storeId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Color {
+  id: string;
+  name: string;
+  hex: string;
+  slug: string;
+  storeId?: string;
+  createdAt: string;
+  updatedAt: string;
 }

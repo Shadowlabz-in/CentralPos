@@ -6,8 +6,11 @@ export const createVariantSchema = z.object({
   body: z.object({
     size: z.string().optional(),
     color: z.string().optional(),
+    colorHex: z.string().optional(),
+    ean: z.string().optional(),
     fabric: z.string().optional(),
     rackLocation: z.string().optional(),
+    supplierId: z.string().uuid().nullable().optional(),
     sku: z.string().min(1, 'SKU cannot be empty').optional(),
     barcode: z.string().min(1, 'Barcode cannot be empty').optional(),
     mrp: z.coerce.number().nonnegative('MRP cannot be negative').optional(),
@@ -45,8 +48,11 @@ export const updateVariantSchema = z.object({
   body: z.object({
     size: z.string().optional(),
     color: z.string().optional(),
+    colorHex: z.string().optional(),
+    ean: z.string().optional(),
     fabric: z.string().optional(),
     rackLocation: z.string().optional(),
+    supplierId: z.string().uuid().nullable().optional(),
     sku: z.string().min(1).optional(),
     barcode: z.string().min(1).optional(),
     purchasePrice: z.coerce.number().nonnegative().optional(),

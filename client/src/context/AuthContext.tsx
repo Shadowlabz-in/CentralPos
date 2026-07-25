@@ -1,4 +1,16 @@
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
+import type { User as FirebaseUser } from 'firebase/auth';
+import {
+  signUpWithEmail,
+  signInWithEmail,
+  signInWithGoogle,
+  sendPasswordReset,
+  resendVerificationEmail,
+  signOut as firebaseSignOut,
+  getFirebaseIdToken,
+  onFirebaseAuthStateChanged,
+  getFirebaseErrorMessage,
+} from '@/services/auth.service';
 
 interface User {
   id: string;
@@ -20,8 +32,13 @@ interface AuthState {
 
 interface AuthContextType {
   auth: AuthState;
+  firebaseUser: FirebaseUser | null;
   login: (email: string, password: string) => Promise<AuthState>;
+  signup: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<AuthState>;
   logout: () => Promise<void>;
+  sendPasswordResetEmail: (email: string) => Promise<void>;
+  resendVerification: () => Promise<void>;
   isAuthenticated: boolean;
   isLoading: boolean;
   hasPermission: (permission: string) => boolean;
@@ -45,37 +62,113 @@ function saveAuth(state: AuthState) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+function clearAuth() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+async function exchangeFirebaseToken(idToken: string): Promise<AuthState> {
+  const res = await fetch(`${API_BASE}/auth/firebase`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ idToken }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Authentication failed');
+  const newAuth: AuthState = {
+    accessToken: data.data.accessToken,
+    refreshToken: data.data.refreshToken,
+    user: data.data.user,
+  };
+  saveAuth(newAuth);
+  return newAuth;
+}
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [auth, setAuth] = useState<AuthState>(loadAuth);
+  const [auth, setAuth] = useState<AuthState>({ accessToken: null, refreshToken: null, user: null });
   const [isLoading, setIsLoading] = useState(true);
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
+    let initDone = false;
+
+    const unsubscribe = onFirebaseAuthStateChanged(async (user) => {
+      setFirebaseUser(user);
+      if (user) {
+        const stored = loadAuth();
+        if (!stored.accessToken) {
+          try {
+            const idToken = await getFirebaseIdToken(user);
+            const newAuth = await exchangeFirebaseToken(idToken);
+            setAuth(newAuth);
+          } catch {
+            // silent fail — user can try again via login page
+          }
+        }
+      }
+      if (!initDone) {
+        initDone = true;
+        setIsLoading(false);
+      }
+    });
+
     const stored = loadAuth();
     if (stored.accessToken) {
       setAuth(stored);
     }
-    setIsLoading(false);
+
+    return () => {
+      unsubscribe();
+      initDone = true;
+    };
+  }, []);
+
+  const setAuthAndPersist = useCallback((newAuth: AuthState) => {
+    saveAuth(newAuth);
+    setAuth(newAuth);
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
-    const res = await fetch(`${API_BASE}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Login failed');
-    const newAuth: AuthState = {
-      accessToken: data.data.accessToken,
-      refreshToken: data.data.refreshToken,
-      user: data.data.user,
-    };
-    saveAuth(newAuth);
-    setAuth(newAuth);
-    return newAuth;
+    try {
+      const user = await signInWithEmail(email, password);
+      setFirebaseUser(user);
+      const idToken = await getFirebaseIdToken(user);
+      const newAuth = await exchangeFirebaseToken(idToken);
+      setAuthAndPersist(newAuth);
+      return newAuth;
+    } catch {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Login failed');
+      const newAuth: AuthState = {
+        accessToken: data.data.accessToken,
+        refreshToken: data.data.refreshToken,
+        user: data.data.user,
+      };
+      setAuthAndPersist(newAuth);
+      return newAuth;
+    }
+  }, [setAuthAndPersist]);
+
+  const signup = useCallback(async (email: string, password: string) => {
+    const user = await signUpWithEmail(email, password);
+    setFirebaseUser(user);
   }, []);
+
+  const loginWithGoogle = useCallback(async () => {
+    const user = await signInWithGoogle();
+    if (!user) throw new Error('Google sign in failed');
+    setFirebaseUser(user);
+    const idToken = await getFirebaseIdToken(user);
+    const newAuth = await exchangeFirebaseToken(idToken);
+    setAuthAndPersist(newAuth);
+    return newAuth;
+  }, [setAuthAndPersist]);
 
   const logout = useCallback(async () => {
     if (auth.accessToken) {
@@ -86,9 +179,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
       } catch {}
     }
-    localStorage.removeItem(STORAGE_KEY);
+    await firebaseSignOut().catch(() => {});
+    clearAuth();
     setAuth({ accessToken: null, refreshToken: null, user: null });
   }, [auth.accessToken]);
+
+  const sendPasswordResetEmailFn = useCallback(async (email: string) => {
+    await sendPasswordReset(email);
+  }, []);
+
+  const resendVerification = useCallback(async () => {
+    if (firebaseUser) {
+      await resendVerificationEmail(firebaseUser);
+    }
+  }, [firebaseUser]);
 
   const userPermissions = auth.user?.permissions || [];
 
@@ -106,8 +210,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         auth,
+        firebaseUser,
         login,
+        signup,
+        loginWithGoogle,
         logout,
+        sendPasswordResetEmail: sendPasswordResetEmailFn,
+        resendVerification,
         isAuthenticated: !!auth.accessToken,
         isLoading,
         hasPermission,
@@ -144,15 +253,15 @@ export function getAuthHeaders(): Record<string, string> {
 }
 
 export async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...getAuthHeaders(),
-  };
+  const headers: Record<string, string> = { ...getAuthHeaders() };
+  if (!(options.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
   const res = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
   const data = await res.json();
   if (!res.ok) {
     if (res.status === 401) {
-      localStorage.removeItem(STORAGE_KEY);
+      clearAuth();
       window.location.href = '/login';
     }
     throw new Error(data.message || 'Request failed');

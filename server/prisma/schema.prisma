@@ -125,6 +125,12 @@ model Store {
   users           User[]
   categories      Category[]
   brands          Brand[]
+  hsnCodes        HsnCode[]
+  fabrics         Fabric[]
+  occasions       Occasion[]
+  countries       Country[]
+  sizes           Size[]
+  colors          Color[]
   productVariants ProductVariant[]
   suppliers       Supplier[]
   customers       Customer[]
@@ -443,6 +449,113 @@ model Category {
   @@map("categories")
 }
 
+model HsnCode {
+  id          String    @id @default(uuid()) @db.Uuid
+  code        String    @unique
+  description String?
+  storeId     String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  store    Store?    @relation(fields: [storeId], references: [id])
+  products Product[]
+
+  @@index([code])
+  @@index([storeId])
+  @@map("hsn_codes")
+}
+
+model Fabric {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String
+  slug        String    @unique
+  description String?
+  storeId     String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  store    Store?    @relation(fields: [storeId], references: [id])
+  products Product[]
+
+  @@index([slug])
+  @@index([storeId])
+  @@map("fabrics")
+}
+
+model Occasion {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String
+  slug        String    @unique
+  description String?
+  storeId     String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  store    Store?    @relation(fields: [storeId], references: [id])
+  products Product[]
+
+  @@index([slug])
+  @@index([storeId])
+  @@map("occasions")
+}
+
+model Country {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String
+  code        String    @unique // ISO 2-letter code: IN, US
+  slug        String    @unique
+  storeId     String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  store    Store?    @relation(fields: [storeId], references: [id])
+  products Product[]
+
+  @@index([code])
+  @@index([slug])
+  @@index([storeId])
+  @@map("countries")
+}
+
+model Size {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String
+  slug        String    @unique
+  sortOrder   Int       @default(0)
+  storeId     String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  store Store? @relation(fields: [storeId], references: [id])
+
+  @@index([slug])
+  @@index([storeId])
+  @@index([sortOrder])
+  @@map("sizes")
+}
+
+model Color {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String
+  hex         String    @default("#000000")
+  slug        String    @unique
+  storeId     String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  store Store? @relation(fields: [storeId], references: [id])
+
+  @@index([slug])
+  @@index([storeId])
+  @@map("colors")
+}
+
 model Brand {
   id          String    @id @default(uuid()) @db.Uuid
   name        String
@@ -462,27 +575,48 @@ model Brand {
 }
 
 model Product {
-  id          String    @id @default(uuid()) @db.Uuid
-  name        String
-  slug        String    @unique
-  description String?
-  tags        String[]
-  categoryId  String    @db.Uuid
-  brandId     String?   @db.Uuid
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
+  id              String    @id @default(uuid()) @db.Uuid
+  name            String
+  slug            String    @unique
+  description     String?
+  tags            String[]
+  categoryId      String    @db.Uuid
+  brandId         String?   @db.Uuid
+  supplierId      String?   @db.Uuid
+  hsnCodeId       String?   @db.Uuid
+  fabricId        String?   @db.Uuid
+  occasionId      String?   @db.Uuid
+  countryOfOriginId String? @db.Uuid
+  careInstructions String?
+  modelNumber     String?
+  gtin            String?
+  weight          Decimal?  @db.Decimal(8, 2)
+  length          Decimal?  @db.Decimal(8, 2)
+  width           Decimal?  @db.Decimal(8, 2)
+  height          Decimal?  @db.Decimal(8, 2)
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
 
-  category Category         @relation(fields: [categoryId], references: [id])
-  brand    Brand?           @relation(fields: [brandId], references: [id])
-  variants ProductVariant[]
-  images   ProductImage[]
+  category       Category         @relation(fields: [categoryId], references: [id])
+  brand          Brand?           @relation(fields: [brandId], references: [id])
+  supplier       Supplier?        @relation(fields: [supplierId], references: [id])
+  hsnCode        HsnCode?         @relation(fields: [hsnCodeId], references: [id])
+  fabric         Fabric?          @relation(fields: [fabricId], references: [id])
+  occasion       Occasion?        @relation(fields: [occasionId], references: [id])
+  countryOfOrigin Country?        @relation(fields: [countryOfOriginId], references: [id])
+  variants       ProductVariant[]
+  images         ProductImage[]
 
   @@index([slug])
   @@index([categoryId])
   @@index([brandId])
+  @@index([supplierId])
   @@index([name])
+  @@index([hsnCodeId])
+  @@index([fabricId])
+  @@index([occasionId])
   @@index([isActive])
   @@map("products")
 }
@@ -513,8 +647,10 @@ model ProductVariant {
   barcodeImagePath String?
   size             String?
   color            String?
+  colorHex         String?   // hex code for color swatch (#ff0000)
   fabric           String?
   rackLocation     String?
+  ean              String?   // EAN-13 barcode for marketplaces
   purchasePrice    Decimal   @db.Decimal(10, 2)
   sellingPrice     Decimal   @db.Decimal(10, 2)
   mrp              Decimal?  @db.Decimal(10, 2)
@@ -522,12 +658,14 @@ model ProductVariant {
   stockQuantity    Int       @default(0)
   reorderLevel     Int       @default(0)
   isActive         Boolean   @default(true)
+  supplierId       String?   @db.Uuid
   storeId          String?   @db.Uuid
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
   deletedAt        DateTime?
 
   product        Product           @relation(fields: [productId], references: [id])
+  supplier       Supplier?         @relation(fields: [supplierId], references: [id])
   store          Store?            @relation(fields: [storeId], references: [id])
   purchaseItems  PurchaseItem[]
   saleItems      SaleItem[]
@@ -539,6 +677,7 @@ model ProductVariant {
   @@unique([productId, size, color, fabric])
   @@index([barcode])
   @@index([sku])
+  @@index([ean])
   @@index([productId])
   @@index([storeId])
   @@index([isActive])
@@ -602,7 +741,9 @@ model Supplier {
   deletedAt     DateTime?
 
   store     Store?     @relation(fields: [storeId], references: [id])
-  purchases Purchase[]
+  purchases       Purchase[]
+  products        Product[]
+  productVariants ProductVariant[]
 
   @@index([email])
   @@index([phone])

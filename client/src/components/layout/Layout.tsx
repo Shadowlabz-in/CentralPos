@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Sidebar } from './Sidebar';
 
 interface LayoutProps {
@@ -6,10 +6,14 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
-      <main className="ml-64 flex-1 p-8">{children}</main>
+      <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed((v) => !v)} />
+      <main className={`flex-1 p-8 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+        {children}
+      </main>
     </div>
   );
 }

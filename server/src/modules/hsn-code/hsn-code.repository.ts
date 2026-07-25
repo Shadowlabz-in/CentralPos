@@ -1,0 +1,37 @@
+import prisma from '../../utils/prisma';
+
+export const hsnCodeRepository = {
+  async findAll(storeId?: string) {
+    return prisma.hsnCode.findMany({
+      where: { deletedAt: null, storeId: storeId || undefined },
+      include: { _count: { select: { products: true } } },
+      orderBy: { code: 'asc' },
+    });
+  },
+
+  async findById(id: string) {
+    return prisma.hsnCode.findFirst({
+      where: { id, deletedAt: null },
+      include: { _count: { select: { products: true } } },
+    });
+  },
+
+  async findByCode(code: string) {
+    return prisma.hsnCode.findUnique({ where: { code } });
+  },
+
+  async create(data: { code: string; description?: string; storeId?: string }) {
+    return prisma.hsnCode.create({ data });
+  },
+
+  async update(id: string, data: { code?: string; description?: string }) {
+    return prisma.hsnCode.update({ where: { id }, data });
+  },
+
+  async softDelete(id: string) {
+    return prisma.hsnCode.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+  },
+};

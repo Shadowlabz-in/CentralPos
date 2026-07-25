@@ -13,7 +13,8 @@ export const variantRepository = {
     return prisma.productVariant.findFirst({
       where: { id, deletedAt: null },
       include: {
-        product: { select: { id: true, name: true, slug: true } },
+        product: { select: { id: true, name: true, slug: true, supplierId: true } },
+        supplier: { select: { id: true, name: true } },
       },
     });
   },
@@ -55,8 +56,11 @@ export const variantRepository = {
       barcode: string;
       size?: string;
       color?: string;
+      colorHex?: string;
+      ean?: string;
       fabric?: string;
       rackLocation?: string;
+      supplierId?: string;
       purchasePrice: number;
       sellingPrice: number;
       mrp?: number;
@@ -95,8 +99,11 @@ export const variantRepository = {
       barcode?: string;
       size?: string;
       color?: string;
+      colorHex?: string;
+      ean?: string;
       fabric?: string;
       rackLocation?: string;
+      supplierId?: string | null;
       purchasePrice?: number;
       sellingPrice?: number;
       mrp?: number;
@@ -107,6 +114,10 @@ export const variantRepository = {
     },
   ) {
     const updateData: any = { ...data };
+    if ('supplierId' in data) {
+      updateData.supplier = data.supplierId ? { connect: { id: data.supplierId } } : { disconnect: true };
+      delete updateData.supplierId;
+    }
     if (data.gstPercentage !== undefined) {
       const gstMap: Record<number, string> = {
         0: 'GST_0',

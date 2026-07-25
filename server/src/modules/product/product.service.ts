@@ -1,5 +1,6 @@
 import slugify from './slugify';
 import { productRepository, ProductFilters } from './product.repository';
+import { storage } from '../../storage';
 import { variantRepository } from '../variant/variant.repository';
 import { AppError } from '../../middleware/errorHandler';
 import { generateSku, generateBarcode } from '../../utils/sku';
@@ -60,6 +61,19 @@ export const productService = {
         slug: p.slug,
         description: p.description,
         tags: p.tags,
+        categoryId: p.categoryId,
+        brandId: p.brandId,
+        hsnCodeId: p.hsnCodeId,
+        hsnCode: p.hsnCode,
+        fabricId: p.fabricId,
+        fabric: p.fabric,
+        occasionId: p.occasionId,
+        occasion: p.occasion,
+        countryOfOriginId: p.countryOfOriginId,
+        countryOfOrigin: p.countryOfOrigin,
+        careInstructions: p.careInstructions,
+        modelNumber: p.modelNumber,
+        gtin: p.gtin,
         isActive: p.isActive,
         category: p.category,
         brand: p.brand,
@@ -94,6 +108,14 @@ export const productService = {
     tags?: string[];
     categoryId: string;
     brandId?: string | null;
+    supplierId?: string | null;
+    hsnCodeId?: string | null;
+    fabricId?: string | null;
+    occasionId?: string | null;
+    countryOfOriginId?: string | null;
+    careInstructions?: string;
+    modelNumber?: string;
+    gtin?: string;
     isActive?: boolean;
   }) {
     const slug = slugify(data.name);
@@ -111,6 +133,13 @@ export const productService = {
       tags?: string[];
       categoryId?: string;
       brandId?: string | null;
+      hsnCodeId?: string | null;
+      fabricId?: string | null;
+      occasionId?: string | null;
+      countryOfOriginId?: string | null;
+      careInstructions?: string | null;
+      modelNumber?: string | null;
+      gtin?: string | null;
       isActive?: boolean;
     },
   ) {
@@ -132,6 +161,13 @@ export const productService = {
       categoryId: string;
       brandId?: string | null;
       supplierId?: string | null;
+      hsnCodeId?: string | null;
+      fabricId?: string | null;
+      occasionId?: string | null;
+      countryOfOriginId?: string | null;
+      careInstructions?: string | null;
+      modelNumber?: string | null;
+      gtin?: string | null;
       purchasePrice?: number;
       sellingPrice?: number;
       mrp?: number;
@@ -140,9 +176,11 @@ export const productService = {
       variants: Array<{
         size?: string;
         color?: string;
+        colorHex?: string;
         fabric?: string;
         sku?: string;
         barcode?: string;
+        ean?: string;
         purchasePrice?: number;
         sellingPrice?: number;
         mrp?: number;
@@ -166,6 +204,14 @@ export const productService = {
         description: data.description,
         categoryId: data.categoryId,
         brandId: data.brandId,
+        supplierId: data.supplierId,
+        hsnCodeId: data.hsnCodeId,
+        fabricId: data.fabricId,
+        occasionId: data.occasionId,
+        countryOfOriginId: data.countryOfOriginId,
+        careInstructions: data.careInstructions,
+        modelNumber: data.modelNumber,
+        gtin: data.gtin,
         isActive: data.isActive ?? true,
       });
 
@@ -205,12 +251,15 @@ export const productService = {
             productId: product.id,
             size: v.size,
             color: v.color,
-            fabric: v.fabric,
+            colorHex: v.colorHex,
+            fabric: v.fabric || undefined,
             rackLocation: v.rackLocation,
             sku,
             barcode,
+            ean: v.ean,
             purchasePrice,
             sellingPrice,
+            mrp: v.mrp,
             gstPercentage,
             stockQuantity: v.initialStock,
             reorderLevel: v.reorderLevel,
@@ -254,7 +303,7 @@ export const productService = {
     const product = await productRepository.findById(productId);
     if (!product) throw new AppError('Product not found', 404);
 
-    const imageUrl = `/uploads/${file.filename}`;
+    const imageUrl = await storage.save(file);
 
     const existingImages = product.images;
     const isFirst = existingImages.length === 0;
@@ -278,6 +327,7 @@ export const productService = {
     if (!image || image.productId !== productId) {
       throw new AppError('Image not found', 404);
     }
+    await storage.delete(image.url);
     await productRepository.deleteImage(imageId);
   },
 
