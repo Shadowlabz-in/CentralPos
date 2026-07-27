@@ -35,7 +35,7 @@ export default function SignupPage() {
     try {
       const auth = await signup(email, password);
       const isSuper = auth.user?.roles?.includes('SUPER_ADMIN');
-      window.location.href = isSuper ? '/admin' : '/catalogue';
+      window.location.href = isSuper ? '/admin' : '/dashboard';
     } catch (err: unknown) {
       const e = err as { code?: string; message?: string };
       const code = e?.code || '';

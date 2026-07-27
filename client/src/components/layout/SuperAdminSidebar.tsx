@@ -61,7 +61,7 @@ export function SuperAdminSidebar() {
           {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>
         <button
-          onClick={() => navigate('/catalogue')}
+          onClick={() => navigate('/dashboard')}
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
         >
           <ArrowLeft size={18} />

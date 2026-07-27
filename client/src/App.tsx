@@ -4,11 +4,13 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { Layout } from '@/components/layout/Layout';
 import { SuperAdminLayout } from '@/components/layout/SuperAdminLayout';
+import { StoreDashboardLayout } from '@/components/layout/StoreDashboardLayout';
 import LandingPage from '@/components/pages/CentralOneLanding';
 import LoginPage from '@/components/pages/LoginPage';
 import SignupPage from '@/components/pages/SignupPage';
 import ForgotPasswordPage from '@/components/pages/ForgotPasswordPage';
 import CataloguePage from '@/components/pages/CataloguePage';
+import StoreDashboard from '@/components/pages/StoreDashboard';
 import SuperAdminDashboard from '@/components/pages/SuperAdminDashboard';
 import SuperAdminUsers from '@/components/pages/SuperAdminUsers';
 import SuperAdminRoles from '@/components/pages/SuperAdminRoles';
@@ -60,7 +62,7 @@ function SuperAdminRoute({ children }: { children: React.ReactNode }) {
     );
   }
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (!auth.user?.roles?.includes('SUPER_ADMIN')) return <Navigate to="/catalogue" replace />;
+  if (!auth.user?.roles?.includes('SUPER_ADMIN')) return <Navigate to="/dashboard" replace />;
   return <>{children}</>;
 }
 
@@ -69,7 +71,7 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
   if (isLoading) return null;
   if (isAuthenticated) {
     const isSuper = auth.user?.roles?.includes('SUPER_ADMIN');
-    return <Navigate to={isSuper ? '/admin' : '/catalogue'} replace />;
+    return <Navigate to={isSuper ? '/admin' : '/dashboard'} replace />;
   }
   return <>{children}</>;
 }
@@ -112,6 +114,16 @@ function AppRoutes() {
       <Route
         path="/admin/demo-requests"
         element={<SuperAdminRoute><SuperAdminLayout><DemoRequestsAdmin /></SuperAdminLayout></SuperAdminRoute>}
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <StoreDashboard />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/catalogue"

@@ -33,7 +33,7 @@ export default function PricingPage() {
   const [loading, setLoading] = useState(true);
   const [yearly, setYearly] = useState(false);
 
-  const dashboardPath = auth.user?.roles?.includes('SUPER_ADMIN') ? '/admin' : '/catalogue';
+  const dashboardPath = auth.user?.roles?.includes('SUPER_ADMIN') ? '/admin' : '/dashboard';
 
   useEffect(() => {
     const fetchPlans = async () => {

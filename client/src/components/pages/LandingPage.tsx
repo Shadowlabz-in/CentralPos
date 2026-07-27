@@ -16,7 +16,7 @@ const brands = ['Kapda Classics', 'Zara Collection', 'FabIndia Heritage', 'RS Br
 export default function LandingPage() {
   const navigate = useNavigate();
   const { isAuthenticated, auth } = useAuth();
-  const dashboardPath = auth.user?.roles?.includes('SUPER_ADMIN') ? '/admin' : '/catalogue';
+  const dashboardPath = auth.user?.roles?.includes('SUPER_ADMIN') ? '/admin' : '/dashboard';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 overflow-hidden">
