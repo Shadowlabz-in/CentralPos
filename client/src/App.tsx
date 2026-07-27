@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
-import { Layout } from '@/components/layout/Layout';
 import { SuperAdminLayout } from '@/components/layout/SuperAdminLayout';
 import { StoreDashboardLayout } from '@/components/layout/StoreDashboardLayout';
 import LandingPage from '@/components/pages/CentralOneLanding';
@@ -129,9 +128,9 @@ function AppRoutes() {
         path="/catalogue"
         element={
           <ProtectedRoute>
-            <Layout>
+            <StoreDashboardLayout>
               <CataloguePage />
-            </Layout>
+            </StoreDashboardLayout>
           </ProtectedRoute>
         }
       />
@@ -139,9 +138,9 @@ function AppRoutes() {
         path="/catalogue/categories"
         element={
           <ProtectedRoute>
-            <Layout>
+            <StoreDashboardLayout>
               <CataloguePage />
-            </Layout>
+            </StoreDashboardLayout>
           </ProtectedRoute>
         }
       />
@@ -149,9 +148,9 @@ function AppRoutes() {
         path="/catalogue/brands"
         element={
           <ProtectedRoute>
-            <Layout>
+            <StoreDashboardLayout>
               <CataloguePage />
-            </Layout>
+            </StoreDashboardLayout>
           </ProtectedRoute>
         }
       />
