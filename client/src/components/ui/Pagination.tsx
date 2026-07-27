@@ -10,12 +10,12 @@ export function Pagination({ page, totalPages, total, onPageChange }: Pagination
 
   return (
     <div className="flex items-center justify-between mt-4 text-sm">
-      <span className="text-gray-500">{total} total items</span>
+      <span className="text-muted-foreground">{total} total items</span>
       <div className="flex items-center gap-1">
         <button
           disabled={page <= 1}
           onClick={() => onPageChange(page - 1)}
-          className="px-3 py-1.5 rounded border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1.5 rounded border hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
         </button>
@@ -31,7 +31,7 @@ export function Pagination({ page, totalPages, total, onPageChange }: Pagination
               key={p}
               onClick={() => onPageChange(p)}
               className={`px-3 py-1.5 rounded border ${
-                p === page ? 'bg-primary text-white border-primary' : 'hover:bg-gray-50'
+                p === page ? 'bg-primary text-white border-primary' : 'hover:bg-accent'
               }`}
             >
               {p}
@@ -41,7 +41,7 @@ export function Pagination({ page, totalPages, total, onPageChange }: Pagination
         <button
           disabled={page >= totalPages}
           onClick={() => onPageChange(page + 1)}
-          className="px-3 py-1.5 rounded border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1.5 rounded border hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next
         </button>

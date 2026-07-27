@@ -23,4 +23,4 @@ ENV VITE_FIREBASE_APP_ID=1:480698461785:web:51bfad7f1b4973fb5b0b48
 RUN npm run build -w client
 
 EXPOSE 8080
-CMD npx prisma db push --schema=server/prisma/schema.prisma --accept-data-loss && npx tsx server/prisma/seed-roles.ts && npx tsx server/src/index.ts
+CMD npx prisma db push --schema=server/prisma/schema.prisma --accept-data-loss && npx tsx server/prisma/seed-roles.ts && npx tsx server/prisma/seed-super-admin.ts && npx tsx server/src/index.ts

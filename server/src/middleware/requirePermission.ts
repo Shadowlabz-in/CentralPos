@@ -9,7 +9,8 @@ export function requirePermission(...permissions: Permission[]) {
     }
 
     const userRoles = req.user.roles || [];
-    const hasAccess = permissions.some((perm) => hasPermission(userRoles, perm));
+    const userPermissions = req.user.permissions || [];
+    const hasAccess = permissions.some((perm) => hasPermission(userRoles, perm, userPermissions));
 
     if (!hasAccess) {
       throw new AppError('Forbidden: You do not have permission to perform this action', 403);

@@ -16,10 +16,12 @@ export const generalLimiter = rateLimit({
   message: { status: 'error', message: 'Too many requests, please try again later.' },
 });
 
+const isDev = (process.env.SERVER_NODE_ENV || 'development') === 'development';
+
 export const authLimiter = rateLimit({
   ...baseConfig,
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: isDev ? 100 : 10,
   message: { status: 'error', message: 'Too many login attempts, please try again later.' },
 });
 

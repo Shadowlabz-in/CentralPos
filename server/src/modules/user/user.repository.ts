@@ -1,9 +1,22 @@
 import prisma from '../../utils/prisma';
 
 export const userRepository = {
-  async findAll(skip?: number, take?: number) {
+  async findAll(skip?: number, take?: number, storeId?: string, search?: string) {
     return prisma.user.findMany({
-      where: { deletedAt: null },
+      where: {
+        deletedAt: null,
+        ...(storeId ? { storeId } : {}),
+        ...(storeId ? { userRoles: { none: { role: { name: 'SUPER_ADMIN' } } } } : {}),
+        ...(search
+          ? {
+              OR: [
+                { firstName: { contains: search, mode: 'insensitive' } },
+                { lastName: { contains: search, mode: 'insensitive' } },
+                { email: { contains: search, mode: 'insensitive' } },
+              ],
+            }
+          : {}),
+      },
       skip,
       take,
       include: {
@@ -19,6 +32,31 @@ export const userRepository = {
   async countAll() {
     return prisma.user.count({
       where: { deletedAt: null },
+    });
+  },
+
+  async countByStore(storeId: string) {
+    return prisma.user.count({
+      where: { deletedAt: null, storeId, userRoles: { none: { role: { name: 'SUPER_ADMIN' } } } },
+    });
+  },
+
+  async countSearch(storeId?: string, search?: string) {
+    return prisma.user.count({
+      where: {
+        deletedAt: null,
+        ...(storeId ? { storeId } : {}),
+        ...(storeId ? { userRoles: { none: { role: { name: 'SUPER_ADMIN' } } } } : {}),
+        ...(search
+          ? {
+              OR: [
+                { firstName: { contains: search, mode: 'insensitive' } },
+                { lastName: { contains: search, mode: 'insensitive' } },
+                { email: { contains: search, mode: 'insensitive' } },
+              ],
+            }
+          : {}),
+      },
     });
   },
 
@@ -53,6 +91,7 @@ export const userRepository = {
     phone?: string;
     storeId?: string;
     createdById?: string;
+    customPermissions?: string[];
   }) {
     return prisma.user.create({
       data,
@@ -73,6 +112,7 @@ export const userRepository = {
       phone?: string;
       isActive?: boolean;
       storeId?: string | null;
+      customPermissions?: string[];
     },
   ) {
     return prisma.user.update({

@@ -52,12 +52,27 @@ export const Permissions = {
   USER_EDIT: 'user:edit',
   USER_DELETE: 'user:delete',
 
+  USER_MANAGE_ROLES: 'user:manage-roles',
+
   SETTINGS_VIEW: 'settings:view',
   SETTINGS_EDIT: 'settings:edit',
+  SYSTEM_CONFIGURE: 'system:configure',
 
   SYSTEM_BACKUP: 'system:backup',
   SYSTEM_RESTORE: 'system:restore',
   SYSTEM_AUDIT_LOG: 'system:audit:log',
+
+  STORE_VIEW: 'store:view',
+  STORE_CREATE: 'store:create',
+  STORE_EDIT: 'store:edit',
+  STORE_DELETE: 'store:delete',
+
+  ADMIN_ACCESS: 'admin:access',
+
+  PLAN_VIEW: 'plan:view',
+  PLAN_CREATE: 'plan:create',
+  PLAN_EDIT: 'plan:edit',
+  PLAN_DELETE: 'plan:delete',
 } as const;
 
 export type Permission = (typeof Permissions)[keyof typeof Permissions];
@@ -65,7 +80,69 @@ export type Permission = (typeof Permissions)[keyof typeof Permissions];
 const ALL_PERMISSIONS = Object.values(Permissions) as Permission[];
 
 export const RolePermissions: Record<string, Permission[]> = {
-  ADMIN: ALL_PERMISSIONS,
+  SUPER_ADMIN: ALL_PERMISSIONS,
+
+  ADMIN: [
+    Permissions.DASHBOARD_VIEW,
+
+    Permissions.PRODUCT_VIEW,
+    Permissions.PRODUCT_CREATE,
+    Permissions.PRODUCT_EDIT,
+    Permissions.PRODUCT_DELETE,
+
+    Permissions.CATEGORY_VIEW,
+    Permissions.CATEGORY_CREATE,
+    Permissions.CATEGORY_EDIT,
+    Permissions.CATEGORY_DELETE,
+
+    Permissions.BRAND_VIEW,
+    Permissions.BRAND_CREATE,
+    Permissions.BRAND_EDIT,
+    Permissions.BRAND_DELETE,
+
+    Permissions.SUPPLIER_VIEW,
+    Permissions.SUPPLIER_CREATE,
+    Permissions.SUPPLIER_EDIT,
+    Permissions.SUPPLIER_DELETE,
+
+    Permissions.INVENTORY_VIEW,
+    Permissions.INVENTORY_ADJUST,
+    Permissions.INVENTORY_BARCODE_GENERATE,
+    Permissions.INVENTORY_STOCK_ADD,
+    Permissions.INVENTORY_HISTORY_VIEW,
+    Permissions.INVENTORY_ITEM_MANAGE,
+
+    Permissions.PURCHASE_VIEW,
+    Permissions.PURCHASE_CREATE,
+    Permissions.PURCHASE_EDIT,
+    Permissions.PURCHASE_DELETE,
+
+    Permissions.POS_ACCESS,
+    Permissions.POS_RETURN,
+    Permissions.POS_CUSTOMER_MANAGE,
+    Permissions.POS_VIEW_PURCHASE_PRICE,
+
+    Permissions.CUSTOMER_VIEW,
+    Permissions.CUSTOMER_CREATE,
+    Permissions.CUSTOMER_EDIT,
+
+    Permissions.REPORT_VIEW,
+    Permissions.REPORT_SALES,
+    Permissions.REPORT_GST,
+    Permissions.REPORT_INVENTORY,
+
+    Permissions.USER_VIEW,
+    Permissions.USER_CREATE,
+    Permissions.USER_EDIT,
+    Permissions.USER_DELETE,
+
+    Permissions.SETTINGS_VIEW,
+    Permissions.SETTINGS_EDIT,
+
+    Permissions.SYSTEM_BACKUP,
+    Permissions.SYSTEM_RESTORE,
+    Permissions.SYSTEM_AUDIT_LOG,
+  ],
 
   INVENTORY_MANAGER: [
     Permissions.DASHBOARD_VIEW,
@@ -105,6 +182,20 @@ export const RolePermissions: Record<string, Permission[]> = {
     Permissions.PRODUCT_VIEW,
   ],
 
+  BILLING: [
+    Permissions.DASHBOARD_VIEW,
+    Permissions.POS_ACCESS,
+    Permissions.POS_RETURN,
+    Permissions.POS_CUSTOMER_MANAGE,
+    Permissions.CUSTOMER_VIEW,
+    Permissions.CUSTOMER_CREATE,
+    Permissions.CUSTOMER_EDIT,
+    Permissions.PRODUCT_VIEW,
+    Permissions.REPORT_VIEW,
+    Permissions.REPORT_SALES,
+    Permissions.REPORT_GST,
+  ],
+
   MANAGER: [
     Permissions.DASHBOARD_VIEW,
     Permissions.PRODUCT_VIEW,
@@ -134,7 +225,7 @@ export const RolePermissions: Record<string, Permission[]> = {
   ],
 };
 
-export function getPermissionsForRoles(roles: string[]): Permission[] {
+export function getPermissionsForRoles(roles: string[], customPermissions?: string[]): Permission[] {
   const perms = new Set<Permission>();
   for (const role of roles) {
     const rolePerms = RolePermissions[role];
@@ -144,10 +235,15 @@ export function getPermissionsForRoles(roles: string[]): Permission[] {
       }
     }
   }
+  if (customPermissions) {
+    for (const p of customPermissions) {
+      perms.add(p as Permission);
+    }
+  }
   return Array.from(perms);
 }
 
-export function hasPermission(userRoles: string[], requiredPermission: Permission): boolean {
-  const perms = getPermissionsForRoles(userRoles);
+export function hasPermission(userRoles: string[], requiredPermission: Permission, customPermissions?: string[]): boolean {
+  const perms = getPermissionsForRoles(userRoles, customPermissions);
   return perms.includes(requiredPermission);
 }

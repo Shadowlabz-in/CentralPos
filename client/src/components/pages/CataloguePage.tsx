@@ -97,6 +97,7 @@ export default function CataloguePage() {
   const [section, setSection] = useState<Section>(
     pathSection === 'categories' ? 'categories' : pathSection === 'brands' ? 'brands' : 'products',
   );
+  const [sectionSearch, setSectionSearch] = useState<Record<string, string>>({});
   const [addTrigger, setAddTrigger] = useState<Record<string, number>>({});
 
   useEffect(() => {
@@ -118,9 +119,14 @@ export default function CataloguePage() {
           <span className="text-xs text-gray-300 hidden sm:inline">/</span>
           <p className="text-xs text-gray-400 truncate hidden sm:block">Manage your product catalogue</p>
         </div>
-        <Button size="sm" onClick={() => setAddTrigger(prev => ({ ...prev, [section]: (prev[section] || 0) + 1 }))}>
-          <Plus size={14} className="mr-1" /> {ADD_LABELS[section]}
-        </Button>
+        <div className="flex items-center gap-3">
+          <div className="w-56">
+            <SearchInput value={sectionSearch[section] || ''} onChange={(v) => setSectionSearch(prev => ({ ...prev, [section]: v }))} placeholder="Search..." />
+          </div>
+          <Button size="sm" onClick={() => setAddTrigger(prev => ({ ...prev, [section]: (prev[section] || 0) + 1 }))}>
+            <Plus size={14} className="mr-1" /> {ADD_LABELS[section]}
+          </Button>
+        </div>
       </div>
 
       <div className="flex overflow-x-auto scrollbar-none gap-1 bg-gray-50 rounded-xl p-1 border border-gray-100">
@@ -150,23 +156,22 @@ export default function CataloguePage() {
         ))}
       </div>
 
-      <div className={section === 'brands' ? '' : 'hidden'}><BrandSection addTrigger={addTrigger['brands'] || 0} /></div>
-      <div className={section === 'categories' ? '' : 'hidden'}><CategorySection addTrigger={addTrigger['categories'] || 0} /></div>
-      <div className={section === 'products' ? '' : 'hidden'}><ProductSection addTrigger={addTrigger['products'] || 0} /></div>
-      <div className={section === 'hsn-codes' ? '' : 'hidden'}><HsnCodeSection addTrigger={addTrigger['hsn-codes'] || 0} /></div>
-      <div className={section === 'fabrics' ? '' : 'hidden'}><FabricSection addTrigger={addTrigger['fabrics'] || 0} /></div>
-      <div className={section === 'occasions' ? '' : 'hidden'}><OccasionSection addTrigger={addTrigger['occasions'] || 0} /></div>
-      <div className={section === 'countries' ? '' : 'hidden'}><CountrySection addTrigger={addTrigger['countries'] || 0} /></div>
-      <div className={section === 'sizes' ? '' : 'hidden'}><SizeSection addTrigger={addTrigger['sizes'] || 0} /></div>
-      <div className={section === 'colors' ? '' : 'hidden'}><ColorSection addTrigger={addTrigger['colors'] || 0} /></div>
-      <div className={section === 'suppliers' ? '' : 'hidden'}><SupplierSection addTrigger={addTrigger['suppliers'] || 0} /></div>
+      <div className={section === 'brands' ? '' : 'hidden'}><BrandSection addTrigger={addTrigger['brands'] || 0} search={sectionSearch['brands'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, brands: v }))} /></div>
+      <div className={section === 'categories' ? '' : 'hidden'}><CategorySection addTrigger={addTrigger['categories'] || 0} search={sectionSearch['categories'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, categories: v }))} /></div>
+      <div className={section === 'products' ? '' : 'hidden'}><ProductSection addTrigger={addTrigger['products'] || 0} search={sectionSearch['products'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, products: v }))} /></div>
+      <div className={section === 'hsn-codes' ? '' : 'hidden'}><HsnCodeSection addTrigger={addTrigger['hsn-codes'] || 0} search={sectionSearch['hsn-codes'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, 'hsn-codes': v }))} /></div>
+      <div className={section === 'fabrics' ? '' : 'hidden'}><FabricSection addTrigger={addTrigger['fabrics'] || 0} search={sectionSearch['fabrics'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, fabrics: v }))} /></div>
+      <div className={section === 'occasions' ? '' : 'hidden'}><OccasionSection addTrigger={addTrigger['occasions'] || 0} search={sectionSearch['occasions'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, occasions: v }))} /></div>
+      <div className={section === 'countries' ? '' : 'hidden'}><CountrySection addTrigger={addTrigger['countries'] || 0} search={sectionSearch['countries'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, countries: v }))} /></div>
+      <div className={section === 'sizes' ? '' : 'hidden'}><SizeSection addTrigger={addTrigger['sizes'] || 0} search={sectionSearch['sizes'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, sizes: v }))} /></div>
+      <div className={section === 'colors' ? '' : 'hidden'}><ColorSection addTrigger={addTrigger['colors'] || 0} search={sectionSearch['colors'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, colors: v }))} /></div>
+      <div className={section === 'suppliers' ? '' : 'hidden'}><SupplierSection addTrigger={addTrigger['suppliers'] || 0} search={sectionSearch['suppliers'] || ''} onSearch={(v) => setSectionSearch(prev => ({ ...prev, suppliers: v }))} /></div>
     </div>
   );
 }
 
-function BrandSection({ addTrigger }: { addTrigger: number }) {
+function BrandSection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Brand | null>(null);
   const [form, setForm] = useState({ name: '', description: '' });
@@ -255,9 +260,6 @@ function BrandSection({ addTrigger }: { addTrigger: number }) {
 
   return (
     <div className="space-y-4">
-      <div className="w-64">
-        <SearchInput value={search} onChange={setSearch} placeholder="Search brands..." />
-      </div>
 
       <Table
         columns={[
@@ -316,9 +318,8 @@ function BrandSection({ addTrigger }: { addTrigger: number }) {
   );
 }
 
-function CategorySection({ addTrigger }: { addTrigger: number }) {
+function CategorySection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Category | null>(null);
   const [form, setForm] = useState({ name: '', description: '', parentId: '' });
@@ -410,9 +411,6 @@ function CategorySection({ addTrigger }: { addTrigger: number }) {
 
   return (
     <div className="space-y-4">
-      <div className="w-64">
-        <SearchInput value={search} onChange={setSearch} placeholder="Search categories..." />
-      </div>
 
       <Table
         columns={[
@@ -586,9 +584,8 @@ function MasterSection<T extends { id: string; productCount?: number }>({
   );
 }
 
-function HsnCodeSection({ addTrigger }: { addTrigger: number }) {
+function HsnCodeSection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<HsnCode | null>(null);
   const [form, setForm] = useState({ code: '', description: '' });
@@ -635,7 +632,7 @@ function HsnCodeSection({ addTrigger }: { addTrigger: number }) {
   }
 
   return masterSectionLayout({
-    title: 'HSN Codes', search, setSearch, items: filtered, isLoading,
+    title: 'HSN Codes', items: filtered, isLoading,
     fields: [
       { key: 'code', label: 'Code' },
       { key: 'description', label: 'Description' },
@@ -667,9 +664,8 @@ function HsnCodeSection({ addTrigger }: { addTrigger: number }) {
   });
 }
 
-function FabricSection({ addTrigger }: { addTrigger: number }) {
+function FabricSection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Fabric | null>(null);
   const [form, setForm] = useState({ name: '', description: '' });
@@ -715,7 +711,7 @@ function FabricSection({ addTrigger }: { addTrigger: number }) {
   }
 
   return masterSectionLayout({
-    title: 'Fabrics', search, setSearch, items: filtered, isLoading,
+    title: 'Fabrics', items: filtered, isLoading,
     fields: [{ key: 'name', label: 'Name' }, { key: 'description', label: 'Description' }],
     onAdd: () => { setEditing(null); setForm({ name: '', description: '' }); setFormError(''); setDialogOpen(true); },
     onEdit: (item) => { setEditing(item); setForm({ name: item.name, description: item.description || '' }); setFormError(''); setDialogOpen(true); },
@@ -744,9 +740,8 @@ function FabricSection({ addTrigger }: { addTrigger: number }) {
   });
 }
 
-function OccasionSection({ addTrigger }: { addTrigger: number }) {
+function OccasionSection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Occasion | null>(null);
   const [form, setForm] = useState({ name: '', description: '' });
@@ -792,7 +787,7 @@ function OccasionSection({ addTrigger }: { addTrigger: number }) {
   }
 
   return masterSectionLayout({
-    title: 'Occasions', search, setSearch, items: filtered, isLoading,
+    title: 'Occasions', items: filtered, isLoading,
     fields: [{ key: 'name', label: 'Name' }, { key: 'description', label: 'Description' }],
     onAdd: () => { setEditing(null); setForm({ name: '', description: '' }); setFormError(''); setDialogOpen(true); },
     onEdit: (item) => { setEditing(item); setForm({ name: item.name, description: item.description || '' }); setFormError(''); setDialogOpen(true); },
@@ -821,9 +816,8 @@ function OccasionSection({ addTrigger }: { addTrigger: number }) {
   });
 }
 
-function CountrySection({ addTrigger }: { addTrigger: number }) {
+function CountrySection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Country | null>(null);
   const [form, setForm] = useState({ name: '', code: '' });
@@ -870,7 +864,7 @@ function CountrySection({ addTrigger }: { addTrigger: number }) {
   }
 
   return masterSectionLayout({
-    title: 'Countries', search, setSearch, items: filtered, isLoading,
+    title: 'Countries', items: filtered, isLoading,
     fields: [{ key: 'name', label: 'Name' }, { key: 'code', label: 'Code' }],
     onAdd: () => { setEditing(null); setForm({ name: '', code: '' }); setFormError(''); setDialogOpen(true); },
     onEdit: (item) => { setEditing(item); setForm({ name: item.name, code: item.code }); setFormError(''); setDialogOpen(true); },
@@ -899,9 +893,8 @@ function CountrySection({ addTrigger }: { addTrigger: number }) {
   });
 }
 
-function SizeSection({ addTrigger }: { addTrigger: number }) {
+function SizeSection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Size | null>(null);
   const [form, setForm] = useState({ name: '', sortOrder: '0' });
@@ -943,7 +936,7 @@ function SizeSection({ addTrigger }: { addTrigger: number }) {
   }
 
   return masterSectionLayout({
-    title: 'Sizes', search, setSearch, items: filtered, isLoading,
+    title: 'Sizes', items: filtered, isLoading,
     fields: [{ key: 'name', label: 'Name' }, { key: 'sortOrder', label: 'Order' }],
     onAdd: () => { setEditing(null); setForm({ name: '', sortOrder: '0' }); setFormError(''); setDialogOpen(true); },
     onEdit: (item) => { setEditing(item); setForm({ name: item.name, sortOrder: String(item.sortOrder) }); setFormError(''); setDialogOpen(true); },
@@ -969,9 +962,8 @@ function SizeSection({ addTrigger }: { addTrigger: number }) {
   });
 }
 
-function ColorSection({ addTrigger }: { addTrigger: number }) {
+function ColorSection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Color | null>(null);
   const [form, setForm] = useState({ name: '', hex: '' });
@@ -1012,7 +1004,7 @@ function ColorSection({ addTrigger }: { addTrigger: number }) {
   }
 
   return masterSectionLayout({
-    title: 'Colors', search, setSearch, items: filtered, isLoading,
+    title: 'Colors', items: filtered, isLoading,
     fields: [{ key: 'name', label: 'Name' }],
     onAdd: () => { setEditing(null); setForm({ name: '', hex: '#000000' }); setFormError(''); setDialogOpen(true); },
     onEdit: (item) => { setEditing(item); setForm({ name: item.name, hex: item.hex }); setFormError(''); setDialogOpen(true); },
@@ -1045,9 +1037,9 @@ function ColorSection({ addTrigger }: { addTrigger: number }) {
 }
 
 function masterSectionLayout<T extends { id: string }>({
-  title, search, setSearch, items, isLoading, fields, onAdd, onEdit, onDelete, dialog, deleteDialog,
+  title, items, isLoading, fields, onAdd, onEdit, onDelete, dialog, deleteDialog,
 }: {
-  title: string; search: string; setSearch: (v: string) => void; items: T[]; isLoading: boolean;
+  title: string; items: T[]; isLoading: boolean;
   fields: { key: keyof T; label: string }[];
   onAdd: () => void; onEdit: (item: T) => void; onDelete: (item: T) => void;
   dialog: React.ReactNode; deleteDialog: React.ReactNode;
@@ -1055,9 +1047,6 @@ function masterSectionLayout<T extends { id: string }>({
   if (isLoading) return <PageSpinner />;
   return (
     <div className="space-y-4">
-      <div className="w-64">
-        <SearchInput value={search} onChange={setSearch} placeholder={`Search ${title.toLowerCase()}...`} />
-      </div>
       <div className="grid gap-2">
         {items.length === 0 ? (
           <p className="text-gray-400 text-sm py-4 text-center">No {title.toLowerCase()} found.</p>
@@ -1081,9 +1070,8 @@ function masterSectionLayout<T extends { id: string }>({
   );
 }
 
-function SupplierSection({ addTrigger }: { addTrigger: number }) {
+function SupplierSection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Supplier | null>(null);
   const [form, setForm] = useState({ name: '', contactPerson: '', email: '', phone: '', gstin: '', address: '' });
@@ -1124,7 +1112,7 @@ function SupplierSection({ addTrigger }: { addTrigger: number }) {
   }
 
   return masterSectionLayout({
-    title: 'Suppliers', search, setSearch, items: filtered, isLoading,
+    title: 'Suppliers', items: filtered, isLoading,
     fields: [{ key: 'name', label: 'Name' }, { key: 'contactPerson', label: 'Contact' }],
     onAdd: () => { setEditing(null); setForm({ name: '', contactPerson: '', email: '', phone: '', gstin: '', address: '' }); setFormError(''); setDialogOpen(true); },
     onEdit: (item) => { setEditing(item); setForm({ name: item.name, contactPerson: item.contactPerson || '', email: item.email || '', phone: item.phone || '', gstin: item.gstin || '', address: item.address || '' }); setFormError(''); setDialogOpen(true); },
@@ -1189,7 +1177,7 @@ const GST_OPTIONS = [
   { value: '12', label: '12%' }, { value: '18', label: '18%' }, { value: '28', label: '28%' },
 ];
 
-function ProductSection({ addTrigger }: { addTrigger: number }) {
+function ProductSection({ addTrigger, search, onSearch }: { addTrigger: number; search: string; onSearch: (v: string) => void }) {
   const queryClient = useQueryClient();
 
   const { data: categoriesData, isLoading: catsLoading } = useQuery({
@@ -1255,6 +1243,7 @@ function ProductSection({ addTrigger }: { addTrigger: number }) {
           categoryId={cat.id}
           products={products.filter((p) => p.categoryId === cat.id)}
           brands={brands}
+          search={search}
           onEdit={(pid) => setEditProductId(pid)}
           onDelete={(p) => setDeleteTarget(p)}
           onRefresh={() => queryClient.invalidateQueries({ queryKey: ['products-catalogue'] })}
@@ -1270,6 +1259,7 @@ function ProductSection({ addTrigger }: { addTrigger: number }) {
           categoryId="all"
           products={products}
           brands={brands}
+          search={search}
           onEdit={(pid) => setEditProductId(pid)}
           onDelete={(p) => setDeleteTarget(p)}
           onRefresh={() => queryClient.invalidateQueries({ queryKey: ['products-catalogue'] })}
@@ -1278,7 +1268,7 @@ function ProductSection({ addTrigger }: { addTrigger: number }) {
     });
 
     return tabs;
-  }, [categories, products, brands]);
+  }, [categories, products, brands, search]);
 
   const prevTriggerRef = useRef(0);
   useEffect(() => {
@@ -1373,6 +1363,7 @@ function CategoryProducts({
   onEdit,
   onDelete,
   onRefresh,
+  search,
 }: {
   categoryId: string;
   products: Product[];
@@ -1380,8 +1371,8 @@ function CategoryProducts({
   onEdit: (id: string) => void;
   onDelete: (p: Product) => void;
   onRefresh: () => void;
+  search: string;
 }) {
-  const [search, setSearch] = useState('');
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
@@ -1424,9 +1415,6 @@ function CategoryProducts({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <div className="relative flex-1 max-w-md">
-          <SearchInput value={search} onChange={setSearch} placeholder="Search products..." />
-        </div>
         <span className="text-sm text-gray-400 font-medium shrink-0">
           {filtered.length} product{filtered.length !== 1 ? 's' : ''}
         </span>

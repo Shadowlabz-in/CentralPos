@@ -1,17 +1,34 @@
 import { PrismaClient } from '@prisma/client';
+import { RolePermissions } from '../src/config/permissions';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const roles = ['ADMIN', 'MANAGER', 'CASHIER', 'INVENTORY_MANAGER'];
-  for (const name of roles) {
+  const roles = [
+    { name: 'SUPER_ADMIN', label: 'Super Admin' },
+    { name: 'ADMIN', label: 'Owner' },
+    { name: 'MANAGER', label: 'Manager' },
+    { name: 'CASHIER', label: 'Cashier' },
+    { name: 'INVENTORY_MANAGER', label: 'Inventory Manager' },
+    { name: 'BILLING', label: 'Billing' },
+  ];
+  for (const { name, label } of roles) {
     await prisma.role.upsert({
       where: { name },
-      update: {},
-      create: { name, description: `${name} role` },
+      update: {
+        label,
+        description: `${label} role`,
+        permissions: RolePermissions[name] || [],
+      },
+      create: {
+        name,
+        label,
+        description: `${label} role`,
+        permissions: RolePermissions[name] || [],
+      },
     });
   }
-  console.log('Roles seeded');
+  console.log('Roles seeded with permissions');
 }
 
 main()

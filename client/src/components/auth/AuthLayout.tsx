@@ -25,7 +25,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
               <Store className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-white tracking-tight">Kapda POS</p>
+              <p className="text-2xl font-bold text-white tracking-tight">Central One</p>
               <p className="text-[11px] text-gray-400 font-medium tracking-wide">Retail Management System</p>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
               <Store className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">Kapda POS</p>
+              <p className="text-2xl font-bold text-gray-900">Central One</p>
               <p className="text-[11px] text-gray-500 font-medium">Retail Management System</p>
             </div>
           </div>

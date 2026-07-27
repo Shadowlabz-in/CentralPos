@@ -33,12 +33,12 @@ export function Dialog({ open, onClose, title, children, size = 'md', zIndex }: 
     >
       <div
         ref={ref}
-        className={`bg-white rounded-xl shadow-xl w-full ${sizes[size]} mx-4 max-h-[90vh] overflow-y-auto`}
+        className={`bg-background rounded-xl shadow-xl w-full ${sizes[size]} mx-4 max-h-[90vh] overflow-y-auto`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b px-5 py-4">
-          <h2 className="text-lg font-semibold">{title}</h2>
-          <button onClick={onClose} className="p-1 rounded-lg hover:bg-gray-100">
+          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+          <button onClick={onClose} className="p-1 rounded-lg hover:bg-accent">
             <X size={18} />
           </button>
         </div>

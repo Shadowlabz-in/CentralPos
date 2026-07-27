@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Lock, MailCheck } from 'lucide-react';
+import { Mail, Lock } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { getFirebaseErrorMessage } from '@/services/auth.service';
 import AuthLayout from '@/components/auth/AuthLayout';
@@ -15,8 +15,7 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [verificationSent, setVerificationSent] = useState(false);
-  const { signup, resendVerification } = useAuth();
+  const { signup } = useAuth();
 
   function validate(): string | null {
     if (!email.trim()) return 'Email is required';
@@ -34,57 +33,16 @@ export default function SignupPage() {
     setError('');
     setLoading(true);
     try {
-      await signup(email, password);
-      setVerificationSent(true);
-    } catch (err: any) {
-      const code = err?.code || '';
-      setError(code ? getFirebaseErrorMessage(code) : (err.message || 'Sign up failed'));
+      const auth = await signup(email, password);
+      const isSuper = auth.user?.roles?.includes('SUPER_ADMIN');
+      window.location.href = isSuper ? '/admin' : '/catalogue';
+    } catch (err: unknown) {
+      const e = err as { code?: string; message?: string };
+      const code = e?.code || '';
+      setError(code ? getFirebaseErrorMessage(code) : (e.message || 'Sign up failed'));
     } finally {
       setLoading(false);
     }
-  }
-
-  async function handleResend() {
-    setError('');
-    try {
-      await resendVerification();
-    } catch (err: any) {
-      setError(err.message || 'Failed to resend verification email');
-    }
-  }
-
-  if (verificationSent) {
-    return (
-      <AuthLayout>
-        <div className="animate-[fadeIn_0.4s_ease-out]">
-          <AuthCard>
-            <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                <MailCheck className="h-8 w-8 text-primary" />
-              </div>
-              <h1 className="text-xl font-bold text-gray-900">Verify your email</h1>
-              <p className="mt-2 text-sm text-gray-500 leading-relaxed">
-                A verification email has been sent to{' '}
-                <strong className="text-gray-700">{email}</strong>.
-                Click the link in the email to activate your account.
-              </p>
-              <p className="mt-4 text-xs text-gray-400">
-                Didn't receive the email?{' '}
-                <button onClick={handleResend} className="font-semibold text-primary hover:text-primary/80 transition-colors">
-                  Resend
-                </button>
-              </p>
-              <Link
-                to="/login"
-                className="mt-6 inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-primary/90"
-              >
-                Back to Sign in
-              </Link>
-            </div>
-          </AuthCard>
-        </div>
-      </AuthLayout>
-    );
   }
 
   return (

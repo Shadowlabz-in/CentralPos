@@ -30,18 +30,18 @@ export function Table<T>({
   emptyMessage = 'No data found',
 }: TableProps<T>) {
   if (data.length === 0) {
-    return <div className="text-center py-12 text-gray-400 text-sm">{emptyMessage}</div>;
+    return <div className="text-center py-12 text-muted-foreground text-sm">{emptyMessage}</div>;
   }
 
   return (
     <div className="overflow-x-auto rounded-lg border">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-gray-50 border-b">
+          <tr className="bg-muted border-b">
             {columns.map((col) => (
               <th
                 key={col.key}
-                className={`px-4 py-3 text-left font-medium text-gray-600 ${col.sortable ? 'cursor-pointer hover:bg-gray-100 select-none' : ''} ${col.className || ''}`}
+                className={`px-4 py-3 text-left font-medium text-muted-foreground ${col.sortable ? 'cursor-pointer hover:bg-accent select-none' : ''} ${col.className || ''}`}
                 onClick={() => col.sortable && onSort?.(col.key)}
               >
                 <span className="flex items-center gap-1">
@@ -58,7 +58,7 @@ export function Table<T>({
           {data.map((item) => (
             <tr
               key={keyExtractor(item)}
-              className={`hover:bg-gray-50 ${onRowClick ? 'cursor-pointer' : ''}`}
+              className={`hover:bg-accent ${onRowClick ? 'cursor-pointer' : ''}`}
               onClick={() => onRowClick?.(item)}
             >
               {columns.map((col) => (

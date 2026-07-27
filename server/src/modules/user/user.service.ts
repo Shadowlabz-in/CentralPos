@@ -4,11 +4,13 @@ import { AppError } from '../../middleware/errorHandler';
 import { getPermissionsForRoles } from '../../config/permissions';
 
 export const userService = {
-  async list(page = 1, limit = 10) {
+  async list(page = 1, limit = 10, storeId?: string, search?: string) {
     const skip = (page - 1) * limit;
     const [users, total] = await Promise.all([
-      userRepository.findAll(skip, limit),
-      userRepository.countAll(),
+      userRepository.findAll(skip, limit, storeId, search),
+      search
+        ? userRepository.countSearch(storeId, search)
+        : (storeId ? userRepository.countByStore(storeId) : userRepository.countAll()),
     ]);
 
     return {
@@ -22,6 +24,7 @@ export const userService = {
         storeId: u.storeId,
         store: u.store,
         roles: u.userRoles.map((ur) => ur.role.name),
+        customPermissions: u.customPermissions,
         createdAt: u.createdAt,
         updatedAt: u.updatedAt,
       })),
@@ -50,7 +53,8 @@ export const userService = {
       storeId: user.storeId,
       store: user.store,
       roles: user.userRoles.map((ur) => ur.role.name),
-      permissions: getPermissionsForRoles(user.userRoles.map((ur) => ur.role.name)),
+      customPermissions: user.customPermissions,
+      permissions: getPermissionsForRoles(user.userRoles.map((ur) => ur.role.name), user.customPermissions),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
@@ -72,7 +76,8 @@ export const userService = {
       storeId: user.storeId,
       store: user.store,
       roles: user.userRoles.map((ur) => ur.role.name),
-      permissions: getPermissionsForRoles(user.userRoles.map((ur) => ur.role.name)),
+      customPermissions: user.customPermissions,
+      permissions: getPermissionsForRoles(user.userRoles.map((ur) => ur.role.name), user.customPermissions),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
@@ -87,6 +92,7 @@ export const userService = {
     phone?: string;
     storeId?: string;
     createdById: string;
+    permissions?: string[];
   }) {
     const existingUser = await userRepository.findByEmail(data.email);
     if (existingUser) {
@@ -108,6 +114,7 @@ export const userService = {
       phone: data.phone,
       storeId: data.storeId,
       createdById: data.createdById,
+      customPermissions: data.permissions,
     });
 
     await userRepository.assignRole(user.id, roleRecord.id);
@@ -121,6 +128,7 @@ export const userService = {
       isActive: user.isActive,
       storeId: user.storeId,
       role: data.role,
+      customPermissions: user.customPermissions,
     };
   },
 
@@ -134,6 +142,7 @@ export const userService = {
       isActive?: boolean;
       role?: string;
       storeId?: string | null;
+      permissions?: string[];
     },
     currentUserId: string,
   ) {
@@ -165,6 +174,7 @@ export const userService = {
       phone?: string;
       isActive?: boolean;
       storeId?: string | null;
+      customPermissions?: string[];
     } = {};
     if (data.firstName !== undefined) updateData.firstName = data.firstName;
     if (data.lastName !== undefined) updateData.lastName = data.lastName;
@@ -172,6 +182,7 @@ export const userService = {
     if (data.phone !== undefined) updateData.phone = data.phone;
     if (data.isActive !== undefined) updateData.isActive = data.isActive;
     if (data.storeId !== undefined) updateData.storeId = data.storeId;
+    if (data.permissions !== undefined) updateData.customPermissions = data.permissions;
 
     if (Object.keys(updateData).length > 0) {
       await userRepository.update(id, updateData);

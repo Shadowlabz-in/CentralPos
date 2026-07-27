@@ -29,11 +29,11 @@ interface AuthState {
   user: User | null;
 }
 
-interface AuthContextType {
+  interface AuthContextType {
   auth: AuthState;
   firebaseUser: FirebaseUser | null;
   login: (email: string, password: string) => Promise<AuthState>;
-  signup: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string) => Promise<AuthState>;
   loginWithGoogle: () => Promise<AuthState>;
   logout: () => Promise<void>;
   sendPasswordResetEmail: (email: string) => Promise<void>;
@@ -97,14 +97,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onFirebaseAuthStateChanged(async (user) => {
       setFirebaseUser(user);
       if (user) {
-        const stored = loadAuth();
-        if (!stored.accessToken) {
-          try {
-            const idToken = await getFirebaseIdToken(user);
-            const newAuth = await exchangeFirebaseToken(idToken);
-            setAuth(newAuth);
-          } catch {
-            // silent fail — user can try again via login page
+        try {
+          const idToken = await getFirebaseIdToken(user);
+          const newAuth = await exchangeFirebaseToken(idToken);
+          setAuth(newAuth);
+        } catch {
+          const stored = loadAuth();
+          if (stored.accessToken) {
+            setAuth(stored);
           }
         }
       }
@@ -113,11 +113,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setIsLoading(false);
       }
     });
-
-    const stored = loadAuth();
-    if (stored.accessToken) {
-      setAuth(stored);
-    }
 
     return () => {
       unsubscribe();
@@ -173,7 +168,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signup = useCallback(async (email: string, password: string) => {
     const user = await signUpWithEmail(email, password);
     setFirebaseUser(user);
-  }, []);
+    const idToken = await getFirebaseIdToken(user);
+    const newAuth = await exchangeFirebaseToken(idToken);
+    setAuthAndPersist(newAuth);
+    return newAuth;
+  }, [setAuthAndPersist]);
 
   const loginWithGoogle = useCallback(async () => {
     const user = await signInWithGoogle();

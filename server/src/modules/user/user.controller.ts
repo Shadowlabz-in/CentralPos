@@ -6,7 +6,9 @@ export const userController = {
     try {
       const page = parseInt(req.query.page as string) || 1;
       const limit = parseInt(req.query.limit as string) || 10;
-      const result = await userService.list(page, limit);
+      const storeId = req.query.storeId as string | undefined;
+      const search = req.query.search as string | undefined;
+      const result = await userService.list(page, limit, storeId, search);
       res.status(200).json({
         status: 'success',
         data: result.data,

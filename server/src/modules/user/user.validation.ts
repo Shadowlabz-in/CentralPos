@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const permissionEnum = z.string();
+
 export const createUserSchema = z.object({
   body: z.object({
     firstName: z
@@ -10,11 +12,10 @@ export const createUserSchema = z.object({
     password: z
       .string({ required_error: 'Password is required' })
       .min(6, 'Password must be at least 6 characters'),
-    role: z.enum(['ADMIN', 'MANAGER', 'CASHIER'], {
-      required_error: 'Role is required',
-    }),
+    role: z.string({ required_error: 'Role is required' }).min(1, 'Role cannot be empty'),
     phone: z.string().optional(),
     storeId: z.string().uuid().optional(),
+    permissions: z.array(z.string()).optional(),
   }),
 });
 
@@ -25,8 +26,9 @@ export const updateUserSchema = z.object({
     email: z.string().email().optional(),
     phone: z.string().optional(),
     isActive: z.boolean().optional(),
-    role: z.enum(['ADMIN', 'MANAGER', 'CASHIER']).optional(),
+    role: z.string().optional(),
     storeId: z.string().uuid().nullable().optional(),
+    permissions: z.array(z.string()).optional(),
   }),
   params: z.object({
     id: z.string({ required_error: 'User ID is required' }),

@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Lock } from 'lucide-react';
+import { Mail, Lock, Bug } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { getFirebaseErrorMessage } from '@/services/auth.service';
 import AuthLayout from '@/components/auth/AuthLayout';
@@ -8,15 +8,19 @@ import AuthCard from '@/components/auth/AuthCard';
 import AuthHeader from '@/components/auth/AuthHeader';
 import AuthTextField from '@/components/auth/AuthTextField';
 import AuthButton from '@/components/auth/AuthButton';
-import GoogleButton from '@/components/auth/GoogleButton';
+
+const DEV_ACCOUNTS = [
+  { label: 'Super Admin', email: 'superadmin@kapda.com', password: 'superadmin123' },
+  { label: 'Admin', email: 'admin@kapda.com', password: 'admin123' },
+];
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
-  const { login, loginWithGoogle } = useAuth();
+  const [showDev, setShowDev] = useState(false);
+  const { login } = useAuth();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -25,8 +29,9 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      await login(email, password);
-      window.location.href = '/catalogue';
+      const auth = await login(email, password);
+      const isSuper = auth.user?.roles?.includes('SUPER_ADMIN');
+      window.location.href = isSuper ? '/admin' : '/catalogue';
     } catch (err: unknown) {
       const e = err as { code?: string; message?: string };
       const code = e?.code || '';
@@ -37,19 +42,20 @@ export default function LoginPage() {
     }
   }
 
-  async function handleGoogleLogin() {
+  async function quickLogin(email: string, password: string) {
     setError('');
-    setGoogleLoading(true);
+    setLoading(true);
     try {
-      await loginWithGoogle();
-      window.location.href = '/catalogue';
+      const auth = await login(email, password);
+      const isSuper = auth.user?.roles?.includes('SUPER_ADMIN');
+      window.location.href = isSuper ? '/admin' : '/catalogue';
     } catch (err: unknown) {
       const e = err as { code?: string; message?: string };
       const code = e?.code || '';
-      const msg = code ? getFirebaseErrorMessage(code) : (e.message || 'Google sign in failed');
+      const msg = code ? getFirebaseErrorMessage(code) : (e.message || 'Login failed');
       setError(msg);
     } finally {
-      setGoogleLoading(false);
+      setLoading(false);
     }
   }
 
@@ -103,23 +109,46 @@ export default function LoginPage() {
             </AuthButton>
           </form>
 
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-100" />
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-white px-3 text-xs text-gray-400">or continue with</span>
-            </div>
-          </div>
-
-          <GoogleButton onClick={handleGoogleLogin} loading={googleLoading} />
-
           <p className="mt-6 text-center text-sm text-gray-500">
             Don't have an account?{' '}
             <Link to="/signup" className="font-semibold text-primary hover:text-primary/80 transition-colors">
               Sign up
             </Link>
           </p>
+
+          <p className="mt-3 text-center">
+            <Link to="/centralone" className="text-xs text-gray-400 hover:text-primary transition-colors">
+              Visit Central One →
+            </Link>
+          </p>
+
+          {import.meta.env.DEV && (
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <button
+                type="button"
+                onClick={() => setShowDev(!showDev)}
+                className="flex items-center gap-1.5 mx-auto text-xs text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <Bug size={12} />
+                {showDev ? 'Hide' : 'Dev'} quick login
+              </button>
+              {showDev && (
+                <div className="mt-3 flex flex-col gap-2">
+                  {DEV_ACCOUNTS.map((a) => (
+                    <button
+                      key={a.email}
+                      type="button"
+                      onClick={() => quickLogin(a.email, a.password)}
+                      className="flex items-center justify-between px-3 py-2 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 text-sm transition-colors"
+                    >
+                      <span className="font-medium text-yellow-800">{a.label}</span>
+                      <span className="text-xs text-yellow-600">{a.email}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </AuthCard>
       </div>
     </AuthLayout>

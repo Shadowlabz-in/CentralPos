@@ -87,4 +87,18 @@ export const authController = {
       next(error);
     }
   },
+
+  async fixSuperAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, secret } = req.body;
+      if (secret !== 'kapdafix2025') {
+        res.status(403).json({ status: 'error', message: 'Invalid secret' });
+        return;
+      }
+      const result = await authService.fixSuperAdminRole(email);
+      res.status(200).json({ status: 'success', data: result });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

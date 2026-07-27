@@ -5,6 +5,7 @@ import {
   LogOut,
   PanelLeftClose,
   PanelLeft,
+  Shield,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
@@ -16,7 +17,8 @@ function isActive(path: string, current: string) {
 export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, auth } = useAuth();
+  const isSuper = auth.user?.roles?.includes('SUPER_ADMIN');
 
   return (
     <aside
@@ -24,7 +26,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
     >
       <div className={`flex items-center border-b ${collapsed ? 'justify-between px-3 py-5' : 'gap-2 px-6 py-5'}`}>
         {collapsed ? <span className="text-xl font-bold text-primary">K</span> : <Store className="h-6 w-6 shrink-0 text-primary" />}
-        <span className={`text-xl font-bold tracking-tight overflow-hidden whitespace-nowrap transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>Kapda POS</span>
+        <span className={`text-xl font-bold tracking-tight overflow-hidden whitespace-nowrap transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>Central One</span>
         <button
           onClick={onToggle}
           className={`flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors w-8 h-8 ${collapsed ? '' : 'ml-auto'}`}
@@ -44,6 +46,17 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
           <BookOpen size={collapsed ? 24 : 20} />
           {!collapsed && <span>Catalogue</span>}
         </Button>
+        {isSuper && (
+          <Button
+            variant={isActive('/admin', location.pathname) ? 'default' : 'ghost'}
+            className={collapsed ? 'h-12 w-12 p-0 flex items-center justify-center' : 'w-full justify-start gap-3'}
+            onClick={() => navigate('/admin')}
+            title="Admin Panel"
+          >
+            <Shield size={collapsed ? 24 : 20} />
+            {!collapsed && <span>Admin Panel</span>}
+          </Button>
+        )}
       </nav>
 
       <div className={`border-t ${collapsed ? 'p-2' : 'p-4'}`}>

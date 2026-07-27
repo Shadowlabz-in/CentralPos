@@ -57,4 +57,10 @@ router.post(
   authController.changePassword,
 );
 
+/**
+ * One-time fix: upgrade a user to SUPER_ADMIN role.
+ * Requires a secret key to prevent abuse.
+ */
+router.post('/auth/fix-super-admin', authController.fixSuperAdmin);
+
 export default router;

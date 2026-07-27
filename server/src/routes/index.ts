@@ -29,6 +29,10 @@ import auditRoutes from '../modules/audit/audit.routes';
 import notificationRoutes from '../modules/notifications/notification.routes';
 import preferenceRoutes from '../modules/preferences/preference.routes';
 import backupRoutes from '../modules/backup/backup.routes';
+import storeRoutes from '../modules/store/store.routes';
+import planRoutes from '../modules/plan/plan.routes';
+import demoRequestRoutes from '../modules/demo-request/demo-request.routes';
+import roleRoutes from '../modules/role/role.routes';
 
 const router = Router();
 
@@ -62,5 +66,9 @@ router.use(auditRoutes);
 router.use(notificationRoutes);
 router.use(preferenceRoutes);
 router.use(backupRoutes);
+router.use(storeRoutes);
+router.use(planRoutes);
+router.use(demoRequestRoutes);
+router.use(roleRoutes);
 
 export default router;
