@@ -2,10 +2,8 @@ import prisma from '../../utils/prisma';
 
 export const occasionRepository = {
   async findAll(storeId?: string) {
-    const where: any = { deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
     return prisma.occasion.findMany({
-      where,
+      where: { deletedAt: null, ...(storeId ? { storeId } : {}) },
       include: { _count: { select: { products: true } } },
       orderBy: { name: 'asc' },
     });
@@ -23,9 +21,9 @@ export const occasionRepository = {
   },
 
   async findByName(name: string, storeId?: string) {
-    const where: any = { name, deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
-    return prisma.occasion.findFirst({ where });
+    return prisma.occasion.findFirst({
+      where: { name, ...(storeId ? { storeId } : {}), deletedAt: null },
+    });
   },
 
   async create(data: { name: string; slug: string; description?: string; storeId?: string }) {

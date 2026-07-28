@@ -2,10 +2,8 @@ import prisma from '../../utils/prisma';
 
 export const hsnCodeRepository = {
   async findAll(storeId?: string) {
-    const where: any = { deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
     return prisma.hsnCode.findMany({
-      where,
+      where: { deletedAt: null, ...(storeId ? { storeId } : {}) },
       include: { _count: { select: { products: true } } },
       orderBy: { code: 'asc' },
     });

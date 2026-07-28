@@ -2,10 +2,8 @@ import prisma from '../../utils/prisma';
 
 export const categoryRepository = {
   async findAll(storeId?: string) {
-    const where: any = { deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
     return prisma.category.findMany({
-      where,
+      where: { deletedAt: null, ...(storeId ? { storeId } : {}) },
       include: {
         parent: { select: { id: true, name: true, slug: true } },
         _count: { select: { products: true, children: true } },
@@ -30,10 +28,8 @@ export const categoryRepository = {
   },
 
   async findByName(name: string, storeId?: string) {
-    const where: any = { name, deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
     return prisma.category.findFirst({
-      where,
+      where: { name, ...(storeId ? { storeId } : {}), deletedAt: null },
     });
   },
 

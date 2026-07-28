@@ -2,10 +2,8 @@ import prisma from '../../utils/prisma';
 
 export const supplierRepository = {
   async findAll(storeId?: string) {
-    const where: any = { deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
     return prisma.supplier.findMany({
-      where,
+      where: { deletedAt: null, ...(storeId ? { storeId } : {}) },
       include: { _count: { select: { purchases: true } } },
       orderBy: { name: 'asc' },
     });

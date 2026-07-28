@@ -2,9 +2,10 @@ import prisma from '../../utils/prisma';
 
 export const colorRepository = {
   async findAll(storeId?: string) {
-    const where: any = { deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
-    return prisma.color.findMany({ where, orderBy: { name: 'asc' } });
+    return prisma.color.findMany({
+      where: { deletedAt: null, ...(storeId ? { storeId } : {}) },
+      orderBy: { name: 'asc' },
+    });
   },
 
   async findById(id: string) {
@@ -16,9 +17,9 @@ export const colorRepository = {
   },
 
   async findByName(name: string, storeId?: string) {
-    const where: any = { name, deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
-    return prisma.color.findFirst({ where });
+    return prisma.color.findFirst({
+      where: { name, ...(storeId ? { storeId } : {}), deletedAt: null },
+    });
   },
 
   async create(data: { name: string; slug: string; hex?: string; storeId?: string }) {

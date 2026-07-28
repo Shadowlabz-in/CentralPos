@@ -3,7 +3,7 @@ import prisma from '../../utils/prisma';
 export const countryRepository = {
   async findAll(storeId?: string) {
     return prisma.country.findMany({
-      where: { deletedAt: null, ...(storeId ? { storeId: { in: [storeId, null] } as any } : {}) },
+      where: { deletedAt: null, ...(storeId ? { storeId } : {}) },
       include: { _count: { select: { products: true } } },
       orderBy: { name: 'asc' },
     });
@@ -26,7 +26,7 @@ export const countryRepository = {
 
   async findByName(name: string, storeId?: string) {
     return prisma.country.findFirst({
-      where: { name, ...(storeId ? { storeId: { in: [storeId, null] } as any } : {}), deletedAt: null },
+      where: { name, ...(storeId ? { storeId } : {}), deletedAt: null },
     });
   },
 

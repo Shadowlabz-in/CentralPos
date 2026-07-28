@@ -27,7 +27,7 @@ export const productRepository = {
   async findAll(skip: number, take: number, filters: ProductFilters) {
     const where: Prisma.ProductWhereInput = {
       deletedAt: null,
-      ...(filters.storeId ? { storeId: { in: [filters.storeId, null] } as any } : {}),
+      ...(filters.storeId ? { storeId: filters.storeId } : {}),
     };
 
     if (filters.search) {
@@ -96,7 +96,7 @@ export const productRepository = {
   async countAll(filters: ProductFilters) {
     const where: Prisma.ProductWhereInput = {
       deletedAt: null,
-      ...(filters.storeId ? { storeId: { in: [filters.storeId, null] } } : {}),
+      ...(filters.storeId ? { storeId: filters.storeId } : {}),
     };
 
     if (filters.search) {

@@ -2,9 +2,10 @@ import prisma from '../../utils/prisma';
 
 export const sizeRepository = {
   async findAll(storeId?: string) {
-    const where: any = { deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
-    return prisma.size.findMany({ where, orderBy: { sortOrder: 'asc' } });
+    return prisma.size.findMany({
+      where: { deletedAt: null, ...(storeId ? { storeId } : {}) },
+      orderBy: { sortOrder: 'asc' },
+    });
   },
 
   async findById(id: string) {
@@ -16,9 +17,9 @@ export const sizeRepository = {
   },
 
   async findByName(name: string, storeId?: string) {
-    const where: any = { name, deletedAt: null };
-    if (storeId) where.OR = [{ storeId }, { storeId: null }];
-    return prisma.size.findFirst({ where });
+    return prisma.size.findFirst({
+      where: { name, ...(storeId ? { storeId } : {}), deletedAt: null },
+    });
   },
 
   async create(data: { name: string; slug: string; sortOrder?: number; storeId?: string }) {
