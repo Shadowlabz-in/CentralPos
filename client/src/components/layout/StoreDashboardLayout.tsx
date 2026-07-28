@@ -114,7 +114,7 @@ export function StoreDashboardLayout({ children }: StoreDashboardLayoutProps) {
   return (
     <div className="flex min-h-screen bg-background">
       <aside className={`fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-border bg-card transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-16'}`}>
-        <div className={`flex items-center border-b border-border min-h-[65px] ${cn(sidebarOpen, 'gap-3 px-6', 'justify-center px-0')}`}>
+        <div className={`flex items-center border-b border-border min-h-[65px] ${cn(sidebarOpen, 'gap-3 px-6', 'justify-center px-0')}`} title={!sidebarOpen ? store?.name || 'Store' : undefined}>
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 shrink-0">
             <Store size={18} className="text-white" />
           </div>
