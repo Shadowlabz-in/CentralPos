@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { settingsController } from './settings.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import {
   updateStoreSchema,
@@ -26,13 +27,13 @@ const router = Router();
 router.get(
   '/settings/store',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.SETTINGS_VIEW),
   settingsController.getStore,
 );
 router.patch(
   '/settings/store',
   authenticate,
-  authorize('ADMIN'),
+  requirePermission(Permissions.SETTINGS_EDIT),
   validate(updateStoreSchema),
   settingsController.updateStore,
 );
@@ -50,13 +51,13 @@ router.patch(
 router.get(
   '/settings/invoice',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.SETTINGS_VIEW),
   settingsController.getInvoice,
 );
 router.patch(
   '/settings/invoice',
   authenticate,
-  authorize('ADMIN'),
+  requirePermission(Permissions.SETTINGS_EDIT),
   validate(updateInvoiceSchema),
   settingsController.updateInvoice,
 );
@@ -71,11 +72,11 @@ router.patch(
  *     tags: [Settings]
  *     summary: Update GST settings
  */
-router.get('/settings/gst', authenticate, authorize('ADMIN', 'MANAGER'), settingsController.getGst);
+router.get('/settings/gst', authenticate, requirePermission(Permissions.SETTINGS_VIEW), settingsController.getGst);
 router.patch(
   '/settings/gst',
   authenticate,
-  authorize('ADMIN'),
+  requirePermission(Permissions.SETTINGS_EDIT),
   validate(updateGstSchema),
   settingsController.updateGst,
 );
@@ -93,13 +94,13 @@ router.patch(
 router.get(
   '/settings/barcode',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.SETTINGS_VIEW),
   settingsController.getBarcode,
 );
 router.patch(
   '/settings/barcode',
   authenticate,
-  authorize('ADMIN'),
+  requirePermission(Permissions.SETTINGS_EDIT),
   validate(updateBarcodeSchema),
   settingsController.updateBarcode,
 );
@@ -117,13 +118,13 @@ router.patch(
 router.get(
   '/settings/printer',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.SETTINGS_VIEW),
   settingsController.getPrinter,
 );
 router.patch(
   '/settings/printer',
   authenticate,
-  authorize('ADMIN'),
+  requirePermission(Permissions.SETTINGS_EDIT),
   validate(updatePrinterSchema),
   settingsController.updatePrinter,
 );

@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { brandController } from './brand.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
 import { validate } from '../../middleware/validate';
+import { Permissions } from '../../config/permissions';
 import { createBrandSchema, updateBrandSchema } from './brand.validation';
 
 const router = Router();
@@ -35,17 +36,17 @@ router.get('/brands/:id', authenticate, brandController.getById);
 router.post(
   '/brands',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.BRAND_CREATE),
   validate(createBrandSchema),
   brandController.create,
 );
 router.patch(
   '/brands/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.BRAND_EDIT),
   validate(updateBrandSchema),
   brandController.update,
 );
-router.delete('/brands/:id', authenticate, authorize('ADMIN'), brandController.delete);
+router.delete('/brands/:id', authenticate, requirePermission(Permissions.BRAND_DELETE), brandController.delete);
 
 export default router;

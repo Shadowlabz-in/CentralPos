@@ -40,16 +40,16 @@ function FullScreenOverlay({ children, onClose, title }: { children: React.React
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950">
-      <div className="shrink-0 bg-white/95 backdrop-blur-xl border-b border-indigo-100/20 shadow-lg shadow-indigo-900/10">
+    <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-sm">
+      <div className="shrink-0 border-b border-border bg-card">
         <div className="flex items-center justify-between px-8 py-5 max-w-5xl mx-auto">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
-              <Package size={18} className="text-white" />
+            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <Package size={18} className="text-primary" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+            <h2 className="text-xl font-bold text-foreground">{title}</h2>
           </div>
-          <button onClick={onClose} className="p-2.5 rounded-xl hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-all duration-200 hover:scale-105 active:scale-95" title="Close">
+          <button onClick={onClose} className="p-2.5 rounded-xl hover:bg-accent text-muted-foreground hover:text-foreground transition-all duration-200" title="Close">
             <X size={20} />
           </button>
         </div>
@@ -116,8 +116,8 @@ export default function CataloguePage() {
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 min-w-0">
           <h1 className="text-lg font-bold shrink-0">Catalogue</h1>
-          <span className="text-xs text-gray-300 hidden sm:inline">/</span>
-          <p className="text-xs text-gray-400 truncate hidden sm:block">Manage your product catalogue</p>
+          <span className="text-xs text-muted-foreground hidden sm:inline">/</span>
+          <p className="text-xs text-muted-foreground truncate hidden sm:block">Manage your product catalogue</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="w-56">
@@ -129,7 +129,7 @@ export default function CataloguePage() {
         </div>
       </div>
 
-      <div className="flex overflow-x-auto scrollbar-none gap-1 bg-gray-50 rounded-xl p-1 border border-gray-100">
+      <div className="flex overflow-x-auto scrollbar-none gap-1 bg-muted/50 rounded-xl p-1 border border-border">
         {[
           { id: 'products' as const, label: 'Products' },
           { id: 'categories' as const, label: 'Categories' },
@@ -147,8 +147,8 @@ export default function CataloguePage() {
             onClick={() => setSection(tab.id)}
             className={`relative px-3 py-1.5 text-xs font-medium whitespace-nowrap rounded-lg transition-all duration-200 ${
               section === tab.id
-                ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
-                : 'text-gray-500 hover:text-gray-800 border border-transparent'
+                ? 'bg-card text-foreground shadow-sm border border-border'
+                : 'text-muted-foreground hover:text-foreground border border-transparent'
             }`}
           >
             {tab.label}
@@ -265,7 +265,7 @@ function BrandSection({ addTrigger, search, onSearch }: { addTrigger: number; se
         columns={[
           { key: 'name', header: 'Name', render: (b: Brand) => (
             <span className="flex items-center gap-2 font-medium">
-              <Tag size={14} className="text-gray-400" /> {b.name}
+              <Tag size={14} className="text-muted-foreground" /> {b.name}
             </span>
           )},
           { key: 'description', header: 'Description', render: (b: Brand) => b.description || '-' },
@@ -292,10 +292,10 @@ function BrandSection({ addTrigger, search, onSearch }: { addTrigger: number; se
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input label="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Brand name" />
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <label className="block text-sm font-medium text-foreground">Description</label>
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
               placeholder="Optional description" rows={3}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary" />
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary" />
           </div>
           {formError && <p className="text-sm text-red-500">{formError}</p>}
           <div className="flex justify-end gap-3 pt-2">
@@ -442,10 +442,10 @@ function CategorySection({ addTrigger, search, onSearch }: { addTrigger: number;
           <Select label="Parent Category" value={form.parentId} onChange={(e) => setForm({ ...form, parentId: e.target.value })}
             options={parentOptions} placeholder="None (Top level)" />
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <label className="block text-sm font-medium text-foreground">Description</label>
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
               placeholder="Optional description" rows={3}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary" />
+              className="w-full rounded-lg border border-border px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary" />
           </div>
           {formError && <p className="text-sm text-red-500">{formError}</p>}
           <div className="flex justify-end gap-3 pt-2">
@@ -540,19 +540,19 @@ function MasterSection<T extends { id: string; productCount?: number }>({
       </div>
       <div className="grid gap-2">
         {filtered.length === 0 ? (
-          <p className="text-gray-400 text-sm py-4 text-center">No {title.toLowerCase()} found.</p>
+          <p className="text-muted-foreground text-sm py-4 text-center">No {title.toLowerCase()} found.</p>
         ) : (
           filtered.map((item) => (
-            <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-white border rounded-lg hover:border-gray-300">
+            <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-card border border-border rounded-lg hover:border-border">
               <div>
                 <p className="font-medium text-sm">{fields.map((f) => String(item[f.key] || '')).join(' — ')}</p>
                 {(item as any).productCount !== undefined && (
-                  <p className="text-xs text-gray-400">{(item as any).productCount} product(s)</p>
+                  <p className="text-xs text-muted-foreground">{(item as any).productCount} product(s)</p>
                 )}
               </div>
               <div className="flex items-center gap-1">
-                <button onClick={() => openEdit(item)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-blue-600"><Edit2 size={14} /></button>
-                <button onClick={() => setDeleteTarget(item)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-red-600"><Trash2 size={14} /></button>
+                <button onClick={() => openEdit(item)} className="p-1.5 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary"><Edit2 size={14} /></button>
+                <button onClick={() => setDeleteTarget(item)} className="p-1.5 rounded-lg hover:bg-accent text-muted-foreground hover:text-destructive"><Trash2 size={14} /></button>
               </div>
             </div>
           ))
@@ -1014,10 +1014,10 @@ function ColorSection({ addTrigger, search, onSearch }: { addTrigger: number; se
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input label="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Red" />
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Hex Color</label>
+            <label className="block text-sm font-medium text-foreground mb-1">Hex Color</label>
             <div className="flex items-center gap-2">
-              <input type="color" value={form.hex} onChange={(e) => setForm({ ...form, hex: e.target.value })} className="w-10 h-10 rounded border border-gray-300 cursor-pointer p-0.5" />
-              <input type="text" value={form.hex} onChange={(e) => setForm({ ...form, hex: e.target.value })} placeholder="#000000" className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary font-mono" />
+              <input type="color" value={form.hex} onChange={(e) => setForm({ ...form, hex: e.target.value })} className="w-10 h-10 rounded border border-border cursor-pointer p-0.5" />
+              <input type="text" value={form.hex} onChange={(e) => setForm({ ...form, hex: e.target.value })} placeholder="#000000" className="flex-1 rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary font-mono" />
             </div>
           </div>
           {formError && <p className="text-sm text-red-500">{formError}</p>}
@@ -1049,16 +1049,16 @@ function masterSectionLayout<T extends { id: string }>({
     <div className="space-y-4">
       <div className="grid gap-2">
         {items.length === 0 ? (
-          <p className="text-gray-400 text-sm py-4 text-center">No {title.toLowerCase()} found.</p>
+          <p className="text-muted-foreground text-sm py-4 text-center">No {title.toLowerCase()} found.</p>
         ) : (
           items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-white border rounded-lg hover:border-gray-300">
+            <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-card border border-border rounded-lg hover:border-border">
               <div>
                 <p className="font-medium text-sm">{fields.map((f) => String(item[f.key] ?? '')).filter(Boolean).join(' — ')}</p>
               </div>
               <div className="flex items-center gap-1">
-                <button onClick={() => onEdit(item)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-blue-600"><Edit2 size={14} /></button>
-                <button onClick={() => onDelete(item)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-red-600"><Trash2 size={14} /></button>
+                <button onClick={() => onEdit(item)} className="p-1.5 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary"><Edit2 size={14} /></button>
+                <button onClick={() => onDelete(item)} className="p-1.5 rounded-lg hover:bg-accent text-muted-foreground hover:text-destructive"><Trash2 size={14} /></button>
               </div>
             </div>
           ))
@@ -1345,7 +1345,7 @@ function ProductImagePlaceholder({ name, category }: { name: string; category?: 
   const initial = name.charAt(0).toUpperCase();
   return (
     <div className={`w-full h-full bg-gradient-to-br ${grad} flex items-center justify-center relative overflow-hidden`}>
-      <div className="absolute inset-0 bg-white/10" />
+      <div className="absolute inset-0 bg-card/10" />
       <span className="text-4xl font-bold text-white/90 drop-shadow-lg">{initial}</span>
       {category && (
         <span className="absolute bottom-2 left-2 text-[10px] font-medium text-white/70 bg-black/20 px-2 py-0.5 rounded-full">
@@ -1402,12 +1402,12 @@ function CategoryProducts({
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-16 text-gray-400">
+      <div className="text-center py-16 text-muted-foreground">
         <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-          <Package size={36} className="text-gray-300" />
+          <Package size={36} className="text-muted-foreground" />
         </div>
-        <p className="text-lg font-medium text-gray-500 mb-1">No products in this category</p>
-        <p className="text-sm text-gray-400">Create a product to get started</p>
+        <p className="text-lg font-medium text-muted-foreground mb-1">No products in this category</p>
+        <p className="text-sm text-muted-foreground">Create a product to get started</p>
       </div>
     );
   }
@@ -1415,7 +1415,7 @@ function CategoryProducts({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <span className="text-sm text-gray-400 font-medium shrink-0">
+        <span className="text-sm text-muted-foreground font-medium shrink-0">
           {filtered.length} product{filtered.length !== 1 ? 's' : ''}
         </span>
       </div>
@@ -1432,11 +1432,11 @@ function CategoryProducts({
           return (
             <div
               key={product.id}
-              className="group bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/60 hover:-translate-y-0.5"
+              className="group bg-card rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/60 hover:-translate-y-0.5"
               onMouseEnter={() => setHoveredId(product.id)}
               onMouseLeave={() => setHoveredId(null)}
             >
-              <div className="relative h-52 overflow-hidden bg-gray-50">
+              <div className="relative h-52 overflow-hidden bg-muted/50">
                 {(() => {
                   const primaryImg = product.images?.find((i) => i.isPrimary) || product.images?.[0];
                   if (primaryImg) {
@@ -1448,21 +1448,21 @@ function CategoryProducts({
                 <div className={`absolute inset-0 bg-black/40 flex items-center justify-center gap-3 transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
                   <button
                     onClick={() => onEdit(product.id)}
-                    className="p-3 bg-white/90 backdrop-blur rounded-xl text-gray-700 hover:bg-white hover:scale-105 transition-all shadow-lg"
+                    className="p-3 bg-card/90 backdrop-blur rounded-xl text-foreground hover:bg-card hover:scale-105 transition-all shadow-lg"
                     title="Edit product"
                   >
                     <Edit2 size={18} />
                   </button>
                   <button
                     onClick={() => onDelete(product)}
-                    className="p-3 bg-white/90 backdrop-blur rounded-xl text-red-500 hover:bg-white hover:scale-105 transition-all shadow-lg"
+                    className="p-3 bg-card/90 backdrop-blur rounded-xl text-red-500 hover:bg-card hover:scale-105 transition-all shadow-lg"
                     title="Delete product"
                   >
                     <Trash2 size={18} />
                   </button>
                 </div>
                 <div className="absolute top-3 right-3 flex gap-1.5">
-                  <span className="text-[11px] font-medium text-white/90 bg-white/20 backdrop-blur px-2.5 py-1 rounded-full">
+                  <span className="text-[11px] font-medium text-white/90 bg-card/20 backdrop-blur px-2.5 py-1 rounded-full">
                     {product.variants.length}v
                   </span>
                 </div>
@@ -1470,17 +1470,17 @@ function CategoryProducts({
 
               <div className="p-4 space-y-3">
                 <div>
-                  <h3 className="font-semibold text-gray-900 leading-tight line-clamp-1 group-hover:text-indigo-600 transition-colors">
+                  <h3 className="font-semibold text-foreground leading-tight line-clamp-1 group-hover:text-indigo-600 transition-colors">
                     {product.name}
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
                     {product.brand?.name && (
-                      <span className="text-xs text-gray-500 font-medium">{product.brand.name}</span>
+                      <span className="text-xs text-muted-foreground font-medium">{product.brand.name}</span>
                     )}
                     {product.fabric && (
                       <>
-                        <span className="text-gray-300 text-xs">·</span>
-                        <span className="text-xs text-gray-400">{product.fabric?.name || ''}</span>
+                        <span className="text-muted-foreground text-xs">·</span>
+                        <span className="text-xs text-muted-foreground">{product.fabric?.name || ''}</span>
                       </>
                     )}
                   </div>
@@ -1489,12 +1489,12 @@ function CategoryProducts({
                 <div className="flex items-end justify-between">
                   <div>
                     {range ? (
-                      <span className="text-lg font-bold text-gray-900">{range}</span>
+                      <span className="text-lg font-bold text-foreground">{range}</span>
                     ) : (
-                      <span className="text-sm text-gray-400">No price set</span>
+                      <span className="text-sm text-muted-foreground">No price set</span>
                     )}
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-gray-400">
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <ShoppingBag size={12} />
                     <span className={stock <= 5 ? 'text-red-500 font-medium' : ''}>
                       {stock} left
@@ -1503,7 +1503,7 @@ function CategoryProducts({
                 </div>
 
                 {product.occasion && (
-                  <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <span className="w-1 h-1 rounded-full bg-gray-300" />
                     {product.occasion.name}
                   </div>
@@ -1520,7 +1520,7 @@ function CategoryProducts({
                       />
                     ))}
                     {product.variants.length > 4 && (
-                      <span className="w-5 h-5 rounded-full border-2 border-white bg-gray-100 text-[9px] font-medium text-gray-500 flex items-center justify-center">
+                      <span className="w-5 h-5 rounded-full border-2 border-white bg-gray-100 text-[9px] font-medium text-muted-foreground flex items-center justify-center">
                         +{product.variants.length - 4}
                       </span>
                     )}
@@ -2019,7 +2019,7 @@ function ProductForm({
 
       {/* LEFT: Product Image Gallery */}
       <div className="w-[280px] shrink-0 space-y-2.5">
-        <div className="rounded-xl overflow-hidden shadow-md border border-gray-100 aspect-square relative group/image">
+        <div className="rounded-xl overflow-hidden shadow-md border border-border aspect-square relative group/image">
           {primaryImage ? (
             <img
               src={getBarcodeImageUrl(primaryImage.url) || primaryImage.url}
@@ -2030,10 +2030,10 @@ function ProductForm({
             <ProductImagePlaceholder name={name} category={categoryName} />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center gap-2">
-              <div className="w-12 h-12 rounded-xl bg-white shadow-sm border border-gray-200 flex items-center justify-center">
-                <ImageIcon size={22} className="text-gray-300" />
+              <div className="w-12 h-12 rounded-xl bg-card shadow-sm border border-border flex items-center justify-center">
+                <ImageIcon size={22} className="text-muted-foreground" />
               </div>
-              <p className="text-xs text-gray-400 font-medium">Product Image</p>
+              <p className="text-xs text-muted-foreground font-medium">Product Image</p>
             </div>
           )}
 
@@ -2064,7 +2064,7 @@ function ProductForm({
                 {!img.isPrimary && (
                   <button
                     onClick={(e) => { e.stopPropagation(); setPrimaryMutation.mutate(img.id); }}
-                    className="p-1 bg-white/90 rounded text-[10px] text-gray-700 hover:bg-white"
+                    className="p-1 bg-card/90 rounded text-[10px] text-foreground hover:bg-card"
                     title="Set as primary"
                   >
                     <Star size={10} />
@@ -2072,7 +2072,7 @@ function ProductForm({
                 )}
                 <button
                   onClick={(e) => { e.stopPropagation(); deleteImageMutation.mutate(img.id); }}
-                  className="p-1 bg-white/90 rounded text-[10px] text-red-500 hover:bg-white"
+                  className="p-1 bg-card/90 rounded text-[10px] text-red-500 hover:bg-card"
                   title="Delete image"
                 >
                   <Trash2 size={10} />
@@ -2095,25 +2095,25 @@ function ProductForm({
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="aspect-square rounded-lg border-2 border-dashed border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 flex items-center justify-center transition-all group disabled:opacity-50"
+                className="aspect-square rounded-lg border-2 border-dashed border-border hover:border-indigo-300 hover:bg-indigo-50/50 flex items-center justify-center transition-all group disabled:opacity-50"
                 title={productId ? 'Upload image' : 'Save product first'}
               >
-                <Plus size={14} className="text-gray-300 group-hover:text-indigo-500 transition-colors" />
+                <Plus size={14} className="text-muted-foreground group-hover:text-indigo-500 transition-colors" />
               </button>
             </>
           )}
         </div>
 
         {productImages.length > 0 && (
-          <div className="text-[11px] text-gray-400 text-center">{productImages.length} image{productImages.length > 1 ? 's' : ''}</div>
+          <div className="text-[11px] text-muted-foreground text-center">{productImages.length} image{productImages.length > 1 ? 's' : ''}</div>
         )}
 
         {!productId && (
-          <div className="text-[11px] text-gray-400 text-center italic">Save the product to add images.</div>
+          <div className="text-[11px] text-muted-foreground text-center italic">Save the product to add images.</div>
         )}
 
         {productId && (
-          <div className="text-[11px] text-gray-400">ID: <span className="font-mono text-gray-500">{productId}</span></div>
+          <div className="text-[11px] text-muted-foreground">ID: <span className="font-mono text-muted-foreground">{productId}</span></div>
         )}
       </div>
 
@@ -2121,9 +2121,9 @@ function ProductForm({
       <div className="flex-1 min-w-0 space-y-3">
 
         {/* Product Name & Identity */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-4 space-y-3">
+        <div className="bg-card rounded-xl shadow-sm border border-border px-3 py-4 space-y-3">
           <div className="grid grid-cols-[120px_1fr] gap-x-3 gap-y-2.5 items-start">
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">Product Name *</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">Product Name *</div>
             <div>
               <Input
                 value={name}
@@ -2148,48 +2148,48 @@ function ProductForm({
               </div>
             </div>
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">Category *</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">Category *</div>
             <Select value={categoryId} onChange={(e) => handleCategoryChange(e.target.value)} options={categoryOptions} placeholder="Select category" error={errors.category} />
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">Brand</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">Brand</div>
             <Select value={brandId} onChange={(e) => handleBrandChange(e.target.value)} options={brandOptions} placeholder="Select brand" />
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">Supplier</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">Supplier</div>
             <Select value={supplierId} onChange={(e) => handleSupplierChange(e.target.value)} options={supplierOptions} placeholder="Select supplier" />
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">Fabric</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">Fabric</div>
             <Select value={fabric} onChange={(e) => setFabric(e.target.value)} options={fabricOptions} placeholder="Select fabric" />
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">Occasion</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">Occasion</div>
             <Select value={occasion} onChange={(e) => setOccasion(e.target.value)} options={occasionOptions} placeholder="Select occasion" />
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">Country of Origin</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">Country of Origin</div>
             <Select value={countryOfOrigin} onChange={(e) => setCountryOfOrigin(e.target.value)} options={countryOptions} placeholder="Select country" />
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">Model Number</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">Model Number</div>
             <Input value={modelNumber} onChange={(e) => setModelNumber(e.target.value)} placeholder="Manufacturer model no." />
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">GTIN</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">GTIN</div>
             <Input value={gtin} onChange={(e) => setGtin(e.target.value)} placeholder="Global Trade Item Number" />
 
-            <div className="text-sm font-medium text-gray-700 text-right pt-2">HSN Code</div>
+            <div className="text-sm font-medium text-foreground text-right pt-2">HSN Code</div>
             <Select value={hsnCode} onChange={(e) => setHsnCode(e.target.value)} options={hsnOptions} placeholder="Select HSN code" />
           </div>
 
           <div className="space-y-1 pt-1 border-t border-gray-50">
-            <label className="text-sm font-medium text-gray-700">Description</label>
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Product description" rows={2} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all bg-gray-50/50 hover:bg-white" />
+            <label className="text-sm font-medium text-foreground">Description</label>
+            <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Product description" rows={2} className="w-full rounded-lg border border-border px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all bg-muted/50 hover:bg-card" />
           </div>
 
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Care Instructions</label>
-            <textarea value={careInstructions} onChange={(e) => setCareInstructions(e.target.value)} placeholder="e.g. Dry clean only. Do not bleach." rows={1} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all bg-gray-50/50 hover:bg-white" />
+            <label className="text-sm font-medium text-foreground">Care Instructions</label>
+            <textarea value={careInstructions} onChange={(e) => setCareInstructions(e.target.value)} placeholder="e.g. Dry clean only. Do not bleach." rows={1} className="w-full rounded-lg border border-border px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all bg-muted/50 hover:bg-card" />
           </div>
         </div>
 
         {/* Default Pricing */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-4 space-y-3">
-          <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Default Pricing</div>
+        <div className="bg-card rounded-xl shadow-sm border border-border px-3 py-4 space-y-3">
+          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Default Pricing</div>
           <div className="grid grid-cols-4 gap-3">
             <Input label="Purchase Price" type="number" min="0" step="0.01" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value)} placeholder="0.00" />
             <Input label="Selling Price" type="number" min="0" step="0.01" value={sellingPrice} onChange={(e) => setSellingPrice(e.target.value)} placeholder="0.00" />
@@ -2199,13 +2199,13 @@ function ProductForm({
         </div>
 
         {/* Variants */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-3 py-4 space-y-3">
+        <div className="bg-card rounded-xl shadow-sm border border-border px-3 py-4 space-y-3">
           <div className="flex items-center justify-between pb-2 border-b border-gray-50">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
                 <Barcode size={12} className="text-white" />
               </div>
-              <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider">Variants ({productId ? editVariants.length : variants.length})</h3>
+              <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">Variants ({productId ? editVariants.length : variants.length})</h3>
             </div>
             {productId ? (
               <Button variant="outline" size="sm" onClick={() => {
@@ -2225,12 +2225,12 @@ function ProductForm({
 
         {productId ? (
           editVariants.length === 0 ? (
-            <div className="text-center py-6 text-gray-400 text-xs border-2 border-dashed border-gray-200 rounded-lg">No variants yet. Click "Add Variant" above.</div>
+            <div className="text-center py-6 text-muted-foreground text-xs border-2 border-dashed border-border rounded-lg">No variants yet. Click "Add Variant" above.</div>
           ) : (
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-border">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200">
+                  <tr className="bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-border">
                     <th className="px-3 py-2 text-left font-semibold text-gray-600 text-[10px] uppercase tracking-wider">SKU</th>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600 text-[10px] uppercase tracking-wider">Size</th>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600 text-[10px] uppercase tracking-wider">Color</th>
@@ -2247,23 +2247,23 @@ function ProductForm({
                 <tbody className="divide-y divide-gray-100">
                   {editVariants.map((v) => (
                     <tr key={v.id} className="hover:bg-indigo-50/40 transition-colors">
-                      <td className="px-3 py-2 font-mono text-[11px] text-gray-500">{v.sku}</td>
+                      <td className="px-3 py-2 font-mono text-[11px] text-muted-foreground">{v.sku}</td>
                       <td className="px-3 py-2 text-xs font-medium">{v.size || '-'}</td>
                       <td className="px-3 py-2">
                         <div className="flex items-center gap-1.5">
-                          {v.colorHex && <span className="w-3.5 h-3.5 rounded-full border-2 border-gray-200 inline-block shadow-sm" style={{ backgroundColor: v.colorHex }} />}
+                          {v.colorHex && <span className="w-3.5 h-3.5 rounded-full border-2 border-border inline-block shadow-sm" style={{ backgroundColor: v.colorHex }} />}
                           <span className="text-xs">{v.color || '-'}</span>
                         </div>
                       </td>
                       <td className="px-3 py-2 text-xs">{v.fabric || '-'}</td>
-                      <td className="px-3 py-2 font-mono text-[11px] text-gray-500">{v.ean || '-'}</td>
+                      <td className="px-3 py-2 font-mono text-[11px] text-muted-foreground">{v.ean || '-'}</td>
                       <td className="px-3 py-2 text-center">
                         {barcodeImages[v.id] || v.barcodeImagePath ? (
                           <div className="flex items-center justify-center gap-1">
                             <img src={getBarcodeImageUrl(barcodeImages[v.id] || v.barcodeImagePath) || ''} alt="barcode" className="h-5" />
                             <div className="flex flex-col gap-0.5">
-                              <button onClick={() => regenerateBarcodeMutation.mutate(v.id)} className="p-0.5 rounded hover:bg-gray-100 text-gray-400 hover:text-indigo-600" title="Regenerate"><RefreshCw size={8} /></button>
-                              <button onClick={() => handlePrintLabel(v.sku, name)} className="p-0.5 rounded hover:bg-gray-100 text-gray-400 hover:text-indigo-600" title="Print Label"><Printer size={8} /></button>
+                              <button onClick={() => regenerateBarcodeMutation.mutate(v.id)} className="p-0.5 rounded hover:bg-accent text-muted-foreground hover:text-indigo-600" title="Regenerate"><RefreshCw size={8} /></button>
+                              <button onClick={() => handlePrintLabel(v.sku, name)} className="p-0.5 rounded hover:bg-accent text-muted-foreground hover:text-indigo-600" title="Print Label"><Printer size={8} /></button>
                             </div>
                           </div>
                         ) : (
@@ -2271,12 +2271,12 @@ function ProductForm({
                             <button onClick={() => regenerateBarcodeMutation.mutate(v.id)} disabled={regenerateBarcodeMutation.isPending} className="text-[10px] text-indigo-600 hover:text-indigo-800 font-medium underline underline-offset-2">
                               {regenerateBarcodeMutation.isPending ? '...' : 'Generate'}
                             </button>
-                            <button onClick={() => handlePrintLabel(v.sku, name)} className="p-0.5 rounded hover:bg-gray-100 text-gray-400 hover:text-indigo-600" title="Print Label"><Printer size={10} /></button>
+                            <button onClick={() => handlePrintLabel(v.sku, name)} className="p-0.5 rounded hover:bg-accent text-muted-foreground hover:text-indigo-600" title="Print Label"><Printer size={10} /></button>
                           </div>
                         )}
                       </td>
-                      <td className="px-3 py-2 text-right font-mono text-[11px] text-gray-700">₹{Number(v.purchasePrice).toFixed(2)}</td>
-                      <td className="px-3 py-2 text-right font-mono text-[11px] text-gray-700">₹{Number(v.sellingPrice).toFixed(2)}</td>
+                      <td className="px-3 py-2 text-right font-mono text-[11px] text-foreground">₹{Number(v.purchasePrice).toFixed(2)}</td>
+                      <td className="px-3 py-2 text-right font-mono text-[11px] text-foreground">₹{Number(v.sellingPrice).toFixed(2)}</td>
                       <td className="px-3 py-2 text-center text-[11px] text-gray-600">{gstEnumToNumber(v.gstPercentage)}%</td>
                       <td className="px-3 py-2 text-right font-mono text-[11px]" style={{ color: v.stockQuantity <= 0 ? '#dc2626' : v.stockQuantity <= (v.reorderLevel || 0) ? '#d97706' : '#374151' }}>{v.stockQuantity}</td>
                       <td className="px-3 py-2 text-center">
@@ -2291,8 +2291,8 @@ function ProductForm({
                               });
                              setEditVariantFormError('');
                              setEditVariantDialogOpen(true);
-                           }} className="p-1 rounded-lg hover:bg-indigo-100 text-gray-400 hover:text-indigo-600 transition-colors"><Edit2 size={11} /></button>
-                           <button onClick={() => setDeleteEditVariantTarget(v)} className="p-1 rounded-lg hover:bg-red-100 text-gray-400 hover:text-red-600 transition-colors"><Trash2 size={11} /></button>
+                           }} className="p-1 rounded-lg hover:bg-indigo-100 text-muted-foreground hover:text-indigo-600 transition-colors"><Edit2 size={11} /></button>
+                           <button onClick={() => setDeleteEditVariantTarget(v)} className="p-1 rounded-lg hover:bg-red-100 text-muted-foreground hover:text-destructive transition-colors"><Trash2 size={11} /></button>
                         </div>
                       </td>
                     </tr>
@@ -2302,12 +2302,12 @@ function ProductForm({
             </div>
           )
         ) : variants.length === 0 ? (
-          <div className="text-center py-6 text-gray-400 text-xs border-2 border-dashed border-gray-200 rounded-lg">No variants yet. Click "Add Variant" above.</div>
+          <div className="text-center py-6 text-muted-foreground text-xs border-2 border-dashed border-border rounded-lg">No variants yet. Click "Add Variant" above.</div>
         ) : (
-          <div className="overflow-x-auto rounded-lg border border-gray-200">
+          <div className="overflow-x-auto rounded-lg border border-border">
             <table className="w-full text-xs">
               <thead>
-                <tr className="bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200">
+                <tr className="bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-border">
                   {variantTableHeaders.map((h) => (
                     <th key={h} className="px-3 py-2 text-left font-semibold text-gray-600 text-[10px] uppercase tracking-wider whitespace-nowrap">{h}</th>
                   ))}
@@ -2316,26 +2316,26 @@ function ProductForm({
               <tbody className="divide-y divide-gray-100">
                 {variants.map((v) => (
                   <tr key={v.id} className="hover:bg-indigo-50/40 transition-colors">
-                    <td className="px-3 py-2 font-mono text-[11px] text-gray-500">{v.sku}</td>
+                    <td className="px-3 py-2 font-mono text-[11px] text-muted-foreground">{v.sku}</td>
                     <td className="px-3 py-2 text-xs font-medium">{v.size || '-'}</td>
                     <td className="px-3 py-2">
                       <div className="flex items-center gap-1.5">
-                        {v.colorHex && <span className="w-3.5 h-3.5 rounded-full border-2 border-gray-200 inline-block shadow-sm" style={{ backgroundColor: v.colorHex }} />}
+                        {v.colorHex && <span className="w-3.5 h-3.5 rounded-full border-2 border-border inline-block shadow-sm" style={{ backgroundColor: v.colorHex }} />}
                         <span className="text-xs">{v.color || '-'}</span>
                       </div>
                     </td>
                     <td className="px-3 py-2 text-xs">{v.fabric || '-'}</td>
-                    <td className="px-3 py-2 font-mono text-[11px] text-gray-500">{v.ean || '-'}</td>
+                    <td className="px-3 py-2 font-mono text-[11px] text-muted-foreground">{v.ean || '-'}</td>
                     <td className="px-3 py-2 text-right text-xs">{v.purchasePrice ? `₹${parseFloat(v.purchasePrice).toFixed(0)}` : '-'}</td>
                     <td className="px-3 py-2 text-right text-xs font-medium">{v.sellingPrice ? `₹${parseFloat(v.sellingPrice).toFixed(0)}` : '-'}</td>
                     <td className="px-3 py-2 text-right text-xs">{v.mrp ? `₹${parseFloat(v.mrp).toFixed(0)}` : '-'}</td>
                     <td className="px-3 py-2 text-center text-xs">{v.gstPercentage}%</td>
                     <td className="px-3 py-2 text-right text-xs">{v.initialStock}</td>
-                    <td className="px-3 py-2 text-[11px] text-gray-500">{v.rackLocation || '-'}</td>
+                    <td className="px-3 py-2 text-[11px] text-muted-foreground">{v.rackLocation || '-'}</td>
                     <td className="px-3 py-2">
                       <div className="flex items-center gap-0.5">
-                        <button onClick={() => openEditVariant(v)} className="p-1 rounded-lg hover:bg-indigo-100 text-gray-400 hover:text-indigo-600 transition-colors"><Edit2 size={11} /></button>
-                        <button onClick={() => removeVariant(v.id)} className="p-1 rounded-lg hover:bg-red-100 text-gray-400 hover:text-red-600 transition-colors"><Trash2 size={11} /></button>
+                        <button onClick={() => openEditVariant(v)} className="p-1 rounded-lg hover:bg-indigo-100 text-muted-foreground hover:text-indigo-600 transition-colors"><Edit2 size={11} /></button>
+                        <button onClick={() => removeVariant(v.id)} className="p-1 rounded-lg hover:bg-red-100 text-muted-foreground hover:text-destructive transition-colors"><Trash2 size={11} /></button>
                       </div>
                     </td>
                   </tr>
@@ -2356,10 +2356,10 @@ function ProductForm({
               if (c) setVariantFormField('colorHex', c.hex);
             }} options={colorOptions} placeholder="Select color" />
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Color Hex</label>
+              <label className="block text-sm font-medium text-foreground mb-1">Color Hex</label>
               <div className="flex items-center gap-2">
-                <input type="color" value={variantForm.colorHex || '#000000'} onChange={(e) => setVariantFormField('colorHex', e.target.value)} className="w-8 h-8 rounded-lg border border-gray-200 cursor-pointer p-0.5 shadow-sm" />
-                <input type="text" value={variantForm.colorHex} onChange={(e) => setVariantFormField('colorHex', e.target.value)} placeholder="#000000" className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all bg-gray-50/50 hover:bg-white" />
+                <input type="color" value={variantForm.colorHex || '#000000'} onChange={(e) => setVariantFormField('colorHex', e.target.value)} className="w-8 h-8 rounded-lg border border-border cursor-pointer p-0.5 shadow-sm" />
+                <input type="text" value={variantForm.colorHex} onChange={(e) => setVariantFormField('colorHex', e.target.value)} placeholder="#000000" className="w-full rounded-lg border border-border px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all bg-muted/50 hover:bg-card" />
               </div>
             </div>
             <Input label="Fabric" value={variantForm.fabric} onChange={(e) => setVariantFormField('fabric', e.target.value)} placeholder="e.g. Cotton" />
@@ -2369,31 +2369,31 @@ function ProductForm({
             <div className="flex-1">
               <Input label="SKU" value={variantForm.sku} onChange={(e) => setVariantFormField('sku', e.target.value)} placeholder="Auto-generated" />
             </div>
-            <button type="button" onClick={regenerateSku} className="mb-1 p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-indigo-600 transition-colors" title="Regenerate SKU"><RefreshCw size={14} /></button>
+            <button type="button" onClick={regenerateSku} className="mb-1 p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-indigo-600 transition-colors" title="Regenerate SKU"><RefreshCw size={14} /></button>
           </div>
 
           <Input label="EAN (Barcode Number)" value={variantForm.ean} onChange={(e) => setVariantFormField('ean', e.target.value)} placeholder="e.g. 8901234567890" />
 
           <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-indigo-50/50 to-purple-50/50 rounded-lg border border-indigo-100/50">
-            <div className="w-10 h-10 rounded-lg bg-white shadow-sm border border-indigo-100 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-card shadow-sm border border-indigo-100 flex items-center justify-center">
               <Barcode size={20} className="text-indigo-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">Code128 Barcode</p>
-              <div className="bg-white rounded-lg border border-gray-200 p-1.5 inline-block shadow-sm">
+              <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-1">Code128 Barcode</p>
+              <div className="bg-card rounded-lg border border-border p-1.5 inline-block shadow-sm">
                 {variantForm.sku ? (
                   <BarcodeLib value={variantForm.sku.slice(0, 12)} format="CODE128" width={1.2} height={24} displayValue={false} />
                 ) : (
-                  <p className="text-xs text-gray-400 font-mono">-</p>
+                  <p className="text-xs text-muted-foreground font-mono">-</p>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="border-t border-gray-100 pt-3">
+          <div className="border-t border-border pt-3">
             <div className="flex items-center gap-1.5 mb-2">
               <span className="w-1 h-1 rounded-full bg-emerald-500" />
-              <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Pricing</span>
+              <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Pricing</span>
             </div>
             <div className="grid grid-cols-4 gap-3">
               <Input label="Purchase Price" type="number" min="0" step="0.01" value={variantForm.purchasePrice} onChange={(e) => setVariantFormField('purchasePrice', e.target.value)} placeholder="0.00" />
@@ -2407,10 +2407,10 @@ function ProductForm({
             }} options={supplierOptions} placeholder="Default (product supplier)" />
           </div>
 
-          <div className="border-t border-gray-100 pt-3">
+          <div className="border-t border-border pt-3">
             <div className="flex items-center gap-1.5 mb-2">
               <span className="w-1 h-1 rounded-full bg-amber-500" />
-              <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Stock</span>
+              <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Stock</span>
             </div>
             <div className="grid grid-cols-3 gap-3">
               <Input label="Initial Stock" type="number" min="0" value={variantForm.initialStock} onChange={(e) => setVariantFormField('initialStock', e.target.value)} />
@@ -2421,7 +2421,7 @@ function ProductForm({
 
           {variantFormError && <p className="text-xs text-red-500 bg-red-50 px-2.5 py-1.5 rounded-lg">{variantFormError}</p>}
 
-          <div className="flex justify-end gap-3 pt-2 border-t border-gray-100">
+          <div className="flex justify-end gap-3 pt-2 border-t border-border">
             <Button variant="outline" size="sm" onClick={() => setVariantDialogOpen(false)}>Cancel</Button>
             <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-sm shadow-indigo-500/20" onClick={handleSaveVariant}>{editingVariant ? 'Update Variant' : 'Add Variant'}</Button>
           </div>
@@ -2464,10 +2464,10 @@ function ProductForm({
                   if (c) setEditVariantForm({ ...editVariantForm, color: e.target.value, colorHex: c.hex });
                 }} options={colorOptions} placeholder="Select color" />
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Color Hex</label>
+                  <label className="block text-sm font-medium text-foreground mb-1">Color Hex</label>
                   <div className="flex items-center gap-2">
-                    <input type="color" value={editVariantForm.colorHex || '#000000'} onChange={(e) => setEditVariantForm({ ...editVariantForm, colorHex: e.target.value })} className="w-8 h-8 rounded-lg border border-gray-200 cursor-pointer p-0.5 shadow-sm" />
-                    <input type="text" value={editVariantForm.colorHex || ''} onChange={(e) => setEditVariantForm({ ...editVariantForm, colorHex: e.target.value })} placeholder="#000000" className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all bg-gray-50/50 hover:bg-white" />
+                    <input type="color" value={editVariantForm.colorHex || '#000000'} onChange={(e) => setEditVariantForm({ ...editVariantForm, colorHex: e.target.value })} className="w-8 h-8 rounded-lg border border-border cursor-pointer p-0.5 shadow-sm" />
+                    <input type="text" value={editVariantForm.colorHex || ''} onChange={(e) => setEditVariantForm({ ...editVariantForm, colorHex: e.target.value })} placeholder="#000000" className="w-full rounded-lg border border-border px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all bg-muted/50 hover:bg-card" />
                   </div>
                 </div>
                 <Input label="Fabric" value={editVariantForm.fabric || ''} onChange={(e) => setEditVariantForm({ ...editVariantForm, fabric: e.target.value })} placeholder="e.g. Cotton" />
@@ -2477,16 +2477,16 @@ function ProductForm({
                 <Input label="EAN" value={editVariantForm.ean || ''} onChange={(e) => setEditVariantForm({ ...editVariantForm, ean: e.target.value })} placeholder="e.g. 8901234567890" />
               </div>
               <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-indigo-50/50 to-purple-50/50 rounded-lg border border-indigo-100/50">
-                <div className="w-10 h-10 rounded-lg bg-white shadow-sm border border-indigo-100 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-card shadow-sm border border-indigo-100 flex items-center justify-center">
                   <Barcode size={20} className="text-indigo-400" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">Code128 Barcode</p>
-                  <div className="bg-white rounded-lg border border-gray-200 p-1.5 inline-block shadow-sm">
+                  <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-1">Code128 Barcode</p>
+                  <div className="bg-card rounded-lg border border-border p-1.5 inline-block shadow-sm">
                     {editVariantForm.sku ? (
                       <BarcodeLib value={editVariantForm.sku.slice(0, 12)} format="CODE128" width={1.2} height={24} displayValue={false} />
                     ) : (
-                      <p className="text-xs text-gray-400 font-mono">-</p>
+                      <p className="text-xs text-muted-foreground font-mono">-</p>
                     )}
                   </div>
                 </div>
@@ -2505,7 +2505,7 @@ function ProductForm({
                 <Input label="Reorder Level" type="number" min="0" value={editVariantForm.reorderLevel} onChange={(e) => setEditVariantForm({ ...editVariantForm, reorderLevel: e.target.value })} />
               </div>
               {editVariantFormError && <p className="text-xs text-red-500 bg-red-50 px-2.5 py-1.5 rounded-lg">{editVariantFormError}</p>}
-              <div className="flex justify-end gap-3 pt-2 border-t border-gray-100">
+              <div className="flex justify-end gap-3 pt-2 border-t border-border">
                 <Button variant="outline" size="sm" onClick={() => setEditVariantDialogOpen(false)}>Cancel</Button>
                 <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-sm shadow-indigo-500/20" onClick={() => {
                   const pp = parseFloat(editVariantForm.purchasePrice);
@@ -2560,7 +2560,7 @@ function ProductForm({
         </form>
       </Dialog>
 
-      <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-100">
+      <div className="flex items-center justify-end gap-3 pt-3 border-t border-border">
         <Button variant="outline" size="sm" onClick={onCancel}>Cancel</Button>
         <Button size="sm" onClick={handleSubmit} disabled={isSubmitting} className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-sm shadow-indigo-500/20">{isSubmitting ? 'Saving...' : productId ? 'Save Product' : 'Create Product'}</Button>
       </div>

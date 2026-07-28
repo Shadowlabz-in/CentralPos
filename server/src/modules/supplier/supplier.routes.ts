@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { supplierController } from './supplier.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import { createSupplierSchema, updateSupplierSchema } from './supplier.validation';
 
@@ -35,17 +36,17 @@ router.get('/suppliers/:id', authenticate, supplierController.getById);
 router.post(
   '/suppliers',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.SUPPLIER_CREATE),
   validate(createSupplierSchema),
   supplierController.create,
 );
 router.patch(
   '/suppliers/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.SUPPLIER_EDIT),
   validate(updateSupplierSchema),
   supplierController.update,
 );
-router.delete('/suppliers/:id', authenticate, authorize('ADMIN'), supplierController.delete);
+router.delete('/suppliers/:id', authenticate, requirePermission(Permissions.SUPPLIER_DELETE), supplierController.delete);
 
 export default router;

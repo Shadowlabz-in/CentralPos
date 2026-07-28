@@ -16,15 +16,15 @@ export function Tabs({ tabs, defaultTab }: TabsProps) {
 
   return (
     <div>
-      <div className="flex overflow-x-auto scrollbar-none gap-1 bg-gray-50 rounded-xl p-1 border border-gray-100 mb-4">
+      <div className="flex overflow-x-auto scrollbar-none gap-1 bg-muted/50 rounded-xl p-1 border border-border mb-4">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActive(tab.id)}
             className={`relative px-3 py-1.5 text-xs font-medium whitespace-nowrap rounded-lg transition-all duration-200 ${
               active === tab.id
-                ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
-                : 'text-gray-500 hover:text-gray-800 border border-transparent'
+                ? 'bg-card text-foreground shadow-sm border border-border'
+                : 'text-muted-foreground hover:text-foreground border border-transparent'
             }`}
           >
             {tab.label}

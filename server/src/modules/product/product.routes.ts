@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { productController } from './product.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
 import { validate } from '../../middleware/validate';
+import { Permissions } from '../../config/permissions';
 import {
   createProductSchema,
   updateProductSchema,
@@ -39,24 +40,24 @@ router.get('/products/:id', authenticate, productController.getById);
 router.post(
   '/products',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_CREATE),
   validate(createProductSchema),
   productController.create,
 );
 router.post(
   '/products/with-variants',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_CREATE),
   validate(createProductWithVariantsSchema),
   productController.createWithVariants,
 );
 router.patch(
   '/products/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_EDIT),
   validate(updateProductSchema),
   productController.update,
 );
-router.delete('/products/:id', authenticate, authorize('ADMIN'), productController.delete);
+router.delete('/products/:id', authenticate, requirePermission(Permissions.PRODUCT_DELETE), productController.delete);
 
 export default router;

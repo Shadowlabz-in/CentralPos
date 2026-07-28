@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { dashboardController } from './dashboard.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ const router = Router();
  *     tags: [Dashboard]
  *     summary: Get dashboard overview
  */
-router.get('/dashboard', authenticate, authorize('ADMIN', 'MANAGER'), dashboardController.overview);
+router.get('/dashboard', authenticate, requirePermission(Permissions.DASHBOARD_VIEW), dashboardController.overview);
 /**
  * @openapi
  * /dashboard/profit:
@@ -23,7 +24,7 @@ router.get('/dashboard', authenticate, authorize('ADMIN', 'MANAGER'), dashboardC
 router.get(
   '/dashboard/profit',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.profit,
 );
 /**
@@ -36,7 +37,7 @@ router.get(
 router.get(
   '/dashboard/inventory',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.inventory,
 );
 /**
@@ -49,7 +50,7 @@ router.get(
 router.get(
   '/dashboard/purchases',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.purchases,
 );
 /**
@@ -62,7 +63,7 @@ router.get(
 router.get(
   '/dashboard/customers',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.customers,
 );
 /**
@@ -75,7 +76,7 @@ router.get(
 router.get(
   '/dashboard/sales-chart',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.salesChart,
 );
 /**
@@ -88,7 +89,7 @@ router.get(
 router.get(
   '/dashboard/sales-by-category',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.salesByCategory,
 );
 /**
@@ -101,7 +102,7 @@ router.get(
 router.get(
   '/dashboard/sales-by-brand',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.salesByBrand,
 );
 /**
@@ -114,7 +115,7 @@ router.get(
 router.get(
   '/dashboard/top-products',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.topProducts,
 );
 /**
@@ -127,7 +128,7 @@ router.get(
 router.get(
   '/dashboard/inventory-value-trend',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.DASHBOARD_VIEW),
   dashboardController.inventoryValueTrend,
 );
 

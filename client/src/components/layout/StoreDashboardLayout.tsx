@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  LayoutDashboard, ShoppingCart, Package, Tags, Users, Boxes, BarChart3,
+  LayoutDashboard, ShoppingCart, Package, Users, Boxes, BarChart3,
   Truck, ClipboardList, Database, FileText, Receipt, LogOut, User,
   Store, Sun, Moon, ChevronRight,
 } from 'lucide-react';
@@ -42,17 +42,16 @@ interface SubscriptionData {
 }
 
 const featureNavMap: Record<string, { path: string; label: string; icon: any }> = {
-  pos_billing: { path: '/pos', label: 'POS / Billing', icon: ShoppingCart },
   product_management: { path: '/catalogue', label: 'Products', icon: Package },
-  category_brand: { path: '/categories', label: 'Categories & Brands', icon: Tags },
   customer_management: { path: '/customers', label: 'Customers', icon: Users },
+  pos_billing: { path: '/pos', label: 'POS / Billing', icon: ShoppingCart },
   inventory_management: { path: '/inventory', label: 'Inventory', icon: Boxes },
   basic_reports: { path: '/reports', label: 'Reports', icon: BarChart3 },
   supplier_management: { path: '/suppliers', label: 'Suppliers', icon: Truck },
   purchase_management: { path: '/purchases', label: 'Purchases', icon: ClipboardList },
-  backup_restore: { path: '/backup', label: 'Backup & Restore', icon: Database },
   invoice_printing: { path: '/invoices', label: 'Invoices', icon: FileText },
   gst_compliance: { path: '/gst', label: 'GST', icon: Receipt },
+  backup_restore: { path: '/backup', label: 'Backup & Restore', icon: Database },
 };
 
 interface StoreDashboardLayoutProps {

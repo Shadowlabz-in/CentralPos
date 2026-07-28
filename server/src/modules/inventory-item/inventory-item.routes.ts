@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { inventoryItemController } from './inventory-item.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import {
   batchCreateSchema,
@@ -22,7 +23,7 @@ router.get(
 router.post(
   '/inventory-items/batch-create',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.INVENTORY_ITEM_MANAGE),
   validate(batchCreateSchema),
   inventoryItemController.batchCreate,
 );
@@ -30,7 +31,7 @@ router.post(
 router.patch(
   '/inventory-items/:id/status',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.INVENTORY_ITEM_MANAGE),
   validate(updateStatusSchema),
   inventoryItemController.updateStatus,
 );

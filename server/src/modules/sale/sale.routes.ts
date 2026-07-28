@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { saleController } from './sale.controller';
 import { cartController } from './cart.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import { verifyAccessToken } from '../../utils/jwt';
 import { AppError } from '../../middleware/errorHandler';
@@ -65,37 +66,16 @@ router.get('/sales/:id', authenticate, saleController.getById);
 router.post(
   '/sales/checkout',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.POS_ACCESS),
   validate(checkoutSchema),
   saleController.checkout,
 );
-/**
- * @openapi
- * /sales/{id}/cancel:
- *   post:
- *     tags: [Sales]
- *     summary: Cancel a sale
- */
-router.post('/sales/:id/cancel', authenticate, authorize('ADMIN'), saleController.cancel);
-/**
- * @openapi
- * /sales/{id}/invoice:
- *   get:
- *     tags: [Sales]
- *     summary: Generate invoice PDF for a sale
- */
+router.post('/sales/:id/cancel', authenticate, requirePermission(Permissions.POS_RETURN), saleController.cancel);
 router.get('/sales/:id/invoice', authenticateWithQuery, saleController.invoice);
-/**
- * @openapi
- * /sales/{id}/reprint:
- *   post:
- *     tags: [Sales]
- *     summary: Reprint sale receipt
- */
 router.post(
   '/sales/:id/reprint',
   authenticateWithQuery,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.POS_ACCESS),
   saleController.reprint,
 );
 

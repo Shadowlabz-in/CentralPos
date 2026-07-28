@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { inventoryController } from './inventory.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import { adjustStockSchema } from './inventory.validation';
 
@@ -65,7 +66,7 @@ router.get(
 router.post(
   '/inventory/adjust',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.INVENTORY_ADJUST),
   validate(adjustStockSchema),
   inventoryController.adjust,
 );

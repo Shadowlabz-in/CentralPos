@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { reportController } from './report.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ const router = Router();
  *     tags: [Reports]
  *     summary: Generate sales report
  */
-router.get('/reports/sales', authenticate, authorize('ADMIN', 'MANAGER'), reportController.sales);
+router.get('/reports/sales', authenticate, requirePermission(Permissions.REPORT_SALES), reportController.sales);
 /**
  * @openapi
  * /reports/purchases:
@@ -23,7 +24,7 @@ router.get('/reports/sales', authenticate, authorize('ADMIN', 'MANAGER'), report
 router.get(
   '/reports/purchases',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.REPORT_VIEW),
   reportController.purchases,
 );
 /**
@@ -36,7 +37,7 @@ router.get(
 router.get(
   '/reports/inventory',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.REPORT_INVENTORY),
   reportController.inventory,
 );
 /**
@@ -46,7 +47,7 @@ router.get(
  *     tags: [Reports]
  *     summary: Generate profit & loss report
  */
-router.get('/reports/profit', authenticate, authorize('ADMIN', 'MANAGER'), reportController.profit);
+router.get('/reports/profit', authenticate, requirePermission(Permissions.REPORT_VIEW), reportController.profit);
 /**
  * @openapi
  * /reports/gst:
@@ -54,7 +55,7 @@ router.get('/reports/profit', authenticate, authorize('ADMIN', 'MANAGER'), repor
  *     tags: [Reports]
  *     summary: Generate GST report
  */
-router.get('/reports/gst', authenticate, authorize('ADMIN', 'MANAGER'), reportController.gst);
+router.get('/reports/gst', authenticate, requirePermission(Permissions.REPORT_GST), reportController.gst);
 /**
  * @openapi
  * /reports/customers:
@@ -65,7 +66,7 @@ router.get('/reports/gst', authenticate, authorize('ADMIN', 'MANAGER'), reportCo
 router.get(
   '/reports/customers',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.REPORT_VIEW),
   reportController.customers,
 );
 /**
@@ -78,7 +79,7 @@ router.get(
 router.get(
   '/reports/suppliers',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.REPORT_VIEW),
   reportController.suppliers,
 );
 /**
@@ -91,7 +92,7 @@ router.get(
 router.get(
   '/reports/export',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.REPORT_VIEW),
   reportController.exportData,
 );
 

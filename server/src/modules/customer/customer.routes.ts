@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { customerController } from './customer.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import { createCustomerSchema, updateCustomerSchema } from './customer.validation';
 
@@ -35,17 +36,17 @@ router.get('/customers/:id', authenticate, customerController.getById);
 router.post(
   '/customers',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.CUSTOMER_CREATE),
   validate(createCustomerSchema),
   customerController.create,
 );
 router.patch(
   '/customers/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.CUSTOMER_EDIT),
   validate(updateCustomerSchema),
   customerController.update,
 );
-router.delete('/customers/:id', authenticate, authorize('ADMIN'), customerController.delete);
+router.delete('/customers/:id', authenticate, requirePermission(Permissions.CUSTOMER_EDIT), customerController.delete);
 
 export default router;

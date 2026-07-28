@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { returnController } from './return.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import {
   createReturnSchema,
@@ -26,7 +27,7 @@ const router = Router();
 router.get(
   '/returns',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.POS_RETURN),
   returnController.listReturns,
 );
 /**
@@ -39,13 +40,13 @@ router.get(
 router.get(
   '/returns/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.POS_RETURN),
   returnController.getReturn,
 );
 router.post(
   '/returns',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.POS_RETURN),
   validate(createReturnSchema),
   returnController.createReturn,
 );
@@ -60,7 +61,7 @@ router.post(
 router.post(
   '/exchanges',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.POS_RETURN),
   validate(exchangeSchema),
   returnController.processExchange,
 );
@@ -75,7 +76,7 @@ router.post(
 router.post(
   '/refunds',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.POS_RETURN),
   validate(refundSchema),
   returnController.processRefund,
 );
@@ -93,13 +94,13 @@ router.post(
 router.get(
   '/credit-notes',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.POS_RETURN),
   returnController.listCreditNotes,
 );
 router.post(
   '/credit-notes',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.POS_RETURN),
   validate(createCreditNoteSchema),
   returnController.createCreditNote,
 );
@@ -113,7 +114,7 @@ router.post(
 router.post(
   '/credit-notes/redeem',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.POS_RETURN),
   validate(redeemCreditNoteSchema),
   returnController.redeemCreditNote,
 );

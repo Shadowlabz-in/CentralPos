@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { auditController } from './audit.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 
 const router = Router();
 
@@ -12,6 +13,6 @@ const router = Router();
  *     tags: [Audit]
  *     summary: List audit logs
  */
-router.get('/audit-logs', authenticate, authorize('ADMIN', 'MANAGER'), auditController.list);
+router.get('/audit-logs', authenticate, requirePermission(Permissions.SYSTEM_AUDIT_LOG), auditController.list);
 
 export default router;

@@ -4,7 +4,8 @@ import path from 'path';
 import { config } from '../../config';
 import { uploadController } from './upload.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { AppError } from '../../middleware/errorHandler';
 
 const storage = multer.diskStorage({
@@ -44,7 +45,7 @@ const router = Router();
 router.post(
   '/products/:productId/images',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_CREATE),
   upload.single('image'),
   uploadController.uploadImage,
 );
@@ -59,7 +60,7 @@ router.post(
 router.post(
   '/products/:productId/images/multiple',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_CREATE),
   upload.array('images', 10),
   uploadController.uploadMultipleImages,
 );
@@ -77,14 +78,14 @@ router.post(
 router.delete(
   '/products/:productId/images/:imageId',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_CREATE),
   uploadController.deleteImage,
 );
 
 router.patch(
   '/products/:productId/images/:imageId/primary',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_CREATE),
   uploadController.setPrimaryImage,
 );
 

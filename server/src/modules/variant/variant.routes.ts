@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { variantController } from './variant.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import { createVariantSchema, updateVariantSchema } from './variant.validation';
 
@@ -35,17 +36,17 @@ router.get('/variants/:id', authenticate, variantController.getById);
 router.post(
   '/products/:productId/variants',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_CREATE),
   validate(createVariantSchema),
   variantController.create,
 );
 router.patch(
   '/variants/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PRODUCT_EDIT),
   validate(updateVariantSchema),
   variantController.update,
 );
-router.delete('/variants/:id', authenticate, authorize('ADMIN'), variantController.delete);
+router.delete('/variants/:id', authenticate, requirePermission(Permissions.PRODUCT_DELETE), variantController.delete);
 
 export default router;

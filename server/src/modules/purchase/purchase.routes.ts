@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { purchaseController } from './purchase.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 import { validate } from '../../middleware/validate';
 import { createPurchaseSchema, updatePurchaseSchema } from './purchase.validation';
 
@@ -20,7 +21,7 @@ const router = Router();
 router.get(
   '/purchases',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.PURCHASE_VIEW),
   purchaseController.list,
 );
 /**
@@ -36,20 +37,20 @@ router.get(
 router.get(
   '/purchases/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER', 'CASHIER'),
+  requirePermission(Permissions.PURCHASE_VIEW),
   purchaseController.getById,
 );
 router.post(
   '/purchases',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PURCHASE_CREATE),
   validate(createPurchaseSchema),
   purchaseController.create,
 );
 router.patch(
   '/purchases/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.PURCHASE_EDIT),
   validate(updatePurchaseSchema),
   purchaseController.update,
 );

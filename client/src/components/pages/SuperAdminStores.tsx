@@ -5,11 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/Dialog';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { SearchInput } from '@/components/ui/SearchInput';
-import { Badge } from '@/components/ui/Badge';
 import { Pagination } from '@/components/ui/Pagination';
 import {
   Plus, Pencil, Trash2, Store, MapPin, Phone, Mail, Calendar,
-  User, Building2, Hash, Globe, FileText, ChevronDown,
+  User, Building2, Hash, Globe, FileText, ChevronDown, Power, PowerOff,
 } from 'lucide-react';
 
 interface StoreData {
@@ -264,6 +263,19 @@ export default function SuperAdminStores() {
     }
   };
 
+  const toggleActive = async (store: StoreData) => {
+    try {
+      setError('');
+      await apiRequest<StatusResponse>(`/stores/${store.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ isActive: !store.isActive }),
+      });
+      fetchStores(meta.page, search);
+    } catch (err: any) {
+      setError(err.message || 'Failed to toggle store status');
+    }
+  };
+
   return (
     <div className="animate-[fadeIn_0.4s_ease-out] space-y-6">
       <div className="flex items-center justify-between">
@@ -318,9 +330,17 @@ export default function SuperAdminStores() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant={store.isActive ? 'success' : 'danger'}>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); toggleActive(store); }}
+                      className={`inline-flex items-center gap-1.5 text-xs font-medium ${
+                        store.isActive
+                          ? 'text-green-600 dark:text-green-400'
+                          : 'text-red-600 dark:text-red-400'
+                      } hover:underline`}
+                    >
+                      {store.isActive ? <Power size={12} /> : <PowerOff size={12} />}
                       {store.isActive ? 'Active' : 'Inactive'}
-                    </Badge>
+                    </button>
                     <button
                       onClick={(e) => { e.stopPropagation(); openEdit(store); }}
                       className="p-1.5 rounded-lg hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"

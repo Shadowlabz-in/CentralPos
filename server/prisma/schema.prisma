@@ -371,6 +371,7 @@ model User {
   firstName    String
   lastName     String?
   isActive     Boolean   @default(true)
+  tokenVersion  Int      @default(0)
   storeId      String?   @db.Uuid
   customPermissions String[] @default([])
   createdAt    DateTime  @default(now())

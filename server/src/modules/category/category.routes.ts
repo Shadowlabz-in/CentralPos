@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { categoryController } from './category.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
 import { validate } from '../../middleware/validate';
+import { Permissions } from '../../config/permissions';
 import { createCategorySchema, updateCategorySchema } from './category.validation';
 
 const router = Router();
@@ -35,17 +36,17 @@ router.get('/categories/:id', authenticate, categoryController.getById);
 router.post(
   '/categories',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.CATEGORY_CREATE),
   validate(createCategorySchema),
   categoryController.create,
 );
 router.patch(
   '/categories/:id',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.CATEGORY_EDIT),
   validate(updateCategorySchema),
   categoryController.update,
 );
-router.delete('/categories/:id', authenticate, authorize('ADMIN'), categoryController.delete);
+router.delete('/categories/:id', authenticate, requirePermission(Permissions.CATEGORY_DELETE), categoryController.delete);
 
 export default router;

@@ -6,6 +6,7 @@ import { AppError } from '../../middleware/errorHandler';
 import { config } from '../../config';
 import { auth as firebaseAuth, firestore } from '../../lib/firebase-admin';
 import { getPermissionsForRoles } from '../../config/permissions';
+import prisma from '../../utils/prisma';
 
 function parseJwtExpiresIn(duration: string): number {
   const match = duration.match(/^(\d+)([dhms])$/);
@@ -132,6 +133,13 @@ export const authService = {
       throw new AppError('Account is deactivated. Contact admin.', 403);
     }
 
+    if (prismaUser.storeId) {
+      const store = await prisma.store.findUnique({ where: { id: prismaUser.storeId } });
+      if (store && !store.isActive) {
+        throw new AppError('Your store has been deactivated. Contact admin.', 403);
+      }
+    }
+
     // -- Firestore role resolution --
     const fsUser = await getFirestoreUser(email);
 
@@ -148,7 +156,9 @@ export const authService = {
       // Fall back to Prisma roles, then persist to Firestore
       roles = prismaUser.userRoles.map((ur: any) => ur.role.name);
       customPerms = (prismaUser as any).customPermissions || [];
-      permissions = getPermissionsForRoles(roles, customPerms);
+      const hardcodedPerms = getPermissionsForRoles(roles, customPerms);
+      const dbRolePerms = prismaUser.userRoles.flatMap((ur: any) => ur.role.permissions || []);
+      permissions = [...new Set([...hardcodedPerms, ...dbRolePerms])];
       await upsertFirestoreUser(email, {
         firstName: prismaUser.firstName,
         lastName: prismaUser.lastName || undefined,
@@ -161,12 +171,20 @@ export const authService = {
       });
     }
 
+    // Increment tokenVersion to invalidate other sessions
+    const updatedUser = await prisma.user.update({
+      where: { id: prismaUser.id },
+      data: { tokenVersion: { increment: 1 } },
+      select: { tokenVersion: true },
+    });
+
     const jwtPayload = {
       userId: prismaUser.id,
       email: prismaUser.email,
       roles,
-      permissions: customPerms,
+      permissions,
       storeId: prismaUser.storeId || undefined,
+      tokenVersion: updatedUser.tokenVersion,
     };
 
     const accessToken = signAccessToken(jwtPayload);
@@ -199,6 +217,13 @@ export const authService = {
       throw new AppError('Account is deactivated. Contact admin.', 403);
     }
 
+    if (user.storeId) {
+      const store = await prisma.store.findUnique({ where: { id: user.storeId } });
+      if (store && !store.isActive) {
+        throw new AppError('Your store has been deactivated. Contact admin.', 403);
+      }
+    }
+
     const isPasswordValid = await comparePassword(password, user.passwordHash);
     if (!isPasswordValid) {
       throw new AppError('Invalid email or password', 401);
@@ -216,7 +241,9 @@ export const authService = {
     } else {
       roles = user.userRoles.map((ur: any) => ur.role.name);
       const customPerms = (user as any).customPermissions || [];
-      permissions = getPermissionsForRoles(roles, customPerms);
+      const hardcodedPerms = getPermissionsForRoles(roles, customPerms);
+      const dbRolePerms = user.userRoles.flatMap((ur: any) => ur.role.permissions || []);
+      permissions = [...new Set([...hardcodedPerms, ...dbRolePerms])];
       await upsertFirestoreUser(email, {
         firstName: user.firstName,
         lastName: user.lastName || undefined,
@@ -228,14 +255,20 @@ export const authService = {
       });
     }
 
-    const customPerms = user.customPermissions || [];
+    // Increment tokenVersion to invalidate other sessions
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: { tokenVersion: { increment: 1 } },
+      select: { tokenVersion: true },
+    });
 
     const jwtPayload = {
       userId: user.id,
       email: user.email,
       roles,
-      permissions: customPerms,
+      permissions,
       storeId: user.storeId || undefined,
+      tokenVersion: updatedUser.tokenVersion,
     };
 
     const accessToken = signAccessToken(jwtPayload);
@@ -297,12 +330,16 @@ export const authService = {
     const fsUser = await getFirestoreUser(user.email);
     const roles = fsUser?.roles || user.userRoles.map((ur: any) => ur.role.name);
     const customPerms = fsUser?.customPermissions || (user as any).customPermissions || [];
+    const hardcodedPerms = getPermissionsForRoles(roles, customPerms);
+    const dbRolePerms = user.userRoles.flatMap((ur: any) => ur.role.permissions || []);
+    const resolvedPerms = [...new Set([...hardcodedPerms, ...dbRolePerms])];
 
     const jwtPayload = {
       userId: user.id,
       email: user.email,
       roles,
-      permissions: customPerms,
+      permissions: resolvedPerms,
+      tokenVersion: user.tokenVersion,
     };
 
     const newAccessToken = signAccessToken(jwtPayload);

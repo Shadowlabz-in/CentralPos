@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { userController } from './user.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
 import { requirePermission } from '../../middleware/requirePermission';
 import { validate } from '../../middleware/validate';
 import { audit } from '../audit/audit.service';

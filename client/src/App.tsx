@@ -19,6 +19,7 @@ import SuperAdminSettings from '@/components/pages/SuperAdminSettings';
 import PrivacyPolicy from '@/components/pages/PrivacyPolicy';
 import TermsAndConditions from '@/components/pages/TermsAndConditions';
 import DemoRequestsAdmin from '@/components/pages/DemoRequestsAdmin';
+import PlaceholderPage from '@/components/pages/PlaceholderPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -150,6 +151,96 @@ function AppRoutes() {
           <ProtectedRoute>
             <StoreDashboardLayout>
               <CataloguePage />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/pos"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="POS / Billing" />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customers"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="Customers" />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/inventory"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="Inventory" />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reports"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="Reports" />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/suppliers"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="Suppliers" />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/purchases"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="Purchases" />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/invoices"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="Invoices" />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/gst"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="GST" />
+            </StoreDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/backup"
+        element={
+          <ProtectedRoute>
+            <StoreDashboardLayout>
+              <PlaceholderPage title="Backup & Restore" />
             </StoreDashboardLayout>
           </ProtectedRoute>
         }

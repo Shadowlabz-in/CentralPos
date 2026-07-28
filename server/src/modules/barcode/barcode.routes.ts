@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { barcodeController } from './barcode.controller';
 import { authenticate } from '../../middleware/authenticate';
-import { authorize } from '../../middleware/authorize';
+import { requirePermission } from '../../middleware/requirePermission';
+import { Permissions } from '../../config/permissions';
 
 const router = Router();
 
@@ -24,7 +25,7 @@ router.get('/barcodes/:barcode', authenticate, barcodeController.lookup);
 router.post(
   '/barcodes/regenerate/:variantId',
   authenticate,
-  authorize('ADMIN', 'MANAGER'),
+  requirePermission(Permissions.INVENTORY_BARCODE_GENERATE),
   barcodeController.regenerate,
 );
 

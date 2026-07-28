@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyAccessToken } from '../utils/jwt';
 import { AppError } from './errorHandler';
+import prisma from '../utils/prisma';
 
-export const authenticate = (req: Request, _res: Response, next: NextFunction): void => {
+export const authenticate = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -11,11 +12,31 @@ export const authenticate = (req: Request, _res: Response, next: NextFunction): 
 
   const token = authHeader.split(' ')[1];
 
+  let payload;
   try {
-    const payload = verifyAccessToken(token);
-    req.user = payload;
-    next();
+    payload = verifyAccessToken(token);
   } catch {
     throw new AppError('Invalid or expired access token', 401);
   }
+
+  if (payload.tokenVersion !== undefined) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: payload.userId },
+        select: { tokenVersion: true, isActive: true },
+      });
+      if (!user || !user.isActive) {
+        throw new AppError('Account is deactivated. Contact admin.', 403);
+      }
+      if (user.tokenVersion !== payload.tokenVersion) {
+        throw new AppError('Session expired. Please login again.', 401);
+      }
+    } catch (err) {
+      if (err instanceof AppError) throw err;
+      throw new AppError('Authentication error', 500);
+    }
+  }
+
+  req.user = payload;
+  next();
 };
