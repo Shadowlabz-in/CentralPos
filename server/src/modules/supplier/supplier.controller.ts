@@ -4,7 +4,7 @@ import { supplierService } from './supplier.service';
 export const supplierController = {
   async list(_req: Request, res: Response, next: NextFunction) {
     try {
-      const storeId = _req.query.storeId as string | undefined;
+      const storeId = (_req.query.storeId as string) || _req.user?.storeId;
       const suppliers = await supplierService.list(storeId);
       res.status(200).json({ status: 'success', data: suppliers });
     } catch (error) {
@@ -23,7 +23,8 @@ export const supplierController = {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const supplier = await supplierService.create(req.body);
+      const data = { ...req.body, storeId: req.body.storeId || req.user?.storeId };
+      const supplier = await supplierService.create(data);
       res.status(201).json({
         status: 'success',
         message: 'Supplier created successfully',

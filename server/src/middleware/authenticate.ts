@@ -19,22 +19,21 @@ export const authenticate = async (req: Request, _res: Response, next: NextFunct
     throw new AppError('Invalid or expired access token', 401);
   }
 
-  if (payload.tokenVersion !== undefined) {
-    try {
-      const user = await prisma.user.findUnique({
-        where: { id: payload.userId },
-        select: { tokenVersion: true, isActive: true },
-      });
-      if (!user || !user.isActive) {
-        throw new AppError('Account is deactivated. Contact admin.', 403);
-      }
-      if (user.tokenVersion !== payload.tokenVersion) {
-        throw new AppError('Session expired. Please login again.', 401);
-      }
-    } catch (err) {
-      if (err instanceof AppError) throw err;
-      throw new AppError('Authentication error', 500);
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: payload.userId },
+      select: { tokenVersion: true, isActive: true },
+    });
+    if (!user || !user.isActive) {
+      throw new AppError('Account is deactivated. Contact admin.', 403);
     }
+    const tokenVersion = payload.tokenVersion ?? 0;
+    if (user.tokenVersion !== tokenVersion) {
+      throw new AppError('Session expired. Please login again.', 401);
+    }
+  } catch (err) {
+    if (err instanceof AppError) throw err;
+    throw new AppError('Authentication error', 500);
   }
 
   req.user = payload;

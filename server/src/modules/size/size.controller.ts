@@ -4,7 +4,7 @@ import { sizeService } from './size.service';
 export const sizeController = {
   async list(_req: Request, res: Response, next: NextFunction) {
     try {
-      const storeId = _req.query.storeId as string | undefined;
+      const storeId = (_req.query.storeId as string) || _req.user?.storeId;
       const sizes = await sizeService.list(storeId);
       res.status(200).json({ status: 'success', data: sizes });
     } catch (error) { next(error); }
@@ -17,7 +17,8 @@ export const sizeController = {
   },
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const size = await sizeService.create(req.body);
+      const data = { ...req.body, storeId: req.body.storeId || req.user?.storeId };
+      const size = await sizeService.create(data);
       res.status(201).json({ status: 'success', message: 'Size created successfully', data: size });
     } catch (error) { next(error); }
   },

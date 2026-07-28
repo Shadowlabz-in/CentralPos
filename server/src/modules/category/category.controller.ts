@@ -4,7 +4,7 @@ import { categoryService } from './category.service';
 export const categoryController = {
   async list(_req: Request, res: Response, next: NextFunction) {
     try {
-      const storeId = _req.query.storeId as string | undefined;
+      const storeId = (_req.query.storeId as string) || _req.user?.storeId;
       const categories = await categoryService.list(storeId);
       res.status(200).json({ status: 'success', data: categories });
     } catch (error) {
@@ -23,7 +23,8 @@ export const categoryController = {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const category = await categoryService.create(req.body);
+      const data = { ...req.body, storeId: req.body.storeId || req.user?.storeId };
+      const category = await categoryService.create(data);
       res.status(201).json({
         status: 'success',
         message: 'Category created successfully',

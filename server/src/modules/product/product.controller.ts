@@ -7,9 +7,12 @@ export const productController = {
       const { page, limit, search, categoryId, brandId, isActive, size, color, sortBy, sortOrder } =
         req.query as any;
 
+      const storeId = (req.query.storeId as string) || req.user?.storeId;
+
       const result = await productService.list({
         page: parseInt(page) || 1,
         limit: parseInt(limit) || 10,
+        storeId,
         search,
         categoryId,
         brandId,
@@ -41,7 +44,8 @@ export const productController = {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const product = await productService.create(req.body);
+      const data = { ...req.body, storeId: req.body.storeId || req.user?.storeId };
+      const product = await productService.create(data);
       res.status(201).json({
         status: 'success',
         message: 'Product created successfully',

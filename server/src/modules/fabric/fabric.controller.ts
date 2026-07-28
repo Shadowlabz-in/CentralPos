@@ -4,7 +4,7 @@ import { fabricService } from './fabric.service';
 export const fabricController = {
   async list(_req: Request, res: Response, next: NextFunction) {
     try {
-      const storeId = _req.query.storeId as string | undefined;
+      const storeId = (_req.query.storeId as string) || _req.user?.storeId;
       const fabrics = await fabricService.list(storeId);
       res.status(200).json({ status: 'success', data: fabrics });
     } catch (error) {
@@ -23,7 +23,8 @@ export const fabricController = {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const fabric = await fabricService.create(req.body);
+      const data = { ...req.body, storeId: req.body.storeId || req.user?.storeId };
+      const fabric = await fabricService.create(data);
       res.status(201).json({ status: 'success', message: 'Fabric created successfully', data: fabric });
     } catch (error) {
       next(error);

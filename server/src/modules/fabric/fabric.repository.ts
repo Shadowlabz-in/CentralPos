@@ -2,8 +2,10 @@ import prisma from '../../utils/prisma';
 
 export const fabricRepository = {
   async findAll(storeId?: string) {
+    const where: any = { deletedAt: null };
+    if (storeId) where.OR = [{ storeId }, { storeId: null }];
     return prisma.fabric.findMany({
-      where: { deletedAt: null, storeId: storeId || undefined },
+      where,
       include: { _count: { select: { products: true } } },
       orderBy: { name: 'asc' },
     });
@@ -21,9 +23,9 @@ export const fabricRepository = {
   },
 
   async findByName(name: string, storeId?: string) {
-    return prisma.fabric.findFirst({
-      where: { name, storeId: storeId || undefined, deletedAt: null },
-    });
+    const where: any = { name, deletedAt: null };
+    if (storeId) where.OR = [{ storeId }, { storeId: null }];
+    return prisma.fabric.findFirst({ where });
   },
 
   async create(data: { name: string; slug: string; description?: string; storeId?: string }) {

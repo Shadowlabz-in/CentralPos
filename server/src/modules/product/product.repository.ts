@@ -8,6 +8,7 @@ export interface ProductFilters {
   isActive?: boolean;
   size?: string;
   color?: string;
+  storeId?: string;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
 }
@@ -24,7 +25,10 @@ const productInclude = {
 
 export const productRepository = {
   async findAll(skip: number, take: number, filters: ProductFilters) {
-    const where: Prisma.ProductWhereInput = { deletedAt: null };
+    const where: Prisma.ProductWhereInput = {
+      deletedAt: null,
+      ...(filters.storeId ? { storeId: { in: [filters.storeId, null] } as any } : {}),
+    };
 
     if (filters.search) {
       where.OR = [
@@ -90,7 +94,10 @@ export const productRepository = {
   },
 
   async countAll(filters: ProductFilters) {
-    const where: Prisma.ProductWhereInput = { deletedAt: null };
+    const where: Prisma.ProductWhereInput = {
+      deletedAt: null,
+      ...(filters.storeId ? { storeId: { in: [filters.storeId, null] } } : {}),
+    };
 
     if (filters.search) {
       where.OR = [

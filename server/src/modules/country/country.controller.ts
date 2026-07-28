@@ -4,7 +4,7 @@ import { countryService } from './country.service';
 export const countryController = {
   async list(_req: Request, res: Response, next: NextFunction) {
     try {
-      const storeId = _req.query.storeId as string | undefined;
+      const storeId = (_req.query.storeId as string) || _req.user?.storeId;
       const countries = await countryService.list(storeId);
       res.status(200).json({ status: 'success', data: countries });
     } catch (error) {
@@ -23,7 +23,11 @@ export const countryController = {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const country = await countryService.create(req.body);
+      const data = {
+        ...req.body,
+        storeId: req.body.storeId || req.user?.storeId,
+      };
+      const country = await countryService.create(data);
       res.status(201).json({ status: 'success', message: 'Country created successfully', data: country });
     } catch (error) {
       next(error);

@@ -4,7 +4,7 @@ import { brandService } from './brand.service';
 export const brandController = {
   async list(_req: Request, res: Response, next: NextFunction) {
     try {
-      const storeId = _req.query.storeId as string | undefined;
+      const storeId = (_req.query.storeId as string) || _req.user?.storeId;
       const brands = await brandService.list(storeId);
       res.status(200).json({ status: 'success', data: brands });
     } catch (error) {
@@ -23,7 +23,8 @@ export const brandController = {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const brand = await brandService.create(req.body);
+      const data = { ...req.body, storeId: req.body.storeId || req.user?.storeId };
+      const brand = await brandService.create(data);
       res.status(201).json({
         status: 'success',
         message: 'Brand created successfully',

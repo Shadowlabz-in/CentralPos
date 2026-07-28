@@ -4,7 +4,7 @@ import { occasionService } from './occasion.service';
 export const occasionController = {
   async list(_req: Request, res: Response, next: NextFunction) {
     try {
-      const storeId = _req.query.storeId as string | undefined;
+      const storeId = (_req.query.storeId as string) || _req.user?.storeId;
       const occasions = await occasionService.list(storeId);
       res.status(200).json({ status: 'success', data: occasions });
     } catch (error) {
@@ -23,7 +23,8 @@ export const occasionController = {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const occasion = await occasionService.create(req.body);
+      const data = { ...req.body, storeId: req.body.storeId || req.user?.storeId };
+      const occasion = await occasionService.create(data);
       res.status(201).json({ status: 'success', message: 'Occasion created successfully', data: occasion });
     } catch (error) {
       next(error);
