@@ -127,6 +127,8 @@ export const authService = {
 
       await userRepository.assignRole(prismaUser.id, role.id);
       prismaUser = await userRepository.findByEmail(email);
+    } else if (decoded.name && decoded.name !== prismaUser.firstName) {
+      prismaUser = await userRepository.update(prismaUser.id, { firstName: decoded.name });
     }
 
     if (!prismaUser || !prismaUser.isActive) {

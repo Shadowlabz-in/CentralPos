@@ -10,8 +10,12 @@ export const storeService = {
       storeRepository.countAll(),
     ]);
 
+    const userCounts = await Promise.all(
+      stores.map((s) => storeRepository.countStoreUsers(s.id)),
+    );
+
     return {
-      data: stores.map((s) => ({
+      data: stores.map((s, i) => ({
         id: s.id,
         name: s.name,
         code: s.code,
@@ -33,7 +37,7 @@ export const storeService = {
         language: s.language,
         financialYear: s.financialYear,
         isActive: s.isActive,
-        userCount: s._count.users,
+        userCount: userCounts[i],
         createdAt: s.createdAt,
         updatedAt: s.updatedAt,
       })),
@@ -44,6 +48,7 @@ export const storeService = {
   async getById(id: string) {
     const store = await storeRepository.findById(id);
     if (!store) throw new AppError('Store not found', 404);
+    const userCount = await storeRepository.countStoreUsers(id);
     return {
       id: store.id,
       name: store.name,
@@ -66,7 +71,7 @@ export const storeService = {
       language: store.language,
       financialYear: store.financialYear,
       isActive: store.isActive,
-      userCount: store._count.users,
+      userCount,
       createdAt: store.createdAt,
       updatedAt: store.updatedAt,
     };

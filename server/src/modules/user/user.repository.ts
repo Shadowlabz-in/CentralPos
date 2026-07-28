@@ -73,8 +73,8 @@ export const userRepository = {
   },
 
   async findByEmail(email: string) {
-    return prisma.user.findUnique({
-      where: { email },
+    return prisma.user.findFirst({
+      where: { email, deletedAt: null },
       include: {
         userRoles: {
           include: { role: true },
@@ -131,6 +131,12 @@ export const userRepository = {
       where: { id },
       data: { deletedAt: new Date() },
     });
+  },
+
+  async hardDelete(id: string) {
+    await prisma.userRole.deleteMany({ where: { userId: id } });
+    await prisma.refreshToken.deleteMany({ where: { userId: id } });
+    return prisma.user.delete({ where: { id } });
   },
 
   async assignRole(userId: string, roleId: string) {

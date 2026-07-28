@@ -83,4 +83,16 @@ export const userController = {
       next(error);
     }
   },
+
+  async purge(req: Request, res: Response, next: NextFunction) {
+    try {
+      await userService.purge(req.params.id, req.user!.userId);
+      res.status(200).json({
+        status: 'success',
+        message: 'User permanently deleted',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

@@ -84,6 +84,7 @@ export const RolePermissions: Record<string, Permission[]> = {
 
   ADMIN: [
     Permissions.DASHBOARD_VIEW,
+    Permissions.STORE_VIEW,
 
     Permissions.PRODUCT_VIEW,
     Permissions.PRODUCT_CREATE,
@@ -146,6 +147,7 @@ export const RolePermissions: Record<string, Permission[]> = {
 
   INVENTORY_MANAGER: [
     Permissions.DASHBOARD_VIEW,
+    Permissions.STORE_VIEW,
     Permissions.PRODUCT_VIEW,
     Permissions.PRODUCT_CREATE,
     Permissions.PRODUCT_EDIT,
@@ -173,6 +175,7 @@ export const RolePermissions: Record<string, Permission[]> = {
 
   CASHIER: [
     Permissions.DASHBOARD_VIEW,
+    Permissions.STORE_VIEW,
     Permissions.POS_ACCESS,
     Permissions.POS_RETURN,
     Permissions.POS_CUSTOMER_MANAGE,
@@ -184,6 +187,7 @@ export const RolePermissions: Record<string, Permission[]> = {
 
   BILLING: [
     Permissions.DASHBOARD_VIEW,
+    Permissions.STORE_VIEW,
     Permissions.POS_ACCESS,
     Permissions.POS_RETURN,
     Permissions.POS_CUSTOMER_MANAGE,
@@ -198,6 +202,7 @@ export const RolePermissions: Record<string, Permission[]> = {
 
   MANAGER: [
     Permissions.DASHBOARD_VIEW,
+    Permissions.STORE_VIEW,
     Permissions.PRODUCT_VIEW,
     Permissions.PRODUCT_CREATE,
     Permissions.PRODUCT_EDIT,

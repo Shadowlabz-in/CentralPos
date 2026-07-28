@@ -8,7 +8,6 @@ export const storeRepository = {
       take,
       include: {
         owner: { select: { id: true, firstName: true, lastName: true, email: true } },
-        _count: { select: { users: true } },
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -23,7 +22,20 @@ export const storeRepository = {
       where: { id, deletedAt: null },
       include: {
         owner: { select: { id: true, firstName: true, lastName: true, email: true } },
-        _count: { select: { users: true } },
+      },
+    });
+  },
+
+  async countStoreUsers(storeId: string): Promise<number> {
+    return prisma.user.count({
+      where: {
+        storeId,
+        deletedAt: null,
+        userRoles: {
+          none: {
+            role: { name: 'SUPER_ADMIN' },
+          },
+        },
       },
     });
   },
@@ -52,7 +64,6 @@ export const storeRepository = {
       data,
       include: {
         owner: { select: { id: true, firstName: true, lastName: true, email: true } },
-        _count: { select: { users: true } },
       },
     });
   },
@@ -86,7 +97,6 @@ export const storeRepository = {
       data,
       include: {
         owner: { select: { id: true, firstName: true, lastName: true, email: true } },
-        _count: { select: { users: true } },
       },
     });
   },

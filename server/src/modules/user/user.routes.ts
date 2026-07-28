@@ -40,4 +40,12 @@ router.delete(
   userController.delete,
 );
 
+router.delete(
+  '/users/:id/purge',
+  authenticate,
+  requirePermission('system:configure'),
+  audit('USER_PURGE', 'USER_MANAGEMENT'),
+  userController.purge,
+);
+
 export default router;

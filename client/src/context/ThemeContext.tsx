@@ -14,7 +14,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
     const stored = localStorage.getItem('kapda_theme');
     if (stored === 'light' || stored === 'dark') return stored;
-    return 'dark';
+    return 'light';
   });
 
   const applyTheme = useCallback((t: Theme) => {

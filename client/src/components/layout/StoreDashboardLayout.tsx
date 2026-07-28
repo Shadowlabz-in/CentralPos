@@ -3,10 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, ShoppingCart, Package, Users, Boxes, BarChart3,
   Truck, ClipboardList, Database, FileText, Receipt, LogOut, User,
-  Store, Sun, Moon, ChevronRight,
+  Store, ChevronRight,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { useTheme } from '@/context/ThemeContext';
 import { apiRequest } from '@/context/AuthContext';
 
 interface StoreData {
@@ -66,7 +65,6 @@ export function StoreDashboardLayout({ children }: StoreDashboardLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { auth, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const [store, setStore] = useState<StoreData | null>(null);
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -76,10 +74,10 @@ export function StoreDashboardLayout({ children }: StoreDashboardLayoutProps) {
     if (auth.user?.storeId) {
       apiRequest<{ status: string; data: StoreData }>(`/stores/${auth.user.storeId}`)
         .then((res) => setStore(res.data))
-        .catch(() => {});
+        .catch((err) => console.warn('[StoreDashboard] Failed to load store:', err));
       apiRequest<{ status: string; data: SubscriptionData }>(`/stores/${auth.user.storeId}/subscription`)
         .then((res) => setSubscription(res.data))
-        .catch(() => {});
+        .catch((err) => console.warn('[StoreDashboard] Failed to load subscription:', err));
     }
   }, [auth.user?.storeId]);
 
@@ -118,10 +116,10 @@ export function StoreDashboardLayout({ children }: StoreDashboardLayoutProps) {
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 shrink-0">
             <Store size={18} className="text-white" />
           </div>
-          {sidebarOpen && (
+          {sidebarOpen && store && (
             <div className="min-w-0">
-              <p className="text-sm font-bold text-foreground tracking-tight truncate">{store?.name || 'Store'}</p>
-              {store?.code && <p className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase truncate">{store.code}</p>}
+              <p className="text-sm font-bold text-foreground tracking-tight truncate">{store.name}</p>
+              {store.code && <p className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase truncate">{store.code}</p>}
             </div>
           )}
         </div>
@@ -163,17 +161,6 @@ export function StoreDashboardLayout({ children }: StoreDashboardLayoutProps) {
             {sidebarOpen && 'Collapse'}
           </button>
 
-          <button
-            onClick={toggleTheme}
-            className={`w-full flex items-center rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-all ${
-              cn(sidebarOpen, 'gap-3 px-4 py-2.5', 'justify-center px-0 py-2.5')
-            }`}
-            title={!sidebarOpen ? (theme === 'dark' ? 'Light Mode' : 'Dark Mode') : undefined}
-          >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-            {sidebarOpen && (theme === 'dark' ? 'Light Mode' : 'Dark Mode')}
-          </button>
-
           <div className="relative">
             <button
               onClick={() => setProfileOpen(!profileOpen)}
@@ -188,7 +175,6 @@ export function StoreDashboardLayout({ children }: StoreDashboardLayoutProps) {
               {sidebarOpen && (
                 <div className="text-left min-w-0 flex-1">
                   <p className="text-sm font-medium text-foreground truncate">{auth.user?.firstName || 'User'}</p>
-                  <p className="text-[10px] text-muted-foreground truncate">{roleLabel}</p>
                 </div>
               )}
             </button>
@@ -202,7 +188,6 @@ export function StoreDashboardLayout({ children }: StoreDashboardLayoutProps) {
                     <p className="text-xs text-muted-foreground truncate">{auth.user?.email}</p>
                   </div>
                   <div className="px-4 py-2 space-y-1">
-                    <p className="text-xs text-muted-foreground">Role: {roleLabel}</p>
                     {store && <p className="text-xs text-muted-foreground">Store: {store.name}</p>}
                     {subscription?.plan && <p className="text-xs text-muted-foreground">Plan: {subscription.plan.name}</p>}
                   </div>

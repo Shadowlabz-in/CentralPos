@@ -2,6 +2,7 @@ import { userRepository } from './user.repository';
 import { hashPassword } from '../../utils/password';
 import { AppError } from '../../middleware/errorHandler';
 import { getPermissionsForRoles } from '../../config/permissions';
+import prisma from '../../utils/prisma';
 
 export const userService = {
   async list(page = 1, limit = 10, storeId?: string, search?: string) {
@@ -106,16 +107,40 @@ export const userService = {
 
     const passwordHash = await hashPassword(data.password);
 
-    const user = await userRepository.create({
-      email: data.email,
-      passwordHash,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      phone: data.phone,
-      storeId: data.storeId,
-      createdById: data.createdById,
-      customPermissions: data.permissions,
-    });
+    let user;
+    try {
+      user = await userRepository.create({
+        email: data.email,
+        passwordHash,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+        storeId: data.storeId,
+        createdById: data.createdById,
+        customPermissions: data.permissions,
+      });
+    } catch (err: any) {
+      if (err?.code === 'P2002') {
+        const conflicted = await prisma.user.findUnique({ where: { email: data.email } });
+        if (conflicted && conflicted.deletedAt) {
+          await userRepository.hardDelete(conflicted.id);
+          user = await userRepository.create({
+            email: data.email,
+            passwordHash,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phone: data.phone,
+            storeId: data.storeId,
+            createdById: data.createdById,
+            customPermissions: data.permissions,
+          });
+        } else {
+          throw new AppError('A user with this email already exists', 409);
+        }
+      } else {
+        throw err;
+      }
+    }
 
     await userRepository.assignRole(user.id, roleRecord.id);
 
@@ -185,7 +210,21 @@ export const userService = {
     if (data.permissions !== undefined) updateData.customPermissions = data.permissions;
 
     if (Object.keys(updateData).length > 0) {
-      await userRepository.update(id, updateData);
+      try {
+        await userRepository.update(id, updateData);
+      } catch (err: any) {
+        if (err?.code === 'P2002') {
+          const conflicted = await prisma.user.findUnique({ where: { email: data.email } });
+          if (conflicted && conflicted.deletedAt) {
+            await userRepository.hardDelete(conflicted.id);
+            await userRepository.update(id, updateData);
+          } else {
+            throw new AppError('A user with this email already exists', 409);
+          }
+        } else {
+          throw err;
+        }
+      }
     }
 
     return this.getById(id);
@@ -202,5 +241,13 @@ export const userService = {
     }
 
     await userRepository.softDelete(id);
+  },
+
+  async purge(id: string, currentUserId: string) {
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new AppError('User not found', 404);
+    }
+    return userRepository.hardDelete(id);
   },
 };
