@@ -90,10 +90,12 @@ export function StoreDashboardLayout({ children }: StoreDashboardLayoutProps) {
     }
   }
 
+  const hasSubscription = subscription?.plan?.features && subscription.plan.features.length > 0;
+
   const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     ...Object.entries(featureNavMap)
-      .filter(([key]) => includedFeatures.has(key))
+      .filter(([key]) => !hasSubscription || includedFeatures.has(key))
       .map(([, item]) => item),
   ];
 
