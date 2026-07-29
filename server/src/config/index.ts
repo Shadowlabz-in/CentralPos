@@ -3,15 +3,30 @@ import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
+const nodeEnv = process.env.SERVER_NODE_ENV || 'development';
+const isProduction = nodeEnv === 'production';
+
+const accessSecret = process.env.JWT_ACCESS_SECRET;
+const refreshSecret = process.env.JWT_REFRESH_SECRET;
+
+if (isProduction) {
+  if (!accessSecret || accessSecret === 'access-secret-dev') {
+    throw new Error('JWT_ACCESS_SECRET must be set to a strong random value in production');
+  }
+  if (!refreshSecret || refreshSecret === 'refresh-secret-dev') {
+    throw new Error('JWT_REFRESH_SECRET must be set to a strong random value in production');
+  }
+}
+
 export const config = {
   port: Number(process.env.SERVER_PORT) || Number(process.env.PORT) || 4000,
-  nodeEnv: process.env.SERVER_NODE_ENV || 'development',
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  nodeEnv,
+  corsOrigin: process.env.CORS_ORIGIN || (isProduction ? 'https://erp.shadowlabz.in' : 'http://localhost:5173'),
   jwt: {
-    accessSecret: process.env.JWT_ACCESS_SECRET || 'access-secret-dev',
-    refreshSecret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-dev',
-    accessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '30d',
-    refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '365d',
+    accessSecret: accessSecret || 'access-secret-dev',
+    refreshSecret: refreshSecret || 'refresh-secret-dev',
+    accessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
+    refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
   },
   bcrypt: {
     saltRounds: Number(process.env.BCRYPT_SALT_ROUNDS) || 12,

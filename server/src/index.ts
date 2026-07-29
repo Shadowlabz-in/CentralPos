@@ -12,13 +12,19 @@ import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
 
-// Trust Railway reverse proxy (required by express-rate-limit)
 app.set('trust proxy', 1);
 
-// Serve uploaded files
+if (config.nodeEnv === 'production') {
+  app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] === 'http') {
+      return res.redirect(301, `https://${req.hostname}${req.originalUrl}`);
+    }
+    next();
+  });
+}
+
 app.use('/uploads', express.static(path.resolve(config.upload.dir)));
 
-// Serve built client
 const clientDistPath = path.resolve(__dirname, '../../client/dist');
 app.use(express.static(clientDistPath, {
   setHeaders(res, filePath) {
@@ -28,37 +34,61 @@ app.use(express.static(clientDistPath, {
   },
 }));
 
-// Security headers
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: [
+        "'self'",
+        'https://*.firebaseio.com',
+        'https://identitytoolkit.googleapis.com',
+        'https://securetoken.googleapis.com',
+        'wss://*',
+      ],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
+      fontSrc: ["'self'"],
+      frameSrc: ["'self'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  strictTransportSecurity: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true,
+  },
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+  crossOriginEmbedderPolicy: false,
+}));
 
-// CORS
-app.use(
-  cors({
-    origin: config.corsOrigin,
-    credentials: true,
-  }),
-);
+app.use((_req, res, next) => {
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
+  next();
+});
 
-// Request logging
+app.use(cors({
+  origin: config.corsOrigin,
+  credentials: true,
+}));
+
 app.use(generalLimiter);
 
-// Body parsing
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
 app.get('/api-docs.json', (_req, res) => res.json(swaggerSpec));
 
-// API routes
 app.use('/api', routes);
 
-// Catch-all: serve client index.html for client-side routing
 app.get('*', (_req, res) => {
   res.sendFile(path.join(clientDistPath, 'index.html'));
 });
 
-// Global error handler (must be last)
 app.use(errorHandler);
 
 app.listen(config.port, () => {
