@@ -200,7 +200,6 @@ export const authService = {
     });
 
     return (() => {
-      console.log('[AUTH_DEBUG] firebaseLogin result:', JSON.stringify({ email, roles, permissions }));
       return {
         accessToken,
         refreshToken,
@@ -285,7 +284,6 @@ export const authService = {
     });
 
     return (() => {
-      console.log('[AUTH_DEBUG] login result:', JSON.stringify({ email, roles, permissions }));
       return {
         accessToken,
         refreshToken,

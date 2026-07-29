@@ -39,7 +39,7 @@ export const errorHandler = (
     return;
   }
 
-  console.error('Unhandled error:', err);
+  logger.error('Unhandled error:', err);
 
   const response: ApiResponse = {
     status: 'error',
