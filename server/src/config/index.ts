@@ -25,8 +25,8 @@ export const config = {
   jwt: {
     accessSecret: accessSecret || 'access-secret-dev',
     refreshSecret: refreshSecret || 'refresh-secret-dev',
-    accessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
-    refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
+    accessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '30d',
+    refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '365d',
   },
   bcrypt: {
     saltRounds: Number(process.env.BCRYPT_SALT_ROUNDS) || 12,
