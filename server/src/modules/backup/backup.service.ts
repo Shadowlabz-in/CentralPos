@@ -16,7 +16,7 @@ export const backupService = {
   async create(createdById: string, storeId: string) {
     if (!fs.existsSync(BACKUP_DIR)) fs.mkdirSync(BACKUP_DIR, { recursive: true });
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `kapda_pos_backup_${timestamp}.sql`;
+    const filename = `central_one_backup_${timestamp}.sql`;
     const filePath = path.join(BACKUP_DIR, filename);
 
     execSync(`pg_dump "${getDbUrl()}" > "${filePath}"`, {

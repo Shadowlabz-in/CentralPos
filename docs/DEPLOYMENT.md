@@ -21,7 +21,7 @@ CORS_ORIGIN=https://yourdomain.com
 LOG_LEVEL=info
 
 # Database
-DATABASE_URL=postgresql://kapda:YOUR_STRONG_PASSWORD@localhost:5432/kapda_pos
+DATABASE_URL=postgresql://central_one:YOUR_STRONG_PASSWORD@localhost:5432/central_one
 
 # JWT
 JWT_ACCESS_SECRET=generate-a-strong-random-secret
@@ -74,7 +74,7 @@ curl http://localhost:4000/api/health
 pnpm install --frozen-lockfile
 
 # Build shared package
-pnpm --filter @kapda/shared build
+pnpm --filter @central-one/shared build
 
 # Generate Prisma client
 pnpm --filter server prisma generate
@@ -167,19 +167,19 @@ Backups are managed through the application's backup module:
 
 ```bash
 # Create backup
-pg_dump "postgresql://kapda:password@localhost:5432/kapda_pos" > backup_$(date +%Y%m%d_%H%M%S).sql
+pg_dump "postgresql://central_one:password@localhost:5432/central_one" > backup_$(date +%Y%m%d_%H%M%S).sql
 
 # Restore backup
-psql "postgresql://kapda:password@localhost:5432/kapda_pos" < backup_file.sql
+psql "postgresql://central_one:password@localhost:5432/central_one" < backup_file.sql
 ```
 
 ### Cron Job (Recommended)
 
 ```bash
 # Daily backup at 2 AM
-0 2 * * * pg_dump "postgresql://kapda:password@localhost:5432/kapda_pos" > /backups/kapda_pos_$(date +\%Y\%m\%d).sql
+0 2 * * * pg_dump "postgresql://central_one:password@localhost:5432/central_one" > /backups/central_one_$(date +\%Y\%m\%d).sql
 # Keep only last 30 days
-0 3 * * * find /backups -name "kapda_pos_*.sql" -mtime +30 -delete
+0 3 * * * find /backups -name "central_one_*.sql" -mtime +30 -delete
 ```
 
 ## Rollback Strategy
@@ -205,7 +205,7 @@ npx prisma migrate reset
 
 # If using db push
 # Restore from backup
-psql "postgresql://kapda:password@localhost:5432/kapda_pos" < backup_file.sql
+psql "postgresql://central_one:password@localhost:5432/central_one" < backup_file.sql
 ```
 
 ## Monitoring

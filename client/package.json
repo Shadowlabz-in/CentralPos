@@ -1,5 +1,5 @@
 {
-  "name": "@kapda/client",
+  "name": "@central-one/client",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
-    "@kapda/shared": "*",
+    "@central-one/shared": "*",
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-query": "^5.28.4",
     "class-variance-authority": "^0.7.0",

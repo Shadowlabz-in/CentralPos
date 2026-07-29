@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
-import { ApiResponse } from '@kapda/shared';
+import { ApiResponse } from '@central-one/shared';
 import logger from '../utils/logger';
 
 export class AppError extends Error {

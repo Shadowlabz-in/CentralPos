@@ -1,6 +1,6 @@
-# Kapda POS
+# Central One POS
 
-A complete Point of Sale system for clothing (Kapda) stores. Built with React, Node.js, PostgreSQL, and TypeScript.
+A complete Point of Sale system for clothing stores. Built with React, Node.js, PostgreSQL, and TypeScript.
 
 ## Features
 
@@ -43,7 +43,7 @@ A complete Point of Sale system for clothing (Kapda) stores. Built with React, N
 ```bash
 # 1. Clone and install
 git clone <repo-url>
-cd kapda-pos
+cd central-one
 pnpm install
 
 # 2. Set up environment
@@ -51,7 +51,7 @@ cp .env.example .env
 # Edit .env with your database credentials
 
 # 3. Build shared package
-pnpm --filter @kapda/shared build
+pnpm --filter @central-one/shared build
 
 # 4. Push database schema
 pnpm --filter server prisma db push
@@ -67,14 +67,14 @@ pnpm dev
 
 | Role    | Email             | Password   |
 | ------- | ----------------- | ---------- |
-| Admin   | admin@kapda.com   | admin123   |
-| Manager | manager@kapda.com | manager123 |
-| Cashier | cashier@kapda.com | cashier123 |
+| Admin   | admin@centralone.com   | admin123   |
+| Manager | manager@centralone.com | manager123 |
+| Cashier | cashier@centralone.com | cashier123 |
 
 ## Project Structure
 
 ```
-kapda-pos/
+central-one/
 ├── client/                 # React frontend
 │   ├── src/
 │   │   ├── components/     # UI components, layouts, pages

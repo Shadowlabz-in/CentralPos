@@ -29,7 +29,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build shared package
-        run: pnpm --filter @kapda/shared build
+        run: pnpm --filter @central-one/shared build
 
       - name: Build server
         run: pnpm --filter server build
@@ -48,7 +48,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            cd /opt/kapda-pos
+            cd /opt/central-one
             git pull origin main
             docker compose pull
             docker compose up -d --build

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Kapda POS follows a modular monolith architecture with a clear separation between frontend (React SPA) and backend (Express REST API).
+Central One POS follows a modular monolith architecture with a clear separation between frontend (React SPA) and backend (Express REST API).
 
 ## System Design
 

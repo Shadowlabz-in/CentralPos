@@ -12,7 +12,7 @@ const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
-    const stored = localStorage.getItem('kapda_theme');
+    const stored = localStorage.getItem('central_one_theme');
     if (stored === 'light' || stored === 'dark') return stored;
     return 'light';
   });
@@ -26,7 +26,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme, applyTheme]);
 
   const setTheme = useCallback((t: Theme) => {
-    localStorage.setItem('kapda_theme', t);
+    localStorage.setItem('central_one_theme', t);
     setThemeState(t);
   }, []);
 

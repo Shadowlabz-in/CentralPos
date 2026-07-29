@@ -1,4 +1,4 @@
-import { ApiResponse } from '@kapda/shared';
+import { ApiResponse } from '@central-one/shared';
 import { getAuthHeaders } from '@/context/AuthContext';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api';

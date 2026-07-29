@@ -5,5 +5,5 @@ admin.initializeApp();
 
 export const helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
-  response.json({ message: "Hello from Kapda POS!" });
+  response.json({ message: "Hello from Central One POS!" });
 });

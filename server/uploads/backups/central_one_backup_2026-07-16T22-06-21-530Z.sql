@@ -19,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: AdjustmentReason; Type: TYPE; Schema: public; Owner: kapda
+-- Name: AdjustmentReason; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."AdjustmentReason" AS ENUM (
@@ -31,10 +31,10 @@ CREATE TYPE public."AdjustmentReason" AS ENUM (
 );
 
 
-ALTER TYPE public."AdjustmentReason" OWNER TO kapda;
+ALTER TYPE public."AdjustmentReason" OWNER TO central_one;
 
 --
--- Name: CreditNoteStatus; Type: TYPE; Schema: public; Owner: kapda
+-- Name: CreditNoteStatus; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."CreditNoteStatus" AS ENUM (
@@ -44,10 +44,10 @@ CREATE TYPE public."CreditNoteStatus" AS ENUM (
 );
 
 
-ALTER TYPE public."CreditNoteStatus" OWNER TO kapda;
+ALTER TYPE public."CreditNoteStatus" OWNER TO central_one;
 
 --
--- Name: ExpenseCategory; Type: TYPE; Schema: public; Owner: kapda
+-- Name: ExpenseCategory; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."ExpenseCategory" AS ENUM (
@@ -63,10 +63,10 @@ CREATE TYPE public."ExpenseCategory" AS ENUM (
 );
 
 
-ALTER TYPE public."ExpenseCategory" OWNER TO kapda;
+ALTER TYPE public."ExpenseCategory" OWNER TO central_one;
 
 --
--- Name: GstRate; Type: TYPE; Schema: public; Owner: kapda
+-- Name: GstRate; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."GstRate" AS ENUM (
@@ -78,10 +78,10 @@ CREATE TYPE public."GstRate" AS ENUM (
 );
 
 
-ALTER TYPE public."GstRate" OWNER TO kapda;
+ALTER TYPE public."GstRate" OWNER TO central_one;
 
 --
--- Name: PaymentMode; Type: TYPE; Schema: public; Owner: kapda
+-- Name: PaymentMode; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."PaymentMode" AS ENUM (
@@ -93,10 +93,10 @@ CREATE TYPE public."PaymentMode" AS ENUM (
 );
 
 
-ALTER TYPE public."PaymentMode" OWNER TO kapda;
+ALTER TYPE public."PaymentMode" OWNER TO central_one;
 
 --
--- Name: PaymentStatus; Type: TYPE; Schema: public; Owner: kapda
+-- Name: PaymentStatus; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."PaymentStatus" AS ENUM (
@@ -106,10 +106,10 @@ CREATE TYPE public."PaymentStatus" AS ENUM (
 );
 
 
-ALTER TYPE public."PaymentStatus" OWNER TO kapda;
+ALTER TYPE public."PaymentStatus" OWNER TO central_one;
 
 --
--- Name: PurchaseStatus; Type: TYPE; Schema: public; Owner: kapda
+-- Name: PurchaseStatus; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."PurchaseStatus" AS ENUM (
@@ -121,10 +121,10 @@ CREATE TYPE public."PurchaseStatus" AS ENUM (
 );
 
 
-ALTER TYPE public."PurchaseStatus" OWNER TO kapda;
+ALTER TYPE public."PurchaseStatus" OWNER TO central_one;
 
 --
--- Name: ReturnCondition; Type: TYPE; Schema: public; Owner: kapda
+-- Name: ReturnCondition; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."ReturnCondition" AS ENUM (
@@ -134,10 +134,10 @@ CREATE TYPE public."ReturnCondition" AS ENUM (
 );
 
 
-ALTER TYPE public."ReturnCondition" OWNER TO kapda;
+ALTER TYPE public."ReturnCondition" OWNER TO central_one;
 
 --
--- Name: StockMovementType; Type: TYPE; Schema: public; Owner: kapda
+-- Name: StockMovementType; Type: TYPE; Schema: public; Owner: central_one
 --
 
 CREATE TYPE public."StockMovementType" AS ENUM (
@@ -150,14 +150,14 @@ CREATE TYPE public."StockMovementType" AS ENUM (
 );
 
 
-ALTER TYPE public."StockMovementType" OWNER TO kapda;
+ALTER TYPE public."StockMovementType" OWNER TO central_one;
 
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: kapda
+-- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public._prisma_migrations (
@@ -172,10 +172,10 @@ CREATE TABLE public._prisma_migrations (
 );
 
 
-ALTER TABLE public._prisma_migrations OWNER TO kapda;
+ALTER TABLE public._prisma_migrations OWNER TO central_one;
 
 --
--- Name: audit_logs; Type: TABLE; Schema: public; Owner: kapda
+-- Name: audit_logs; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.audit_logs (
@@ -191,10 +191,10 @@ CREATE TABLE public.audit_logs (
 );
 
 
-ALTER TABLE public.audit_logs OWNER TO kapda;
+ALTER TABLE public.audit_logs OWNER TO central_one;
 
 --
--- Name: backups; Type: TABLE; Schema: public; Owner: kapda
+-- Name: backups; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.backups (
@@ -210,10 +210,10 @@ CREATE TABLE public.backups (
 );
 
 
-ALTER TABLE public.backups OWNER TO kapda;
+ALTER TABLE public.backups OWNER TO central_one;
 
 --
--- Name: barcode_settings; Type: TABLE; Schema: public; Owner: kapda
+-- Name: barcode_settings; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.barcode_settings (
@@ -231,10 +231,10 @@ CREATE TABLE public.barcode_settings (
 );
 
 
-ALTER TABLE public.barcode_settings OWNER TO kapda;
+ALTER TABLE public.barcode_settings OWNER TO central_one;
 
 --
--- Name: brands; Type: TABLE; Schema: public; Owner: kapda
+-- Name: brands; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.brands (
@@ -249,10 +249,10 @@ CREATE TABLE public.brands (
 );
 
 
-ALTER TABLE public.brands OWNER TO kapda;
+ALTER TABLE public.brands OWNER TO central_one;
 
 --
--- Name: categories; Type: TABLE; Schema: public; Owner: kapda
+-- Name: categories; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.categories (
@@ -268,10 +268,10 @@ CREATE TABLE public.categories (
 );
 
 
-ALTER TABLE public.categories OWNER TO kapda;
+ALTER TABLE public.categories OWNER TO central_one;
 
 --
--- Name: credit_note_redemptions; Type: TABLE; Schema: public; Owner: kapda
+-- Name: credit_note_redemptions; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.credit_note_redemptions (
@@ -283,10 +283,10 @@ CREATE TABLE public.credit_note_redemptions (
 );
 
 
-ALTER TABLE public.credit_note_redemptions OWNER TO kapda;
+ALTER TABLE public.credit_note_redemptions OWNER TO central_one;
 
 --
--- Name: credit_notes; Type: TABLE; Schema: public; Owner: kapda
+-- Name: credit_notes; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.credit_notes (
@@ -310,10 +310,10 @@ CREATE TABLE public.credit_notes (
 );
 
 
-ALTER TABLE public.credit_notes OWNER TO kapda;
+ALTER TABLE public.credit_notes OWNER TO central_one;
 
 --
--- Name: customers; Type: TABLE; Schema: public; Owner: kapda
+-- Name: customers; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.customers (
@@ -334,10 +334,10 @@ CREATE TABLE public.customers (
 );
 
 
-ALTER TABLE public.customers OWNER TO kapda;
+ALTER TABLE public.customers OWNER TO central_one;
 
 --
--- Name: expenses; Type: TABLE; Schema: public; Owner: kapda
+-- Name: expenses; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.expenses (
@@ -355,10 +355,10 @@ CREATE TABLE public.expenses (
 );
 
 
-ALTER TABLE public.expenses OWNER TO kapda;
+ALTER TABLE public.expenses OWNER TO central_one;
 
 --
--- Name: gst_settings; Type: TABLE; Schema: public; Owner: kapda
+-- Name: gst_settings; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.gst_settings (
@@ -376,10 +376,10 @@ CREATE TABLE public.gst_settings (
 );
 
 
-ALTER TABLE public.gst_settings OWNER TO kapda;
+ALTER TABLE public.gst_settings OWNER TO central_one;
 
 --
--- Name: invoice_settings; Type: TABLE; Schema: public; Owner: kapda
+-- Name: invoice_settings; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.invoice_settings (
@@ -398,10 +398,10 @@ CREATE TABLE public.invoice_settings (
 );
 
 
-ALTER TABLE public.invoice_settings OWNER TO kapda;
+ALTER TABLE public.invoice_settings OWNER TO central_one;
 
 --
--- Name: notification_settings; Type: TABLE; Schema: public; Owner: kapda
+-- Name: notification_settings; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.notification_settings (
@@ -419,10 +419,10 @@ CREATE TABLE public.notification_settings (
 );
 
 
-ALTER TABLE public.notification_settings OWNER TO kapda;
+ALTER TABLE public.notification_settings OWNER TO central_one;
 
 --
--- Name: notifications; Type: TABLE; Schema: public; Owner: kapda
+-- Name: notifications; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.notifications (
@@ -438,10 +438,10 @@ CREATE TABLE public.notifications (
 );
 
 
-ALTER TABLE public.notifications OWNER TO kapda;
+ALTER TABLE public.notifications OWNER TO central_one;
 
 --
--- Name: printer_settings; Type: TABLE; Schema: public; Owner: kapda
+-- Name: printer_settings; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.printer_settings (
@@ -459,10 +459,10 @@ CREATE TABLE public.printer_settings (
 );
 
 
-ALTER TABLE public.printer_settings OWNER TO kapda;
+ALTER TABLE public.printer_settings OWNER TO central_one;
 
 --
--- Name: product_images; Type: TABLE; Schema: public; Owner: kapda
+-- Name: product_images; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.product_images (
@@ -477,10 +477,10 @@ CREATE TABLE public.product_images (
 );
 
 
-ALTER TABLE public.product_images OWNER TO kapda;
+ALTER TABLE public.product_images OWNER TO central_one;
 
 --
--- Name: product_variants; Type: TABLE; Schema: public; Owner: kapda
+-- Name: product_variants; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.product_variants (
@@ -505,10 +505,10 @@ CREATE TABLE public.product_variants (
 );
 
 
-ALTER TABLE public.product_variants OWNER TO kapda;
+ALTER TABLE public.product_variants OWNER TO central_one;
 
 --
--- Name: products; Type: TABLE; Schema: public; Owner: kapda
+-- Name: products; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.products (
@@ -526,10 +526,10 @@ CREATE TABLE public.products (
 );
 
 
-ALTER TABLE public.products OWNER TO kapda;
+ALTER TABLE public.products OWNER TO central_one;
 
 --
--- Name: purchase_items; Type: TABLE; Schema: public; Owner: kapda
+-- Name: purchase_items; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.purchase_items (
@@ -544,10 +544,10 @@ CREATE TABLE public.purchase_items (
 );
 
 
-ALTER TABLE public.purchase_items OWNER TO kapda;
+ALTER TABLE public.purchase_items OWNER TO central_one;
 
 --
--- Name: purchases; Type: TABLE; Schema: public; Owner: kapda
+-- Name: purchases; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.purchases (
@@ -571,10 +571,10 @@ CREATE TABLE public.purchases (
 );
 
 
-ALTER TABLE public.purchases OWNER TO kapda;
+ALTER TABLE public.purchases OWNER TO central_one;
 
 --
--- Name: refresh_tokens; Type: TABLE; Schema: public; Owner: kapda
+-- Name: refresh_tokens; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.refresh_tokens (
@@ -586,10 +586,10 @@ CREATE TABLE public.refresh_tokens (
 );
 
 
-ALTER TABLE public.refresh_tokens OWNER TO kapda;
+ALTER TABLE public.refresh_tokens OWNER TO central_one;
 
 --
--- Name: roles; Type: TABLE; Schema: public; Owner: kapda
+-- Name: roles; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.roles (
@@ -601,10 +601,10 @@ CREATE TABLE public.roles (
 );
 
 
-ALTER TABLE public.roles OWNER TO kapda;
+ALTER TABLE public.roles OWNER TO central_one;
 
 --
--- Name: sale_items; Type: TABLE; Schema: public; Owner: kapda
+-- Name: sale_items; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.sale_items (
@@ -621,10 +621,10 @@ CREATE TABLE public.sale_items (
 );
 
 
-ALTER TABLE public.sale_items OWNER TO kapda;
+ALTER TABLE public.sale_items OWNER TO central_one;
 
 --
--- Name: sale_payments; Type: TABLE; Schema: public; Owner: kapda
+-- Name: sale_payments; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.sale_payments (
@@ -637,10 +637,10 @@ CREATE TABLE public.sale_payments (
 );
 
 
-ALTER TABLE public.sale_payments OWNER TO kapda;
+ALTER TABLE public.sale_payments OWNER TO central_one;
 
 --
--- Name: sales; Type: TABLE; Schema: public; Owner: kapda
+-- Name: sales; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.sales (
@@ -662,10 +662,10 @@ CREATE TABLE public.sales (
 );
 
 
-ALTER TABLE public.sales OWNER TO kapda;
+ALTER TABLE public.sales OWNER TO central_one;
 
 --
--- Name: sales_return_items; Type: TABLE; Schema: public; Owner: kapda
+-- Name: sales_return_items; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.sales_return_items (
@@ -683,10 +683,10 @@ CREATE TABLE public.sales_return_items (
 );
 
 
-ALTER TABLE public.sales_return_items OWNER TO kapda;
+ALTER TABLE public.sales_return_items OWNER TO central_one;
 
 --
--- Name: sales_returns; Type: TABLE; Schema: public; Owner: kapda
+-- Name: sales_returns; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.sales_returns (
@@ -708,10 +708,10 @@ CREATE TABLE public.sales_returns (
 );
 
 
-ALTER TABLE public.sales_returns OWNER TO kapda;
+ALTER TABLE public.sales_returns OWNER TO central_one;
 
 --
--- Name: stock_movements; Type: TABLE; Schema: public; Owner: kapda
+-- Name: stock_movements; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.stock_movements (
@@ -732,10 +732,10 @@ CREATE TABLE public.stock_movements (
 );
 
 
-ALTER TABLE public.stock_movements OWNER TO kapda;
+ALTER TABLE public.stock_movements OWNER TO central_one;
 
 --
--- Name: stores; Type: TABLE; Schema: public; Owner: kapda
+-- Name: stores; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.stores (
@@ -764,10 +764,10 @@ CREATE TABLE public.stores (
 );
 
 
-ALTER TABLE public.stores OWNER TO kapda;
+ALTER TABLE public.stores OWNER TO central_one;
 
 --
--- Name: suppliers; Type: TABLE; Schema: public; Owner: kapda
+-- Name: suppliers; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.suppliers (
@@ -789,10 +789,10 @@ CREATE TABLE public.suppliers (
 );
 
 
-ALTER TABLE public.suppliers OWNER TO kapda;
+ALTER TABLE public.suppliers OWNER TO central_one;
 
 --
--- Name: user_preferences; Type: TABLE; Schema: public; Owner: kapda
+-- Name: user_preferences; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.user_preferences (
@@ -809,10 +809,10 @@ CREATE TABLE public.user_preferences (
 );
 
 
-ALTER TABLE public.user_preferences OWNER TO kapda;
+ALTER TABLE public.user_preferences OWNER TO central_one;
 
 --
--- Name: user_roles; Type: TABLE; Schema: public; Owner: kapda
+-- Name: user_roles; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.user_roles (
@@ -822,10 +822,10 @@ CREATE TABLE public.user_roles (
 );
 
 
-ALTER TABLE public.user_roles OWNER TO kapda;
+ALTER TABLE public.user_roles OWNER TO central_one;
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: kapda
+-- Name: users; Type: TABLE; Schema: public; Owner: central_one
 --
 
 CREATE TABLE public.users (
@@ -844,10 +844,10 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO kapda;
+ALTER TABLE public.users OWNER TO central_one;
 
 --
--- Data for Name: _prisma_migrations; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: _prisma_migrations; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
@@ -857,7 +857,7 @@ COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs,
 
 
 --
--- Data for Name: audit_logs; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: audit_logs; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.audit_logs (id, "userId", action, module, "recordId", details, "ipAddress", "storeId", "createdAt") FROM stdin;
@@ -865,7 +865,7 @@ COPY public.audit_logs (id, "userId", action, module, "recordId", details, "ipAd
 
 
 --
--- Data for Name: backups; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: backups; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.backups (id, "storeId", filename, "filePath", "fileSize", status, notes, "createdById", "createdAt") FROM stdin;
@@ -873,7 +873,7 @@ COPY public.backups (id, "storeId", filename, "filePath", "fileSize", status, no
 
 
 --
--- Data for Name: barcode_settings; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: barcode_settings; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.barcode_settings (id, "storeId", "barcodeType", "labelWidth", "labelHeight", "labelsPerRow", "showPrice", "showSku", "showVariant", "createdAt", "updatedAt") FROM stdin;
@@ -882,7 +882,7 @@ COPY public.barcode_settings (id, "storeId", "barcodeType", "labelWidth", "label
 
 
 --
--- Data for Name: brands; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: brands; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.brands (id, name, slug, description, "storeId", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -891,7 +891,7 @@ COPY public.brands (id, name, slug, description, "storeId", "createdAt", "update
 
 
 --
--- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.categories (id, name, slug, description, "parentId", "storeId", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -901,7 +901,7 @@ bb8d89ee-9740-48b0-b3c2-706357278e95	Women Ethnic & Festive Wear	women-ethnic-fe
 
 
 --
--- Data for Name: credit_note_redemptions; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: credit_note_redemptions; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.credit_note_redemptions (id, "creditNoteId", "saleId", amount, "createdAt") FROM stdin;
@@ -910,7 +910,7 @@ COPY public.credit_note_redemptions (id, "creditNoteId", "saleId", amount, "crea
 
 
 --
--- Data for Name: credit_notes; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: credit_notes; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.credit_notes (id, "creditNoteNumber", "customerId", "salesReturnId", "originalSaleId", amount, "availableAmount", "issueDate", "expiryDate", status, "redeemedAt", notes, "storeId", "createdById", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -919,7 +919,7 @@ COPY public.credit_notes (id, "creditNoteNumber", "customerId", "salesReturnId",
 
 
 --
--- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.customers (id, name, email, phone, address, city, state, pincode, gstin, "loyaltyPoints", "storeId", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -928,7 +928,7 @@ cc187920-565b-4876-bcf1-e3a1509eb557	Amit Sharma	amit@example.com	+91-9876540001
 
 
 --
--- Data for Name: expenses; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: expenses; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.expenses (id, category, amount, description, date, "paymentMode", "storeId", "createdById", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -936,7 +936,7 @@ COPY public.expenses (id, category, amount, description, date, "paymentMode", "s
 
 
 --
--- Data for Name: gst_settings; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: gst_settings; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.gst_settings (id, "storeId", "isGstEnabled", "defaultMode", "rate0Enabled", "rate5Enabled", "rate12Enabled", "rate18Enabled", "rate28Enabled", "createdAt", "updatedAt") FROM stdin;
@@ -945,7 +945,7 @@ da0d3ed5-802a-4082-9248-b06c2d2ff122	1f5be17b-21fe-4f69-ad3c-aa2defe6272d	t	EXCL
 
 
 --
--- Data for Name: invoice_settings; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: invoice_settings; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.invoice_settings (id, "storeId", prefix, "startingNumber", "receiptFooter", "termsAndConditions", "thankYouMessage", "a4Template", "thermal58Template", "thermal80Template", "createdAt", "updatedAt") FROM stdin;
@@ -954,7 +954,7 @@ defe4986-a808-4d7d-a10f-d4eb1ae37812	1f5be17b-21fe-4f69-ad3c-aa2defe6272d	INV-	1
 
 
 --
--- Data for Name: notification_settings; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: notification_settings; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.notification_settings (id, "userId", "lowStockAlert", "outOfStockAlert", "dailySalesSummary", "newUserAlert", "backupAlert", "emailEnabled", "smsEnabled", "createdAt", "updatedAt") FROM stdin;
@@ -963,7 +963,7 @@ d19d76b8-3f4b-463e-89e6-c762a22f10c9	699b2cd2-0824-4be9-a18e-771a17a2488b	t	t	f	
 
 
 --
--- Data for Name: notifications; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: notifications; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.notifications (id, "userId", title, message, type, "isRead", link, "storeId", "createdAt") FROM stdin;
@@ -971,7 +971,7 @@ COPY public.notifications (id, "userId", title, message, type, "isRead", link, "
 
 
 --
--- Data for Name: printer_settings; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: printer_settings; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.printer_settings (id, "storeId", "printerType", "printerName", "paperSize", margins, "fontSize", "autoPrint", copies, "createdAt", "updatedAt") FROM stdin;
@@ -980,7 +980,7 @@ COPY public.printer_settings (id, "storeId", "printerType", "printerName", "pape
 
 
 --
--- Data for Name: product_images; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: product_images; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.product_images (id, "productId", url, alt, "isPrimary", "sortOrder", "createdAt", "updatedAt") FROM stdin;
@@ -989,7 +989,7 @@ f6d5d254-705f-4d30-bcc4-dfc898d1a4c4	05a9c67b-637f-489e-bd2e-f25a750a0d82	/uploa
 
 
 --
--- Data for Name: product_variants; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: product_variants; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.product_variants (id, "productId", sku, barcode, "barcodeType", "barcodeImagePath", size, color, "purchasePrice", "sellingPrice", "gstPercentage", "stockQuantity", "reorderLevel", "isActive", "storeId", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -1001,7 +1001,7 @@ fb854bda-40af-4660-951a-6cbc19f437c1	05a9c67b-637f-489e-bd2e-f25a750a0d82	POLO-B
 
 
 --
--- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.products (id, name, slug, description, tags, "categoryId", "brandId", "createdAt", "updatedAt", "deletedAt", "isActive") FROM stdin;
@@ -1011,7 +1011,7 @@ a1e9191c-3c8d-4860-856a-597378d4ee64	Denim Jacket	denim-jacket	\N	\N	58ef9f9a-b3
 
 
 --
--- Data for Name: purchase_items; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: purchase_items; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.purchase_items (id, "purchaseId", "productVariantId", quantity, "unitCost", "totalCost", "createdAt", "updatedAt") FROM stdin;
@@ -1021,7 +1021,7 @@ COPY public.purchase_items (id, "purchaseId", "productVariantId", quantity, "uni
 
 
 --
--- Data for Name: purchases; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: purchases; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.purchases (id, "invoiceNumber", "supplierId", "purchaseDate", subtotal, "discountAmount", "taxAmount", "grandTotal", status, "paymentStatus", "paymentMode", notes, "storeId", "createdById", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -1030,7 +1030,7 @@ COPY public.purchases (id, "invoiceNumber", "supplierId", "purchaseDate", subtot
 
 
 --
--- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.refresh_tokens (id, token, "userId", "expiresAt", "createdAt") FROM stdin;
@@ -1066,7 +1066,7 @@ cff872f0-f3b1-4482-9518-7247f3c9f96c	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2
 
 
 --
--- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.roles (id, name, description, "createdAt", "updatedAt") FROM stdin;
@@ -1077,7 +1077,7 @@ COPY public.roles (id, name, description, "createdAt", "updatedAt") FROM stdin;
 
 
 --
--- Data for Name: sale_items; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: sale_items; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.sale_items (id, "saleId", "productVariantId", quantity, "unitPrice", "gstPercentage", "gstAmount", "totalPrice", "createdAt", "updatedAt") FROM stdin;
@@ -1092,7 +1092,7 @@ bea9c1be-7b4f-4d0c-ac86-d4749ae6f809	784d1062-e15d-4523-9f4d-d6a5c610108b	6e4b71
 
 
 --
--- Data for Name: sale_payments; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: sale_payments; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.sale_payments (id, "saleId", mode, amount, reference, "createdAt") FROM stdin;
@@ -1108,7 +1108,7 @@ d46b2ed5-5f51-47ef-b500-a4e081caf2cf	784d1062-e15d-4523-9f4d-d6a5c610108b	CASH	1
 
 
 --
--- Data for Name: sales; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: sales; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.sales (id, "invoiceNumber", "customerId", "saleDate", subtotal, "discountAmount", "taxAmount", "grandTotal", "isGst", notes, "storeId", "createdById", "createdAt", "updatedAt", "deletedAt") FROM stdin;
@@ -1123,7 +1123,7 @@ ce82fbea-e636-4c31-95ef-9afe70c30b82	POS-20260717-8ESQ	\N	2026-07-16 21:57:23.73
 
 
 --
--- Data for Name: sales_return_items; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: sales_return_items; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.sales_return_items (id, "salesReturnId", "saleItemId", "productVariantId", quantity, "unitPrice", "totalAmount", reason, "createdAt", "updatedAt", condition) FROM stdin;
@@ -1134,7 +1134,7 @@ ff566a5f-35e6-4fb8-a50c-1e38f6a46fd5	3bed9044-9edc-42fe-8068-0e702499e1f9	ae0475
 
 
 --
--- Data for Name: sales_returns; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: sales_returns; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.sales_returns (id, "returnNumber", "saleId", "returnDate", "totalAmount", reason, "storeId", "createdById", "createdAt", "updatedAt", "deletedAt", "refundAmount", "refundDate", "refundMethod", "refundProcessedById") FROM stdin;
@@ -1145,7 +1145,7 @@ d634bfcb-ee0a-4c96-91ea-81a00672afcc	RTR-20260717-2FP8	fab000ca-8543-4edd-8ec4-3
 
 
 --
--- Data for Name: stock_movements; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: stock_movements; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.stock_movements (id, "productVariantId", quantity, type, "purchaseItemId", "saleItemId", "salesReturnItemId", notes, "storeId", "createdById", "createdAt", "adjustmentReason", "newStock", "previousStock") FROM stdin;
@@ -1167,16 +1167,16 @@ e39ccd50-cf47-4ac0-8574-9ed3bbde1279	6e4b71d7-6d24-4c2b-9bf3-b2633b2c661d	-1	SAL
 
 
 --
--- Data for Name: stores; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: stores; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.stores (id, name, code, address, city, state, pincode, phone, email, gstin, "isActive", "createdAt", "updatedAt", "deletedAt", currency, "financialYear", language, logo, "ownerName", "panNumber", timezone, website) FROM stdin;
-1f5be17b-21fe-4f69-ad3c-aa2defe6272d	Main Store	MAIN	123 Main Street	New Delhi	Delhi	\N	+91-9999999999	store@kapda.com	07ABCDE1234F1Z5	t	2026-07-16 20:53:36.922	2026-07-16 20:53:36.922	\N	INR	\N	en	\N	\N	\N	Asia/Kolkata	\N
+1f5be17b-21fe-4f69-ad3c-aa2defe6272d	Main Store	MAIN	123 Main Street	New Delhi	Delhi	\N	+91-9999999999	store@central_one.com	07ABCDE1234F1Z5	t	2026-07-16 20:53:36.922	2026-07-16 20:53:36.922	\N	INR	\N	en	\N	\N	\N	Asia/Kolkata	\N
 \.
 
 
 --
--- Data for Name: suppliers; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: suppliers; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.suppliers (id, name, "contactPerson", email, phone, address, city, state, pincode, gstin, "storeId", "createdAt", "updatedAt", "deletedAt", "isActive") FROM stdin;
@@ -1185,7 +1185,7 @@ cfa04312-a844-4ab4-85cd-abd145846fea	Fashion Fabrics Co.	Rajesh Kumar	rajesh@ffc
 
 
 --
--- Data for Name: user_preferences; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: user_preferences; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.user_preferences (id, "userId", theme, language, "defaultLandingPage", "defaultPrinter", "defaultPaymentMethod", "itemsPerPage", "createdAt", "updatedAt") FROM stdin;
@@ -1194,7 +1194,7 @@ d88c07e3-8b9d-450c-a323-ab7799c33698	699b2cd2-0824-4be9-a18e-771a17a2488b	dark	e
 
 
 --
--- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.user_roles ("userId", "roleId", "createdAt") FROM stdin;
@@ -1206,19 +1206,19 @@ f46680f4-cd54-4da6-adc8-ac247335fd55	4430f9fb-065f-4996-8302-9025ba92fb78	2026-0
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: kapda
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: central_one
 --
 
 COPY public.users (id, email, phone, "passwordHash", "firstName", "lastName", "isActive", "storeId", "createdAt", "updatedAt", "deletedAt", "createdById") FROM stdin;
-cc75a6d0-7b55-4120-81a5-e883b8453e5d	manager@kapda.com	+91-9999999997	$2b$12$hadS0wM3lIvAyeOrua97hemNXtsD6s20r9uxZjqKttZT0bD9f8MmS	Manager	User	t	1f5be17b-21fe-4f69-ad3c-aa2defe6272d	2026-07-16 20:53:37.512	2026-07-16 20:53:37.512	\N	699b2cd2-0824-4be9-a18e-771a17a2488b
-a1ccdc77-7b42-419b-b66b-e13c7f8b6ac2	cashier@kapda.com	+91-9999999996	$2b$12$5Yd/FxUmYsSXeZBugI9dsucFT6.lAekMeNnsX8XOhsJbZOqqxL2Ge	Cashier	User	t	1f5be17b-21fe-4f69-ad3c-aa2defe6272d	2026-07-16 20:53:37.793	2026-07-16 20:53:37.793	\N	699b2cd2-0824-4be9-a18e-771a17a2488b
-f46680f4-cd54-4da6-adc8-ac247335fd55	test2@kapda.com	\N	$2b$12$aESY2Dc42YNMP0LRr1L/k.P0lwvYsXDS2Mz7y.tEczQ87dhoxfo46	Test	\N	t	\N	2026-07-16 20:57:19.027	2026-07-16 20:57:19.027	\N	699b2cd2-0824-4be9-a18e-771a17a2488b
-699b2cd2-0824-4be9-a18e-771a17a2488b	admin@kapda.com	+91-9999999998	$2b$12$C4OOTXKO/9W7OQpEgXpFke9.7uvbsUljLY4nYEmX3X.U5x2mA9v92	Admin	User	t	1f5be17b-21fe-4f69-ad3c-aa2defe6272d	2026-07-16 20:53:37.228	2026-07-16 21:22:10.669	\N	\N
+cc75a6d0-7b55-4120-81a5-e883b8453e5d	manager@central_one.com	+91-9999999997	$2b$12$hadS0wM3lIvAyeOrua97hemNXtsD6s20r9uxZjqKttZT0bD9f8MmS	Manager	User	t	1f5be17b-21fe-4f69-ad3c-aa2defe6272d	2026-07-16 20:53:37.512	2026-07-16 20:53:37.512	\N	699b2cd2-0824-4be9-a18e-771a17a2488b
+a1ccdc77-7b42-419b-b66b-e13c7f8b6ac2	cashier@central_one.com	+91-9999999996	$2b$12$5Yd/FxUmYsSXeZBugI9dsucFT6.lAekMeNnsX8XOhsJbZOqqxL2Ge	Cashier	User	t	1f5be17b-21fe-4f69-ad3c-aa2defe6272d	2026-07-16 20:53:37.793	2026-07-16 20:53:37.793	\N	699b2cd2-0824-4be9-a18e-771a17a2488b
+f46680f4-cd54-4da6-adc8-ac247335fd55	test2@central_one.com	\N	$2b$12$aESY2Dc42YNMP0LRr1L/k.P0lwvYsXDS2Mz7y.tEczQ87dhoxfo46	Test	\N	t	\N	2026-07-16 20:57:19.027	2026-07-16 20:57:19.027	\N	699b2cd2-0824-4be9-a18e-771a17a2488b
+699b2cd2-0824-4be9-a18e-771a17a2488b	admin@central_one.com	+91-9999999998	$2b$12$C4OOTXKO/9W7OQpEgXpFke9.7uvbsUljLY4nYEmX3X.U5x2mA9v92	Admin	User	t	1f5be17b-21fe-4f69-ad3c-aa2defe6272d	2026-07-16 20:53:37.228	2026-07-16 21:22:10.669	\N	\N
 \.
 
 
 --
--- Name: _prisma_migrations _prisma_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: _prisma_migrations _prisma_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public._prisma_migrations
@@ -1226,7 +1226,7 @@ ALTER TABLE ONLY public._prisma_migrations
 
 
 --
--- Name: audit_logs audit_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: audit_logs audit_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.audit_logs
@@ -1234,7 +1234,7 @@ ALTER TABLE ONLY public.audit_logs
 
 
 --
--- Name: backups backups_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: backups backups_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.backups
@@ -1242,7 +1242,7 @@ ALTER TABLE ONLY public.backups
 
 
 --
--- Name: barcode_settings barcode_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: barcode_settings barcode_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.barcode_settings
@@ -1250,7 +1250,7 @@ ALTER TABLE ONLY public.barcode_settings
 
 
 --
--- Name: brands brands_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: brands brands_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.brands
@@ -1258,7 +1258,7 @@ ALTER TABLE ONLY public.brands
 
 
 --
--- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.categories
@@ -1266,7 +1266,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- Name: credit_note_redemptions credit_note_redemptions_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_note_redemptions credit_note_redemptions_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_note_redemptions
@@ -1274,7 +1274,7 @@ ALTER TABLE ONLY public.credit_note_redemptions
 
 
 --
--- Name: credit_notes credit_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_notes credit_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_notes
@@ -1282,7 +1282,7 @@ ALTER TABLE ONLY public.credit_notes
 
 
 --
--- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.customers
@@ -1290,7 +1290,7 @@ ALTER TABLE ONLY public.customers
 
 
 --
--- Name: expenses expenses_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: expenses expenses_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.expenses
@@ -1298,7 +1298,7 @@ ALTER TABLE ONLY public.expenses
 
 
 --
--- Name: gst_settings gst_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: gst_settings gst_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.gst_settings
@@ -1306,7 +1306,7 @@ ALTER TABLE ONLY public.gst_settings
 
 
 --
--- Name: invoice_settings invoice_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: invoice_settings invoice_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.invoice_settings
@@ -1314,7 +1314,7 @@ ALTER TABLE ONLY public.invoice_settings
 
 
 --
--- Name: notification_settings notification_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: notification_settings notification_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.notification_settings
@@ -1322,7 +1322,7 @@ ALTER TABLE ONLY public.notification_settings
 
 
 --
--- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.notifications
@@ -1330,7 +1330,7 @@ ALTER TABLE ONLY public.notifications
 
 
 --
--- Name: printer_settings printer_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: printer_settings printer_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.printer_settings
@@ -1338,7 +1338,7 @@ ALTER TABLE ONLY public.printer_settings
 
 
 --
--- Name: product_images product_images_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: product_images product_images_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.product_images
@@ -1346,7 +1346,7 @@ ALTER TABLE ONLY public.product_images
 
 
 --
--- Name: product_variants product_variants_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: product_variants product_variants_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.product_variants
@@ -1354,7 +1354,7 @@ ALTER TABLE ONLY public.product_variants
 
 
 --
--- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.products
@@ -1362,7 +1362,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- Name: purchase_items purchase_items_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: purchase_items purchase_items_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.purchase_items
@@ -1370,7 +1370,7 @@ ALTER TABLE ONLY public.purchase_items
 
 
 --
--- Name: purchases purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: purchases purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.purchases
@@ -1378,7 +1378,7 @@ ALTER TABLE ONLY public.purchases
 
 
 --
--- Name: refresh_tokens refresh_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: refresh_tokens refresh_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.refresh_tokens
@@ -1386,7 +1386,7 @@ ALTER TABLE ONLY public.refresh_tokens
 
 
 --
--- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.roles
@@ -1394,7 +1394,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- Name: sale_items sale_items_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sale_items sale_items_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sale_items
@@ -1402,7 +1402,7 @@ ALTER TABLE ONLY public.sale_items
 
 
 --
--- Name: sale_payments sale_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sale_payments sale_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sale_payments
@@ -1410,7 +1410,7 @@ ALTER TABLE ONLY public.sale_payments
 
 
 --
--- Name: sales sales_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales sales_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales
@@ -1418,7 +1418,7 @@ ALTER TABLE ONLY public.sales
 
 
 --
--- Name: sales_return_items sales_return_items_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_return_items sales_return_items_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_return_items
@@ -1426,7 +1426,7 @@ ALTER TABLE ONLY public.sales_return_items
 
 
 --
--- Name: sales_returns sales_returns_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_returns sales_returns_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_returns
@@ -1434,7 +1434,7 @@ ALTER TABLE ONLY public.sales_returns
 
 
 --
--- Name: stock_movements stock_movements_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: stock_movements stock_movements_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.stock_movements
@@ -1442,7 +1442,7 @@ ALTER TABLE ONLY public.stock_movements
 
 
 --
--- Name: stores stores_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: stores stores_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.stores
@@ -1450,7 +1450,7 @@ ALTER TABLE ONLY public.stores
 
 
 --
--- Name: suppliers suppliers_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: suppliers suppliers_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.suppliers
@@ -1458,7 +1458,7 @@ ALTER TABLE ONLY public.suppliers
 
 
 --
--- Name: user_preferences user_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: user_preferences user_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.user_preferences
@@ -1466,7 +1466,7 @@ ALTER TABLE ONLY public.user_preferences
 
 
 --
--- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.user_roles
@@ -1474,7 +1474,7 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: kapda
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.users
@@ -1482,679 +1482,679 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: audit_logs_action_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: audit_logs_action_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX audit_logs_action_idx ON public.audit_logs USING btree (action);
 
 
 --
--- Name: audit_logs_createdAt_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: audit_logs_createdAt_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "audit_logs_createdAt_idx" ON public.audit_logs USING btree ("createdAt");
 
 
 --
--- Name: audit_logs_module_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: audit_logs_module_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX audit_logs_module_idx ON public.audit_logs USING btree (module);
 
 
 --
--- Name: audit_logs_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: audit_logs_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "audit_logs_storeId_idx" ON public.audit_logs USING btree ("storeId");
 
 
 --
--- Name: audit_logs_userId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: audit_logs_userId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "audit_logs_userId_idx" ON public.audit_logs USING btree ("userId");
 
 
 --
--- Name: backups_createdAt_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: backups_createdAt_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "backups_createdAt_idx" ON public.backups USING btree ("createdAt");
 
 
 --
--- Name: backups_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: backups_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "backups_storeId_idx" ON public.backups USING btree ("storeId");
 
 
 --
--- Name: barcode_settings_storeId_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: barcode_settings_storeId_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "barcode_settings_storeId_key" ON public.barcode_settings USING btree ("storeId");
 
 
 --
--- Name: brands_slug_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: brands_slug_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX brands_slug_idx ON public.brands USING btree (slug);
 
 
 --
--- Name: brands_slug_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: brands_slug_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX brands_slug_key ON public.brands USING btree (slug);
 
 
 --
--- Name: brands_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: brands_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "brands_storeId_idx" ON public.brands USING btree ("storeId");
 
 
 --
--- Name: categories_parentId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: categories_parentId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "categories_parentId_idx" ON public.categories USING btree ("parentId");
 
 
 --
--- Name: categories_slug_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: categories_slug_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX categories_slug_idx ON public.categories USING btree (slug);
 
 
 --
--- Name: categories_slug_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: categories_slug_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX categories_slug_key ON public.categories USING btree (slug);
 
 
 --
--- Name: categories_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: categories_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "categories_storeId_idx" ON public.categories USING btree ("storeId");
 
 
 --
--- Name: credit_note_redemptions_creditNoteId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: credit_note_redemptions_creditNoteId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "credit_note_redemptions_creditNoteId_idx" ON public.credit_note_redemptions USING btree ("creditNoteId");
 
 
 --
--- Name: credit_note_redemptions_saleId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: credit_note_redemptions_saleId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "credit_note_redemptions_saleId_idx" ON public.credit_note_redemptions USING btree ("saleId");
 
 
 --
--- Name: credit_notes_creditNoteNumber_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: credit_notes_creditNoteNumber_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "credit_notes_creditNoteNumber_idx" ON public.credit_notes USING btree ("creditNoteNumber");
 
 
 --
--- Name: credit_notes_creditNoteNumber_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: credit_notes_creditNoteNumber_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "credit_notes_creditNoteNumber_key" ON public.credit_notes USING btree ("creditNoteNumber");
 
 
 --
--- Name: credit_notes_customerId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: credit_notes_customerId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "credit_notes_customerId_idx" ON public.credit_notes USING btree ("customerId");
 
 
 --
--- Name: credit_notes_status_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: credit_notes_status_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX credit_notes_status_idx ON public.credit_notes USING btree (status);
 
 
 --
--- Name: customers_email_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: customers_email_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX customers_email_idx ON public.customers USING btree (email);
 
 
 --
--- Name: customers_phone_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: customers_phone_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX customers_phone_idx ON public.customers USING btree (phone);
 
 
 --
--- Name: customers_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: customers_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "customers_storeId_idx" ON public.customers USING btree ("storeId");
 
 
 --
--- Name: expenses_category_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: expenses_category_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX expenses_category_idx ON public.expenses USING btree (category);
 
 
 --
--- Name: expenses_date_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: expenses_date_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX expenses_date_idx ON public.expenses USING btree (date);
 
 
 --
--- Name: expenses_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: expenses_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "expenses_storeId_idx" ON public.expenses USING btree ("storeId");
 
 
 --
--- Name: gst_settings_storeId_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: gst_settings_storeId_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "gst_settings_storeId_key" ON public.gst_settings USING btree ("storeId");
 
 
 --
--- Name: invoice_settings_storeId_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: invoice_settings_storeId_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "invoice_settings_storeId_key" ON public.invoice_settings USING btree ("storeId");
 
 
 --
--- Name: notification_settings_userId_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: notification_settings_userId_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "notification_settings_userId_key" ON public.notification_settings USING btree ("userId");
 
 
 --
--- Name: notifications_createdAt_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: notifications_createdAt_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "notifications_createdAt_idx" ON public.notifications USING btree ("createdAt");
 
 
 --
--- Name: notifications_userId_isRead_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: notifications_userId_isRead_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "notifications_userId_isRead_idx" ON public.notifications USING btree ("userId", "isRead");
 
 
 --
--- Name: printer_settings_storeId_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: printer_settings_storeId_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "printer_settings_storeId_key" ON public.printer_settings USING btree ("storeId");
 
 
 --
--- Name: product_images_productId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_images_productId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "product_images_productId_idx" ON public.product_images USING btree ("productId");
 
 
 --
--- Name: product_images_productId_isPrimary_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_images_productId_isPrimary_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "product_images_productId_isPrimary_idx" ON public.product_images USING btree ("productId", "isPrimary");
 
 
 --
--- Name: product_variants_barcode_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_barcode_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX product_variants_barcode_idx ON public.product_variants USING btree (barcode);
 
 
 --
--- Name: product_variants_barcode_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_barcode_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX product_variants_barcode_key ON public.product_variants USING btree (barcode);
 
 
 --
--- Name: product_variants_isActive_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_isActive_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "product_variants_isActive_idx" ON public.product_variants USING btree ("isActive");
 
 
 --
--- Name: product_variants_productId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_productId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "product_variants_productId_idx" ON public.product_variants USING btree ("productId");
 
 
 --
--- Name: product_variants_productId_size_color_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_productId_size_color_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "product_variants_productId_size_color_key" ON public.product_variants USING btree ("productId", size, color);
 
 
 --
--- Name: product_variants_productId_sku_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_productId_sku_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "product_variants_productId_sku_key" ON public.product_variants USING btree ("productId", sku);
 
 
 --
--- Name: product_variants_size_color_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_size_color_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX product_variants_size_color_idx ON public.product_variants USING btree (size, color);
 
 
 --
--- Name: product_variants_sku_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_sku_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX product_variants_sku_idx ON public.product_variants USING btree (sku);
 
 
 --
--- Name: product_variants_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: product_variants_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "product_variants_storeId_idx" ON public.product_variants USING btree ("storeId");
 
 
 --
--- Name: products_brandId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: products_brandId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "products_brandId_idx" ON public.products USING btree ("brandId");
 
 
 --
--- Name: products_categoryId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: products_categoryId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "products_categoryId_idx" ON public.products USING btree ("categoryId");
 
 
 --
--- Name: products_isActive_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: products_isActive_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "products_isActive_idx" ON public.products USING btree ("isActive");
 
 
 --
--- Name: products_name_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: products_name_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX products_name_idx ON public.products USING btree (name);
 
 
 --
--- Name: products_slug_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: products_slug_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX products_slug_idx ON public.products USING btree (slug);
 
 
 --
--- Name: products_slug_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: products_slug_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX products_slug_key ON public.products USING btree (slug);
 
 
 --
--- Name: purchase_items_productVariantId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: purchase_items_productVariantId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "purchase_items_productVariantId_idx" ON public.purchase_items USING btree ("productVariantId");
 
 
 --
--- Name: purchase_items_purchaseId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: purchase_items_purchaseId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "purchase_items_purchaseId_idx" ON public.purchase_items USING btree ("purchaseId");
 
 
 --
--- Name: purchases_invoiceNumber_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: purchases_invoiceNumber_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "purchases_invoiceNumber_idx" ON public.purchases USING btree ("invoiceNumber");
 
 
 --
--- Name: purchases_invoiceNumber_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: purchases_invoiceNumber_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "purchases_invoiceNumber_key" ON public.purchases USING btree ("invoiceNumber");
 
 
 --
--- Name: purchases_purchaseDate_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: purchases_purchaseDate_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "purchases_purchaseDate_idx" ON public.purchases USING btree ("purchaseDate");
 
 
 --
--- Name: purchases_status_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: purchases_status_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX purchases_status_idx ON public.purchases USING btree (status);
 
 
 --
--- Name: purchases_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: purchases_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "purchases_storeId_idx" ON public.purchases USING btree ("storeId");
 
 
 --
--- Name: purchases_supplierId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: purchases_supplierId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "purchases_supplierId_idx" ON public.purchases USING btree ("supplierId");
 
 
 --
--- Name: refresh_tokens_token_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: refresh_tokens_token_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX refresh_tokens_token_idx ON public.refresh_tokens USING btree (token);
 
 
 --
--- Name: refresh_tokens_token_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: refresh_tokens_token_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX refresh_tokens_token_key ON public.refresh_tokens USING btree (token);
 
 
 --
--- Name: refresh_tokens_userId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: refresh_tokens_userId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "refresh_tokens_userId_idx" ON public.refresh_tokens USING btree ("userId");
 
 
 --
--- Name: roles_name_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: roles_name_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX roles_name_key ON public.roles USING btree (name);
 
 
 --
--- Name: sale_items_productVariantId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sale_items_productVariantId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sale_items_productVariantId_idx" ON public.sale_items USING btree ("productVariantId");
 
 
 --
--- Name: sale_items_saleId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sale_items_saleId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sale_items_saleId_idx" ON public.sale_items USING btree ("saleId");
 
 
 --
--- Name: sale_payments_saleId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sale_payments_saleId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sale_payments_saleId_idx" ON public.sale_payments USING btree ("saleId");
 
 
 --
--- Name: sales_customerId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_customerId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_customerId_idx" ON public.sales USING btree ("customerId");
 
 
 --
--- Name: sales_invoiceNumber_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_invoiceNumber_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_invoiceNumber_idx" ON public.sales USING btree ("invoiceNumber");
 
 
 --
--- Name: sales_invoiceNumber_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_invoiceNumber_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "sales_invoiceNumber_key" ON public.sales USING btree ("invoiceNumber");
 
 
 --
--- Name: sales_return_items_productVariantId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_return_items_productVariantId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_return_items_productVariantId_idx" ON public.sales_return_items USING btree ("productVariantId");
 
 
 --
--- Name: sales_return_items_saleItemId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_return_items_saleItemId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_return_items_saleItemId_idx" ON public.sales_return_items USING btree ("saleItemId");
 
 
 --
--- Name: sales_return_items_salesReturnId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_return_items_salesReturnId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_return_items_salesReturnId_idx" ON public.sales_return_items USING btree ("salesReturnId");
 
 
 --
--- Name: sales_returns_returnNumber_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_returns_returnNumber_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_returns_returnNumber_idx" ON public.sales_returns USING btree ("returnNumber");
 
 
 --
--- Name: sales_returns_returnNumber_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_returns_returnNumber_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "sales_returns_returnNumber_key" ON public.sales_returns USING btree ("returnNumber");
 
 
 --
--- Name: sales_returns_saleId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_returns_saleId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_returns_saleId_idx" ON public.sales_returns USING btree ("saleId");
 
 
 --
--- Name: sales_returns_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_returns_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_returns_storeId_idx" ON public.sales_returns USING btree ("storeId");
 
 
 --
--- Name: sales_saleDate_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_saleDate_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_saleDate_idx" ON public.sales USING btree ("saleDate");
 
 
 --
--- Name: sales_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: sales_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "sales_storeId_idx" ON public.sales USING btree ("storeId");
 
 
 --
--- Name: stock_movements_createdAt_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: stock_movements_createdAt_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "stock_movements_createdAt_idx" ON public.stock_movements USING btree ("createdAt");
 
 
 --
--- Name: stock_movements_productVariantId_createdAt_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: stock_movements_productVariantId_createdAt_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "stock_movements_productVariantId_createdAt_idx" ON public.stock_movements USING btree ("productVariantId", "createdAt");
 
 
 --
--- Name: stock_movements_productVariantId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: stock_movements_productVariantId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "stock_movements_productVariantId_idx" ON public.stock_movements USING btree ("productVariantId");
 
 
 --
--- Name: stock_movements_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: stock_movements_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "stock_movements_storeId_idx" ON public.stock_movements USING btree ("storeId");
 
 
 --
--- Name: stock_movements_type_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: stock_movements_type_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX stock_movements_type_idx ON public.stock_movements USING btree (type);
 
 
 --
--- Name: stores_code_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: stores_code_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX stores_code_idx ON public.stores USING btree (code);
 
 
 --
--- Name: stores_code_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: stores_code_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX stores_code_key ON public.stores USING btree (code);
 
 
 --
--- Name: stores_isActive_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: stores_isActive_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "stores_isActive_idx" ON public.stores USING btree ("isActive");
 
 
 --
--- Name: suppliers_email_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: suppliers_email_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX suppliers_email_idx ON public.suppliers USING btree (email);
 
 
 --
--- Name: suppliers_gstin_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: suppliers_gstin_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX suppliers_gstin_key ON public.suppliers USING btree (gstin);
 
 
 --
--- Name: suppliers_phone_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: suppliers_phone_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX suppliers_phone_idx ON public.suppliers USING btree (phone);
 
 
 --
--- Name: suppliers_phone_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: suppliers_phone_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX suppliers_phone_key ON public.suppliers USING btree (phone);
 
 
 --
--- Name: suppliers_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: suppliers_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "suppliers_storeId_idx" ON public.suppliers USING btree ("storeId");
 
 
 --
--- Name: user_preferences_userId_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: user_preferences_userId_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX "user_preferences_userId_key" ON public.user_preferences USING btree ("userId");
 
 
 --
--- Name: user_roles_roleId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: user_roles_roleId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "user_roles_roleId_idx" ON public.user_roles USING btree ("roleId");
 
 
 --
--- Name: users_email_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: users_email_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX users_email_idx ON public.users USING btree (email);
 
 
 --
--- Name: users_email_key; Type: INDEX; Schema: public; Owner: kapda
+-- Name: users_email_key; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE UNIQUE INDEX users_email_key ON public.users USING btree (email);
 
 
 --
--- Name: users_isActive_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: users_isActive_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "users_isActive_idx" ON public.users USING btree ("isActive");
 
 
 --
--- Name: users_storeId_idx; Type: INDEX; Schema: public; Owner: kapda
+-- Name: users_storeId_idx; Type: INDEX; Schema: public; Owner: central_one
 --
 
 CREATE INDEX "users_storeId_idx" ON public.users USING btree ("storeId");
 
 
 --
--- Name: audit_logs audit_logs_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: audit_logs audit_logs_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.audit_logs
@@ -2162,7 +2162,7 @@ ALTER TABLE ONLY public.audit_logs
 
 
 --
--- Name: audit_logs audit_logs_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: audit_logs audit_logs_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.audit_logs
@@ -2170,7 +2170,7 @@ ALTER TABLE ONLY public.audit_logs
 
 
 --
--- Name: backups backups_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: backups backups_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.backups
@@ -2178,7 +2178,7 @@ ALTER TABLE ONLY public.backups
 
 
 --
--- Name: backups backups_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: backups backups_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.backups
@@ -2186,7 +2186,7 @@ ALTER TABLE ONLY public.backups
 
 
 --
--- Name: barcode_settings barcode_settings_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: barcode_settings barcode_settings_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.barcode_settings
@@ -2194,7 +2194,7 @@ ALTER TABLE ONLY public.barcode_settings
 
 
 --
--- Name: brands brands_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: brands brands_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.brands
@@ -2202,7 +2202,7 @@ ALTER TABLE ONLY public.brands
 
 
 --
--- Name: categories categories_parentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: categories categories_parentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.categories
@@ -2210,7 +2210,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- Name: categories categories_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: categories categories_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.categories
@@ -2218,7 +2218,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- Name: credit_note_redemptions credit_note_redemptions_creditNoteId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_note_redemptions credit_note_redemptions_creditNoteId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_note_redemptions
@@ -2226,7 +2226,7 @@ ALTER TABLE ONLY public.credit_note_redemptions
 
 
 --
--- Name: credit_note_redemptions credit_note_redemptions_saleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_note_redemptions credit_note_redemptions_saleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_note_redemptions
@@ -2234,7 +2234,7 @@ ALTER TABLE ONLY public.credit_note_redemptions
 
 
 --
--- Name: credit_notes credit_notes_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_notes credit_notes_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_notes
@@ -2242,7 +2242,7 @@ ALTER TABLE ONLY public.credit_notes
 
 
 --
--- Name: credit_notes credit_notes_customerId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_notes credit_notes_customerId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_notes
@@ -2250,7 +2250,7 @@ ALTER TABLE ONLY public.credit_notes
 
 
 --
--- Name: credit_notes credit_notes_originalSaleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_notes credit_notes_originalSaleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_notes
@@ -2258,7 +2258,7 @@ ALTER TABLE ONLY public.credit_notes
 
 
 --
--- Name: credit_notes credit_notes_salesReturnId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_notes credit_notes_salesReturnId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_notes
@@ -2266,7 +2266,7 @@ ALTER TABLE ONLY public.credit_notes
 
 
 --
--- Name: credit_notes credit_notes_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: credit_notes credit_notes_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.credit_notes
@@ -2274,7 +2274,7 @@ ALTER TABLE ONLY public.credit_notes
 
 
 --
--- Name: customers customers_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: customers customers_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.customers
@@ -2282,7 +2282,7 @@ ALTER TABLE ONLY public.customers
 
 
 --
--- Name: expenses expenses_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: expenses expenses_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.expenses
@@ -2290,7 +2290,7 @@ ALTER TABLE ONLY public.expenses
 
 
 --
--- Name: expenses expenses_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: expenses expenses_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.expenses
@@ -2298,7 +2298,7 @@ ALTER TABLE ONLY public.expenses
 
 
 --
--- Name: gst_settings gst_settings_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: gst_settings gst_settings_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.gst_settings
@@ -2306,7 +2306,7 @@ ALTER TABLE ONLY public.gst_settings
 
 
 --
--- Name: invoice_settings invoice_settings_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: invoice_settings invoice_settings_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.invoice_settings
@@ -2314,7 +2314,7 @@ ALTER TABLE ONLY public.invoice_settings
 
 
 --
--- Name: notification_settings notification_settings_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: notification_settings notification_settings_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.notification_settings
@@ -2322,7 +2322,7 @@ ALTER TABLE ONLY public.notification_settings
 
 
 --
--- Name: notifications notifications_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: notifications notifications_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.notifications
@@ -2330,7 +2330,7 @@ ALTER TABLE ONLY public.notifications
 
 
 --
--- Name: notifications notifications_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: notifications notifications_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.notifications
@@ -2338,7 +2338,7 @@ ALTER TABLE ONLY public.notifications
 
 
 --
--- Name: printer_settings printer_settings_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: printer_settings printer_settings_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.printer_settings
@@ -2346,7 +2346,7 @@ ALTER TABLE ONLY public.printer_settings
 
 
 --
--- Name: product_images product_images_productId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: product_images product_images_productId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.product_images
@@ -2354,7 +2354,7 @@ ALTER TABLE ONLY public.product_images
 
 
 --
--- Name: product_variants product_variants_productId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: product_variants product_variants_productId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.product_variants
@@ -2362,7 +2362,7 @@ ALTER TABLE ONLY public.product_variants
 
 
 --
--- Name: product_variants product_variants_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: product_variants product_variants_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.product_variants
@@ -2370,7 +2370,7 @@ ALTER TABLE ONLY public.product_variants
 
 
 --
--- Name: products products_brandId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: products products_brandId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.products
@@ -2378,7 +2378,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- Name: products products_categoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: products products_categoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.products
@@ -2386,7 +2386,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- Name: purchase_items purchase_items_productVariantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: purchase_items purchase_items_productVariantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.purchase_items
@@ -2394,7 +2394,7 @@ ALTER TABLE ONLY public.purchase_items
 
 
 --
--- Name: purchase_items purchase_items_purchaseId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: purchase_items purchase_items_purchaseId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.purchase_items
@@ -2402,7 +2402,7 @@ ALTER TABLE ONLY public.purchase_items
 
 
 --
--- Name: purchases purchases_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: purchases purchases_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.purchases
@@ -2410,7 +2410,7 @@ ALTER TABLE ONLY public.purchases
 
 
 --
--- Name: purchases purchases_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: purchases purchases_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.purchases
@@ -2418,7 +2418,7 @@ ALTER TABLE ONLY public.purchases
 
 
 --
--- Name: purchases purchases_supplierId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: purchases purchases_supplierId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.purchases
@@ -2426,7 +2426,7 @@ ALTER TABLE ONLY public.purchases
 
 
 --
--- Name: refresh_tokens refresh_tokens_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: refresh_tokens refresh_tokens_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.refresh_tokens
@@ -2434,7 +2434,7 @@ ALTER TABLE ONLY public.refresh_tokens
 
 
 --
--- Name: sale_items sale_items_productVariantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sale_items sale_items_productVariantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sale_items
@@ -2442,7 +2442,7 @@ ALTER TABLE ONLY public.sale_items
 
 
 --
--- Name: sale_items sale_items_saleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sale_items sale_items_saleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sale_items
@@ -2450,7 +2450,7 @@ ALTER TABLE ONLY public.sale_items
 
 
 --
--- Name: sale_payments sale_payments_saleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sale_payments sale_payments_saleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sale_payments
@@ -2458,7 +2458,7 @@ ALTER TABLE ONLY public.sale_payments
 
 
 --
--- Name: sales sales_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales sales_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales
@@ -2466,7 +2466,7 @@ ALTER TABLE ONLY public.sales
 
 
 --
--- Name: sales sales_customerId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales sales_customerId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales
@@ -2474,7 +2474,7 @@ ALTER TABLE ONLY public.sales
 
 
 --
--- Name: sales_return_items sales_return_items_productVariantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_return_items sales_return_items_productVariantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_return_items
@@ -2482,7 +2482,7 @@ ALTER TABLE ONLY public.sales_return_items
 
 
 --
--- Name: sales_return_items sales_return_items_saleItemId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_return_items sales_return_items_saleItemId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_return_items
@@ -2490,7 +2490,7 @@ ALTER TABLE ONLY public.sales_return_items
 
 
 --
--- Name: sales_return_items sales_return_items_salesReturnId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_return_items sales_return_items_salesReturnId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_return_items
@@ -2498,7 +2498,7 @@ ALTER TABLE ONLY public.sales_return_items
 
 
 --
--- Name: sales_returns sales_returns_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_returns sales_returns_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_returns
@@ -2506,7 +2506,7 @@ ALTER TABLE ONLY public.sales_returns
 
 
 --
--- Name: sales_returns sales_returns_refundProcessedById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_returns sales_returns_refundProcessedById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_returns
@@ -2514,7 +2514,7 @@ ALTER TABLE ONLY public.sales_returns
 
 
 --
--- Name: sales_returns sales_returns_saleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_returns sales_returns_saleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_returns
@@ -2522,7 +2522,7 @@ ALTER TABLE ONLY public.sales_returns
 
 
 --
--- Name: sales_returns sales_returns_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales_returns sales_returns_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales_returns
@@ -2530,7 +2530,7 @@ ALTER TABLE ONLY public.sales_returns
 
 
 --
--- Name: sales sales_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: sales sales_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.sales
@@ -2538,7 +2538,7 @@ ALTER TABLE ONLY public.sales
 
 
 --
--- Name: stock_movements stock_movements_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: stock_movements stock_movements_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.stock_movements
@@ -2546,7 +2546,7 @@ ALTER TABLE ONLY public.stock_movements
 
 
 --
--- Name: stock_movements stock_movements_productVariantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: stock_movements stock_movements_productVariantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.stock_movements
@@ -2554,7 +2554,7 @@ ALTER TABLE ONLY public.stock_movements
 
 
 --
--- Name: stock_movements stock_movements_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: stock_movements stock_movements_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.stock_movements
@@ -2562,7 +2562,7 @@ ALTER TABLE ONLY public.stock_movements
 
 
 --
--- Name: suppliers suppliers_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: suppliers suppliers_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.suppliers
@@ -2570,7 +2570,7 @@ ALTER TABLE ONLY public.suppliers
 
 
 --
--- Name: user_preferences user_preferences_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: user_preferences user_preferences_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.user_preferences
@@ -2578,7 +2578,7 @@ ALTER TABLE ONLY public.user_preferences
 
 
 --
--- Name: user_roles user_roles_roleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: user_roles user_roles_roleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.user_roles
@@ -2586,7 +2586,7 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- Name: user_roles user_roles_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: user_roles user_roles_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.user_roles
@@ -2594,7 +2594,7 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- Name: users users_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: users users_createdById_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.users
@@ -2602,7 +2602,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users users_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: kapda
+-- Name: users users_storeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: central_one
 --
 
 ALTER TABLE ONLY public.users

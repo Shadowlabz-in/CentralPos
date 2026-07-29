@@ -17,9 +17,9 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: kapda
-          POSTGRES_PASSWORD: kapda123
-          POSTGRES_DB: kapda_pos
+          POSTGRES_USER: central_one
+          POSTGRES_PASSWORD: central123
+          POSTGRES_DB: central_one
         ports:
           - 5432:5432
         options: >-
@@ -44,12 +44,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build shared package
-        run: pnpm --filter @kapda/shared build
+        run: pnpm --filter @central-one/shared build
 
       - name: Generate Prisma client
         run: pnpm --filter server prisma generate
         env:
-          DATABASE_URL: postgresql://kapda:kapda123@localhost:5432/kapda_pos
+          DATABASE_URL: postgresql://central_one:central123@localhost:5432/central_one
 
       - name: Lint
         run: pnpm lint
@@ -69,9 +69,9 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: kapda
-          POSTGRES_PASSWORD: kapda123
-          POSTGRES_DB: kapda_pos_test
+          POSTGRES_USER: central_one
+          POSTGRES_PASSWORD: central123
+          POSTGRES_DB: central_one_test
         ports:
           - 5432:5432
         options: >-
@@ -96,22 +96,22 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build shared package
-        run: pnpm --filter @kapda/shared build
+        run: pnpm --filter @central-one/shared build
 
       - name: Generate Prisma client
         run: pnpm --filter server prisma generate
         env:
-          DATABASE_URL: postgresql://kapda:kapda123@localhost:5432/kapda_pos_test
+          DATABASE_URL: postgresql://central_one:central123@localhost:5432/central_one_test
 
       - name: Push database schema
         run: pnpm --filter server prisma db push
         env:
-          DATABASE_URL: postgresql://kapda:kapda123@localhost:5432/kapda_pos_test
+          DATABASE_URL: postgresql://central_one:central123@localhost:5432/central_one_test
 
       - name: Run server tests
         run: pnpm --filter server test
         env:
-          DATABASE_URL: postgresql://kapda:kapda123@localhost:5432/kapda_pos_test
+          DATABASE_URL: postgresql://central_one:central123@localhost:5432/central_one_test
           SERVER_NODE_ENV: test
 
   docker:
@@ -132,7 +132,7 @@ jobs:
           context: .
           target: server
           push: false
-          tags: kapda-pos-server:latest
+          tags: central-one-server:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -142,6 +142,6 @@ jobs:
           context: .
           target: client
           push: false
-          tags: kapda-pos-client:latest
+          tags: central-one-client:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max

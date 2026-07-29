@@ -97,7 +97,7 @@ export const invoiceService = {
 </style></head>
 <body>
   <div class="header">
-    <h1>Kapda POS</h1>
+    <h1>Central One POS</h1>
     <p>${formatDate(new Date(sale.saleDate))}</p>
     <p><strong>Invoice: ${sale.invoiceNumber}</strong></p>
   </div>
@@ -137,7 +137,7 @@ export const invoiceService = {
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
-      doc.fontSize(20).text('Kapda POS', { align: 'center' });
+      doc.fontSize(20).text('Central One POS', { align: 'center' });
       doc.fontSize(10).text(`Invoice: ${sale.invoiceNumber}`, { align: 'center' });
       doc.text(`Date: ${formatDate(new Date(sale.saleDate))}`, { align: 'center' });
       doc.moveDown(0.5);

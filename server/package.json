@@ -1,5 +1,5 @@
 {
-  "name": "@kapda/server",
+  "name": "@central-one/server",
   "version": "0.1.0",
   "private": true,
   "prisma": {
@@ -20,7 +20,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@kapda/shared": "*",
+    "@central-one/shared": "*",
     "@prisma/client": "^5.11.0",
     "@types/bwip-js": "^3.2.3",
     "@types/pdfkit": "^0.17.6",

@@ -35,7 +35,7 @@ describe('Auth API', () => {
       const res = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'admin@kapda.com', password: 'admin123' }),
+        body: JSON.stringify({ email: 'admin@centralone.com', password: 'admin123' }),
       });
       const data = await res.json();
       expect(res.status).toBe(200);
@@ -44,14 +44,14 @@ describe('Auth API', () => {
       expect(data.data.accessToken).toBeDefined();
       expect(data.data.refreshToken).toBeDefined();
       expect(data.data.user).toBeDefined();
-      expect(data.data.user.email).toBe('admin@kapda.com');
+      expect(data.data.user.email).toBe('admin@centralone.com');
     });
 
     it('should login successfully with valid cashier credentials', async () => {
       const res = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'cashier@kapda.com', password: 'cashier123' }),
+        body: JSON.stringify({ email: 'cashier@centralone.com', password: 'cashier123' }),
       });
       const data = await res.json();
       expect(res.status).toBe(200);
@@ -63,7 +63,7 @@ describe('Auth API', () => {
       const res = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'admin@kapda.com', password: 'wrongpassword' }),
+        body: JSON.stringify({ email: 'admin@centralone.com', password: 'wrongpassword' }),
       });
       expect(res.status).toBe(401);
       const data = await res.json();
@@ -83,7 +83,7 @@ describe('Auth API', () => {
       const res = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'admin@kapda.com' }),
+        body: JSON.stringify({ email: 'admin@centralone.com' }),
       });
       expect(res.status).toBe(400);
     });
@@ -94,7 +94,7 @@ describe('Auth API', () => {
       const loginRes = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'admin@kapda.com', password: 'admin123' }),
+        body: JSON.stringify({ email: 'admin@centralone.com', password: 'admin123' }),
       });
       const loginData = await loginRes.json();
       const refreshToken = loginData.data.refreshToken;
@@ -126,7 +126,7 @@ describe('Auth API', () => {
       const loginRes = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'admin@kapda.com', password: 'admin123' }),
+        body: JSON.stringify({ email: 'admin@centralone.com', password: 'admin123' }),
       });
       const loginData = await loginRes.json();
 

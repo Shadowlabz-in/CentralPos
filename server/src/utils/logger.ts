@@ -10,7 +10,7 @@ const logger = winston.createLogger({
     winston.format.errors({ stack: true }),
     winston.format.json(),
   ),
-  defaultMeta: { service: 'kapda-pos-api' },
+  defaultMeta: { service: 'central-one-api' },
   transports: [
     new winston.transports.File({
       filename: path.join(logDir, 'error.log'),

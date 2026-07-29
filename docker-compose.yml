@@ -5,15 +5,15 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: kapda
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kapda123}
-      POSTGRES_DB: kapda_pos
+      POSTGRES_USER: central_one
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-central123}
+      POSTGRES_DB: central_one
     ports:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U kapda -d kapda_pos']
+      test: ['CMD-SHELL', 'pg_isready -U central_one -d central_one']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -30,7 +30,7 @@ services:
       SERVER_PORT: 4000
       SERVER_NODE_ENV: production
       CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:80}
-      DATABASE_URL: postgresql://kapda:${POSTGRES_PASSWORD:-kapda123}@postgres:5432/kapda_pos
+      DATABASE_URL: postgresql://central_one:${POSTGRES_PASSWORD:-central123}@postgres:5432/central_one
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
       UPLOAD_DIR: /app/uploads

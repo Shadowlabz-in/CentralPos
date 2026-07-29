@@ -4,12 +4,12 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Kapda POS API',
+      title: 'Central One POS API',
       version: '1.0.0',
       description:
-        'Point of Sale system for clothing (Kapda) stores. Complete POS solution with billing, inventory, GST, returns, and reporting.',
+        'Point of Sale system for clothing stores. Complete POS solution with billing, inventory, GST, returns, and reporting.',
       contact: {
-        name: 'Kapda POS Team',
+        name: 'Central One POS Team',
       },
     },
     servers: [{ url: '/api', description: 'API Base URL' }],

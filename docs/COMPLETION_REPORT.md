@@ -1,8 +1,8 @@
-# Kapda POS — Project Completion Report
+# Central One POS — Project Completion Report
 
 ## Overview
 
-Kapda POS is a full-featured Point of Sale system for clothing (Kapda) stores, built as a monorepo with a React frontend, Express backend, PostgreSQL database, and TypeScript throughout.
+Central One POS is a full-featured Point of Sale system for clothing stores, built as a monorepo with a React frontend, Express backend, PostgreSQL database, and TypeScript throughout.
 
 ## Features Implemented (11 Modules)
 
@@ -113,4 +113,4 @@ All items in the production checklist are verified. The application is ready for
 
 ## Conclusion
 
-Kapda POS is a production-ready Point of Sale system with comprehensive features for clothing retail operations. The application follows modern engineering practices including TypeScript strict mode, modular architecture, automated testing, CI/CD, containerization, and comprehensive documentation.
+Central One POS is a production-ready Point of Sale system with comprehensive features for clothing retail operations. The application follows modern engineering practices including TypeScript strict mode, modular architecture, automated testing, CI/CD, containerization, and comprehensive documentation.

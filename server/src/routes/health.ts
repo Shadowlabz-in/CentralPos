@@ -10,7 +10,7 @@ router.get('/health', async (_req: Request, res: Response) => {
     logger.info('Health check succeeded');
     res.json({
       status: 'OK',
-      message: 'Kapda POS API Running',
+      message: 'Central One POS API Running',
     });
   } catch (error) {
     logger.error('Health check failed:', error);

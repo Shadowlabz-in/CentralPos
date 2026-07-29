@@ -6,7 +6,7 @@ describe('Settings API', () => {
     const res = await fetch(`${baseUrl}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'admin@kapda.com', password: 'admin123' }),
+      body: JSON.stringify({ email: 'admin@centralone.com', password: 'admin123' }),
     });
     const data = await res.json();
     adminToken = data.data.accessToken;
@@ -85,7 +85,7 @@ describe('Settings API', () => {
       const cashierRes = await fetch(`${baseUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'cashier@kapda.com', password: 'cashier123' }),
+        body: JSON.stringify({ email: 'cashier@centralone.com', password: 'cashier123' }),
       });
       const cashierData = await cashierRes.json();
 

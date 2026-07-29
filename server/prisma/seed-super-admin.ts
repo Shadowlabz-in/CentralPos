@@ -8,7 +8,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const prisma = new PrismaClient();
 
 async function main() {
-  const superAdminEmail = 'superadmin@kapda.com';
+  const superAdminEmail = 'superadmin@centralone.com';
   const superAdminPassword = 'superadmin123';
 
   // Create Firebase Auth user if Firebase credentials are configured
@@ -56,7 +56,7 @@ async function main() {
       state: 'Delhi',
       pincode: '110001',
       phone: '+91-9999999999',
-      email: 'info@kapdafashion.com',
+      email: 'info@centralonefashion.com',
       gstin: '07ABCDE1234F1Z5',
     },
   });

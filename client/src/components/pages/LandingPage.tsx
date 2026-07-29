@@ -121,7 +121,7 @@ export default function LandingPage() {
                     <div className="h-2.5 w-2.5 rounded-full bg-yellow-400/50" />
                     <div className="h-2.5 w-2.5 rounded-full bg-green-400/50" />
                   </div>
-                  <span className="text-xs text-gray-500 font-mono">kapda-pos@store:~$</span>
+                  <span className="text-xs text-gray-500 font-mono">central-one@store:~$</span>
                 </div>
 
                 <div className="space-y-3">
@@ -151,7 +151,7 @@ export default function LandingPage() {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
-                  <span className="text-gray-600 font-mono">kapda-pos@store:~$</span>
+                  <span className="text-gray-600 font-mono">central-one@store:~$</span>
                   <span className="flex items-center gap-1.5 text-green-400/60">
                     <span className="h-1.5 w-1.5 rounded-full bg-green-400/60" />
                     connected

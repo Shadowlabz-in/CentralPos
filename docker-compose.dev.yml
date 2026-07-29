@@ -5,9 +5,9 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: kapda
-      POSTGRES_PASSWORD: kapda123
-      POSTGRES_DB: kapda_pos
+      POSTGRES_USER: central_one
+      POSTGRES_PASSWORD: central123
+      POSTGRES_DB: central_one
     ports:
       - '5432:5432'
     volumes:

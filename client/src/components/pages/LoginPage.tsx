@@ -10,8 +10,8 @@ import AuthTextField from '@/components/auth/AuthTextField';
 import AuthButton from '@/components/auth/AuthButton';
 
 const DEV_ACCOUNTS = [
-  { label: 'Super Admin', email: 'superadmin@kapda.com', password: 'superadmin123' },
-  { label: 'Admin', email: 'admin@kapda.com', password: 'admin123' },
+  { label: 'Super Admin', email: 'superadmin@centralone.com', password: 'superadmin123' },
+  { label: 'Admin', email: 'admin@centralone.com', password: 'admin123' },
 ];
 
 export default function LoginPage() {

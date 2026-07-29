@@ -6,6 +6,6 @@ describe('Health API', () => {
     const data = await res.json();
     expect(res.status).toBe(200);
     expect(data.status).toBe('OK');
-    expect(data.message).toBe('Kapda POS API Running');
+    expect(data.message).toBe('Central One POS API Running');
   });
 });

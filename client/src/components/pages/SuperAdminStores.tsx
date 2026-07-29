@@ -592,7 +592,7 @@ function StoreForm({
             value={form.email}
             onChange={(e) => onChange({ ...form, email: e.target.value })}
             className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
-            placeholder="info@kapdafashion.com"
+            placeholder="info@centralonefashion.com"
           />
         </div>
       </div>
@@ -607,7 +607,7 @@ function StoreForm({
             value={form.website}
             onChange={(e) => onChange({ ...form, website: e.target.value })}
             className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
-            placeholder="https://kapdafashion.com"
+            placeholder="https://centralonefashion.com"
           />
         </div>
         <div className="space-y-1.5">

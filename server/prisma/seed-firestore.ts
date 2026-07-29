@@ -357,7 +357,7 @@ async function seedRoles() {
 
 async function seedSuperAdmin() {
   console.log('Seeding super admin user...');
-  const email = 'superadmin@kapda.com';
+  const email = 'superadmin@centralone.com';
   const existingSnapshot = await firestore.collection('users').where('email', '==', email).limit(1).get();
   if (!existingSnapshot.empty) {
     console.log(`  User already exists in Firestore: ${email}`);

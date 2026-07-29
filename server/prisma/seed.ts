@@ -102,7 +102,7 @@ async function main() {
       state: 'Delhi',
       pincode: '110024',
       phone: '+91-9876543210',
-      email: 'info@kapdafashion.com',
+      email: 'info@centralonefashion.com',
       gstin: '07ABCDE1234F1Z5',
     },
   });
@@ -111,10 +111,10 @@ async function main() {
   // ── Users ──
   const hash = await bcrypt.hash('admin123', 12);
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@kapda.com' },
+    where: { email: 'admin@centralone.com' },
     update: {},
     create: {
-      email: 'admin@kapda.com', passwordHash: hash,
+      email: 'admin@centralone.com', passwordHash: hash,
       firstName: 'Admin', lastName: 'User',
       phone: '+91-9999999998', isActive: true, storeId: store.id,
     },
@@ -123,7 +123,7 @@ async function main() {
     where: { userId_roleId: { userId: admin.id, roleId: (await prisma.role.findUnique({ where: { name: 'ADMIN' } }))!.id } },
     update: {}, create: { userId: admin.id, roleId: (await prisma.role.findUnique({ where: { name: 'ADMIN' } }))!.id },
   });
-  console.log('✓ Admin user: admin@kapda.com / admin123');
+  console.log('✓ Admin user: admin@centralone.com / admin123');
 
   // ── Brands ──
   const brandData = [
@@ -507,7 +507,7 @@ async function main() {
   }
 
   console.log('\n✅ Seed completed successfully!');
-  console.log('   Login: admin@kapda.com / admin123');
+  console.log('   Login: admin@centralone.com / admin123');
   console.log(`   Total brands: ${brandData.length}`);
   console.log(`   Total categories: ${categoryData.length}`);
   console.log(`   Total products: ${categoryData.reduce((s, c) => s + c.products.length, 0)}`);

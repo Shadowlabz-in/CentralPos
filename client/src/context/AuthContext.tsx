@@ -47,7 +47,7 @@ interface AuthState {
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
-const STORAGE_KEY = 'kapda_auth';
+const STORAGE_KEY = 'central_one_auth';
 
 function loadAuth(): AuthState {
   try {
