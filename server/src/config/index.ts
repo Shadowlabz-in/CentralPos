@@ -4,7 +4,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 export const config = {
-  port: Number(process.env.SERVER_PORT) || 4000,
+  port: Number(process.env.SERVER_PORT) || Number(process.env.PORT) || 4000,
   nodeEnv: process.env.SERVER_NODE_ENV || 'development',
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
   jwt: {
